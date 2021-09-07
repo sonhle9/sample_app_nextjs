@@ -1,13 +1,14 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchUsers } from '../redux/user/userSlice'
+import { useDispatch } from 'react-redux'
+import { fetchUser, selectUser } from '../redux/user/userSlice'
 import { useRouter } from 'next/router'
 import API from '../shared/api'
+import { useAppSelector } from '../redux/hooks'
 
 const Header: NextPage = () => {
   const router = useRouter()
-  const userData = useSelector((state: any) => state.user)
+  const userData = useAppSelector(selectUser);
   const dispatch = useDispatch()
 
   const onClick = () => {
@@ -15,7 +16,7 @@ const Header: NextPage = () => {
     ).then((response: any) => {
       console.log("logout response", response)
       localStorage.removeItem("token")
-      dispatch(fetchUsers())
+      dispatch(fetchUser())
       router.push('/')
     })
     .catch((error: any) => {
@@ -44,15 +45,15 @@ const Header: NextPage = () => {
             <li><Link href="/"><a >Home</a></Link></li>
             <li><Link href="/help"><a >Help</a></Link></li>
             {
-              userData.loading ? (
+              userData.status === 'loading' ? (
                 <li><Link href="/"><a >Loading</a></Link></li>
               ) : userData.error ? (
                 <li><Link href="/"><a >{userData.error}</a></Link></li>
-              ) : userData.users ? (
+              ) : userData.value ? (
                 <>
                 <li><Link href="/users"><a >Users</a></Link></li>
-                <li><Link href={"/users/"+userData.users.id}>Profile</Link></li>
-                <li><Link href={"/users/"+userData.users.id+"/edit"}><a >Settings</a></Link></li>
+                <li><Link href={"/users/"+userData.value.id}>Profile</Link></li>
+                <li><Link href={"/users/"+userData.value.id+"/edit"}><a >Settings</a></Link></li>
                 <li className="divider"></li>
                 <li>
                   {/*<button onClick={onClick}>Logout</button>*/}

@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import { GetServerSideProps, NextPage } from 'next';
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState, useEffect, useRef, MutableRefObject, useCallback }  from 'react'
@@ -7,9 +7,12 @@ import flashMessage from './shared/flashMessages'
 // import Pluralize from 'react-pluralize'
 import Skeleton from 'react-loading-skeleton'
 import API from './shared/api'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from './redux/hooks'
+import { selectUser } from './redux/user/userSlice'
+import { isEmpty } from 'lodash'
+import { UserState } from './types';
 
-const Home: NextPage = () => {
+const Home: NextPage = ({ userData }) => {
   const [page, setPage] = useState(1)
   const [feed_items, setFeedItems] = useState([])
   const [total_count, setTotalCount] = useState(1)
@@ -23,9 +26,8 @@ const Home: NextPage = () => {
   const inputEl = useRef() as MutableRefObject<HTMLInputElement>;
   const inputImage = useRef() as MutableRefObject<HTMLInputElement>;
   const [errorMessage, setErrorMessage] = useState([])
-  const userData = useSelector((state: any) => state.user)
 
-  const setFeeds= useCallback(() => { 
+  const setFeeds= useCallback(async () => { 
     new API().getHttpClient().get('', {params: {page: page},
       withCredentials: true}
     ).then((response: any) => {
@@ -76,14 +78,13 @@ const Home: NextPage = () => {
       formData2.append('micropost[content]',
         content
       )
-      console.log(image)
       if (image) {
       formData2.append('micropost[image]',
         image || new Blob,
         imageName
       )
       }
-      console.log('formData2', formData2)
+
       var BASE_URL = ''
       if (process.env.NODE_ENV === 'development') {
         BASE_URL = 'http://localhost:3001/api'
@@ -137,32 +138,32 @@ const Home: NextPage = () => {
       })
   }
 
-  return userData.loading ? (
+  return userData.status === 'loading' ? (
     <>
     <Skeleton height={304} />
     <Skeleton circle={true} height={60} width={60} />
     </>
   ) : userData.error ? (
     <h2>{userData.error}</h2>
-  ) : userData.users ? (
+  ) : !isEmpty(userData.value) ? (
     <div className="row">
       <aside className="col-md-4">
         <section className="user_info">
-          <Image alt={userData.users.name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+gravatar+"?s=50"} width='50' height='50'/>
-          <h1>{userData.users.name}</h1>
-          <span><Link href={"/users/"+userData.users.id}><a >view my profile</a></Link></span>
+          <Image alt={userData.value.name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+gravatar+"?s=50"} width='50' height='50'/>
+          <h1>{userData.value.name}</h1>
+          <span><Link href={"/users/"+userData.value.id}><a >view my profile</a></Link></span>
           {/* <span><Pluralize singular={'micropost'} count={ micropost } /></span> */}
           <span>{micropost} micropost{micropost !== 1 ? 's' : ''}</span>
         </section>
 
         <section className="stats">
           <div className="stats">
-            <Link href={"/users/"+userData.users.id+"/following"}><a >
+            <Link href={"/users/"+userData.value.id+"/following"}><a >
               <strong id="following" className="stat">
                 {following}
               </strong> following
             </a></Link>
-            <Link href={"/users/"+userData.users.id+"/followers"}><a >
+            <Link href={"/users/"+userData.value.id+"/followers"}><a >
               <strong id="followers" className="stat">
                 {followers}
               </strong> followers
@@ -239,7 +240,7 @@ const Home: NextPage = () => {
                 </span>
                 <span className="timestamp">
                 {'Posted '+i.timestamp+' ago. '}
-                {userData.users.id === i.user_id &&
+                {userData.value.id === i.user_id &&
                   <Link href={'#/microposts/'+i.id}><a  onClick={() => removeMicropost(i.id)}>delete</a></Link>
                 }
                 </span>
@@ -271,3 +272,19 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  try {
+    const data = useAppSelector(selectUser);
+
+    return {
+      props: {
+        userData: data,
+      },
+    };
+  } catch {
+    return {
+      props: {},
+    };
+  }
+};
