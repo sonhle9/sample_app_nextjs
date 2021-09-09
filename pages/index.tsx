@@ -11,7 +11,10 @@ import { useAppSelector } from './redux/hooks'
 import { selectUser } from './redux/user/userSlice'
 import { isEmpty } from 'lodash'
 import { UserState } from './types';
-
+// khai báo kiểu dữ liệu cho props
+// interface HomeProps {
+//  userDate: .... 
+// }
 const Home: NextPage = ({ userData }) => {
   const [page, setPage] = useState(1)
   const [feed_items, setFeedItems] = useState([])
