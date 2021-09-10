@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState, useEffect, useRef, MutableRefObject, useCallback }  from 'react'
@@ -6,38 +6,38 @@ import Pagination from 'react-js-pagination'
 import flashMessage from './shared/flashMessages'
 // import Pluralize from 'react-pluralize'
 import Skeleton from 'react-loading-skeleton'
-import API from './shared/api'
+// import API from './shared/api/'
 import { useAppSelector } from './redux/hooks'
 import { selectUser } from './redux/user/userSlice'
 import { isEmpty } from 'lodash'
-import { UserState } from './types';
+import micropostApi, { ListResponse, Micropost } from './shared/api/micropostApi';
 
-const Home: NextPage = ({ userData }) => {
+const Home: NextPage = () => {
   const [page, setPage] = useState(1)
-  const [feed_items, setFeedItems] = useState([])
+  const [feed_items, setFeedItems] = useState([] as Micropost[])
   const [total_count, setTotalCount] = useState(1)
-  const [following, setFollowing] = useState(null)
-  const [followers, setFollowers] = useState(null)
-  const [micropost, setMicropost] = useState()
-  const [gravatar, setGavatar] = useState()
+  const [following, setFollowing] = useState(Number)
+  const [followers, setFollowers] = useState(Number)
+  const [micropost, setMicropost] = useState(Number)
+  const [gravatar, setGavatar] = useState(String)
   const [content, setContent] = useState('')
   const [image, setImage] = useState(null)
   const [imageName, setImageName] = useState('')
   const inputEl = useRef() as MutableRefObject<HTMLInputElement>;
   const inputImage = useRef() as MutableRefObject<HTMLInputElement>;
   const [errorMessage, setErrorMessage] = useState([])
+  const userData = useAppSelector(selectUser);
 
   const setFeeds= useCallback(async () => { 
-    new API().getHttpClient().get('', {params: {page: page},
-      withCredentials: true}
-    ).then((response: any) => {
-      if (response.data.feed_items) {
-        setFeedItems(response.data.feed_items)
-        setTotalCount(response.data.total_count)
-        setFollowing(response.data.following)
-        setFollowers(response.data.followers)
-        setMicropost(response.data.micropost)
-        setGavatar(response.data.gravatar)
+    micropostApi.getAll({page: page}
+    ).then((response: ListResponse<Micropost>) => {
+      if (response.feed_items) {
+        setFeedItems(response.feed_items)
+        setTotalCount(response.total_count)
+        setFollowing(response.following)
+        setFollowers(response.followers)
+        setMicropost(response.micropost)
+        setGavatar(response.gravatar)
       } else {
         setFeedItems([])
       }
@@ -124,12 +124,10 @@ const Home: NextPage = ({ userData }) => {
   }
 
   const removeMicropost = (micropostid: number) => {
-      new API().getHttpClient().delete('/microposts/'+micropostid,
-        { withCredentials: true }
-      )
+    micropostApi.remove(micropostid)
       .then((response: any) => {
-        if (response.data.flash) {
-          flashMessage(...response.data.flash)
+        if (response.flash) {
+          flashMessage(...response.flash)
           setFeeds()
         }
       })
@@ -272,19 +270,3 @@ const Home: NextPage = ({ userData }) => {
 }
 
 export default Home
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  try {
-    const data = useAppSelector(selectUser);
-
-    return {
-      props: {
-        userData: data,
-      },
-    };
-  } catch {
-    return {
-      props: {},
-    };
-  }
-};

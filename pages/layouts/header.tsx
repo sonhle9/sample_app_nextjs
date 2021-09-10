@@ -12,7 +12,7 @@ const Header: NextPage = () => {
   const dispatch = useDispatch()
 
   const onClick = () => {
-    new API().getHttpClient().delete('/logout', { withCredentials: true }
+    API.delete('/logout', { withCredentials: true }
     ).then((response: any) => {
       console.log("logout response", response)
       localStorage.removeItem("token")

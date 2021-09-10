@@ -10,8 +10,8 @@ const initialState: UserState = {
 };
 
 export const fetchUser = createAsyncThunk('user/getCurrentUser', async () => {
-  const response = await new API().getHttpClient().get('/sessions', { withCredentials: true })
-  return response.data;
+  const response = await API.get('/sessions', { withCredentials: true })
+  return response;
 });
 
 // export const userSlice = createSlice({
@@ -73,7 +73,7 @@ export const userSlice = createSlice({
       .addCase(fetchUser.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchUser.fulfilled, (state, action) => {
+      .addCase(fetchUser.fulfilled, (state, action: any) => {
         state.status = 'idle';
         state.value = action.payload.user;
         state.error = '';

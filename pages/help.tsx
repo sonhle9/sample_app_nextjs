@@ -1,4 +1,6 @@
-const Help = () => {
+import { NextPage } from 'next';
+
+const Help: NextPage = () => {
   return (
     <>
     <h1>Help</h1>
