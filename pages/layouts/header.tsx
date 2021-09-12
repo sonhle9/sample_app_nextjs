@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
-import { fetchUser, selectUser } from '../redux/user/userSlice'
+import { fetchUser, selectUser } from '../redux/session/sessionSlice'
 import { useRouter } from 'next/router'
-import API from '../shared/api'
 import { useAppSelector } from '../redux/hooks'
+import sessionApi from '../shared/api/sessionApi'
 
 const Header: NextPage = () => {
   const router = useRouter()
@@ -12,10 +12,8 @@ const Header: NextPage = () => {
   const dispatch = useDispatch()
 
   const onClick = () => {
-    API.delete('/logout', { withCredentials: true }
-    ).then((response: any) => {
-      console.log("logout response", response)
-      localStorage.removeItem("token")
+    sessionApi.destroy(
+    ).then(() => {
       dispatch(fetchUser())
       router.push('/')
     })

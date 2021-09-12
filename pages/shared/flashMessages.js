@@ -1,5 +1,10 @@
 import { toast } from 'react-toastify'
 
+// export interface FlashMessage {
+//   message_type: string;
+//   message: string;
+// }
+
 const flashMessage = (message_type, message) => {
   switch(message_type) {
     case "success":

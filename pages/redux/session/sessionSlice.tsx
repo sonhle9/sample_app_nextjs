@@ -21,8 +21,8 @@ const initialState: UserState = {
   error: ''
 };
 
-export const fetchUser = createAsyncThunk('user/getCurrentUser', async () => {
-  const response = await API.get('/sessions', { withCredentials: true })
+export const fetchUser = createAsyncThunk('session/getCurrentUser', async () => {
+  const response = await API.get('/sessions')
   return response;
 });
 
@@ -50,7 +50,7 @@ export const fetchUser = createAsyncThunk('user/getCurrentUser', async () => {
 
 // export default userSlice.reducer;
 
-export const userSlice = createSlice({
+export const sessionSlice = createSlice({
   name: 'user',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
@@ -83,17 +83,17 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.pending, (state) => {
-        state.status = 'loading';
+        state.status = 'loading'
       })
       .addCase(fetchUser.fulfilled, (state, action: any) => {
-        state.status = 'idle';
-        state.value = action.payload.user;
-        state.error = '';
+        state.status = 'idle'
+        state.value = action.payload.user
+        state.error = ''
       })
-      .addCase(fetchUser.rejected, (state) => {
-        state.status = 'idle';
-        state.value = {} as User,
-        state.error = '';
+      .addCase(fetchUser.rejected, (state, action: any) => {
+        state.status = 'idle'
+        state.value = {} as User
+        state.error = action.payload
       });
   },
 });
@@ -104,7 +104,7 @@ export const userSlice = createSlice({
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectUser = (state: RootState) => state.user;
+export const selectUser = (state: RootState) => state.session;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
@@ -117,4 +117,4 @@ export const selectUser = (state: RootState) => state.user;
 //     }
 //   };
 
-export default userSlice.reducer;
+export default sessionSlice.reducer;

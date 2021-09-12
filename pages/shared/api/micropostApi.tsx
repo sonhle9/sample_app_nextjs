@@ -3,6 +3,7 @@ import API from '.';
 
 export interface ListParams {
   page?: number
+  [key: string]: any
 }
 
 export interface ListResponse<Micropost> {
@@ -15,14 +16,14 @@ export interface ListResponse<Micropost> {
 }
 
 export interface Micropost {
-  id: BigInt
+  readonly id: number
   content: string
-  gravatar_id: string
+  gravatar_id?: string
   image: string
   size: number
   timestamp: string
-  user_id: BigInt
-  user_name: string
+  readonly user_id: number
+  user_name?: string
 }
 
 const micropostApi = {

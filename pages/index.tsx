@@ -1,16 +1,21 @@
-import { NextPage } from 'next';
+import { isEmpty } from 'lodash'
+import { NextPage } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState, useEffect, useRef, MutableRefObject, useCallback }  from 'react'
+import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
 import Pagination from 'react-js-pagination'
-import flashMessage from './shared/flashMessages'
 // import Pluralize from 'react-pluralize'
 import Skeleton from 'react-loading-skeleton'
 // import API from './shared/api/'
 import { useAppSelector } from './redux/hooks'
-import { selectUser } from './redux/user/userSlice'
-import { isEmpty } from 'lodash'
-import micropostApi, { ListResponse, Micropost } from './shared/api/micropostApi';
+import { selectUser } from './redux/session/sessionSlice'
+import micropostApi, { ListResponse, Micropost } from './shared/api/micropostApi'
+import flashMessage from './shared/flashMessages'
+// Alt + Shift + O
+
+// interface Props {
+//   userData: UserState;
+// }
 
 const Home: NextPage = () => {
   const [page, setPage] = useState(1)
@@ -51,7 +56,7 @@ const Home: NextPage = () => {
     setFeeds()
   }, [setFeeds])
 
-  const handlePageChange = (pageNumber: any) => {
+  const handlePageChange = (pageNumber: React.SetStateAction<number>) => {
     setPage(pageNumber)
   }
 
@@ -124,16 +129,16 @@ const Home: NextPage = () => {
   }
 
   const removeMicropost = (micropostid: number) => {
-    micropostApi.remove(micropostid)
-      .then((response: any) => {
-        if (response.flash) {
-          flashMessage(...response.flash)
-          setFeeds()
-        }
-      })
-      .catch((error: any) => {
-        console.log(error)
-      })
+    micropostApi.remove(micropostid
+    ).then((response: any) => {
+      if (response.flash) {
+        flashMessage(...response.flash)
+        setFeeds()
+      }
+    })
+    .catch((error: any) => {
+      console.log(error)
+    })
   }
 
   return userData.status === 'loading' ? (
@@ -143,7 +148,7 @@ const Home: NextPage = () => {
     </>
   ) : userData.error ? (
     <h2>{userData.error}</h2>
-  ) : !isEmpty(userData.value) ? (
+  ) : userData.value ? (
     <div className="row">
       <aside className="col-md-4">
         <section className="user_info">
@@ -270,3 +275,14 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   try {
+//     const userData = useAppSelector(selectUser);
+//     return { userData }
+//   } catch {
+//     return {
+//       props: {}
+//     }
+//   }
+// }
