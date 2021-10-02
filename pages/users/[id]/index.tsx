@@ -1,13 +1,13 @@
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useState } from 'react'
 import Pagination from 'react-js-pagination'
-import { useAppSelector } from '../../redux/hooks'
-import { selectUser } from '../../redux/session/sessionSlice'
-import micropostApi, { Micropost } from '../../shared/api/micropostApi'
-import relationshipApi from '../../shared/api/relationshipApi'
-import userApi from '../../shared/api/userApi'
-import flashMessage from '../../shared/flashMessages'
+import { useAppSelector } from '../../../redux/hooks'
+import { selectUser } from '../../../redux/session/sessionSlice'
+import micropostApi, { Micropost } from '../../../shared/api/micropostApi'
+import relationshipApi from '../../../shared/api/relationshipApi'
+import userApi from '../../../shared/api/userApi'
+import flashMessage from '../../../shared/flashMessages'
 
 const Show: NextPage = () => {
   const [user, setUser] = useState(Object)
@@ -16,9 +16,10 @@ const Show: NextPage = () => {
   const [page, setPage] = useState(1)
   const [total_count, setTotalCount] = useState(1)
   const current_user = useAppSelector(selectUser);
-  const router = useRouter()
-  const id = router.query.id as string
-
+  // const router = useRouter()
+  // const id = router.query.id as string
+  
+const id = '1'
   const setWall= useCallback(async () => { 
     userApi.show(id, {page: page}
     ).then(response => {
@@ -35,7 +36,7 @@ const Show: NextPage = () => {
     .catch(error => {
       console.log(error)
     })
-  }, [page, id_relationships, id])
+  }, [page, id])
 
   useEffect(() => {
     setWall()

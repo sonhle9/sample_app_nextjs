@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { MutableRefObject, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { fetchUser, User } from './redux/session/sessionSlice'
-import sessionApi, { Response } from './shared/api/sessionApi'
-import flashMessage from './shared/flashMessages'
+import { fetchUser, User } from '../redux/session/sessionSlice'
+import sessionApi, { Response } from '../shared/api/sessionApi'
+import flashMessage from '../shared/flashMessages'
 
 const New: NextPage = () => {
   const router = useRouter()

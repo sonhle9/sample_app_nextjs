@@ -1,12 +1,13 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import userApi, { UserEdit } from '../../shared/api/userApi'
-import flashMessage from '../../shared/flashMessages'
+import userApi, { UserEdit } from '../../../shared/api/userApi'
+import flashMessage from '../../../shared/flashMessages'
 
 const Edit: NextPage = () => {
   const router = useRouter()
-  const id = router.query.id as string
+  // const id = router.query.id as string
+  const id = '1'
   const [user, setUser] = useState({} as UserEdit)
 
   const [name, setName] = useState('')

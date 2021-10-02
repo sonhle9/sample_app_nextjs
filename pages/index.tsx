@@ -1,16 +1,13 @@
-import { isEmpty } from 'lodash'
 import { NextPage } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
 import Pagination from 'react-js-pagination'
-// import Pluralize from 'react-pluralize'
 import Skeleton from 'react-loading-skeleton'
-// import API from './shared/api/'
-import { useAppSelector } from './redux/hooks'
-import { selectUser } from './redux/session/sessionSlice'
-import micropostApi, { ListResponse, Micropost } from './shared/api/micropostApi'
-import flashMessage from './shared/flashMessages'
+import { useAppSelector } from '../redux/hooks'
+import { selectUser } from '../redux/session/sessionSlice'
+import micropostApi, { CreateResponse, ListResponse, Micropost } from '../shared/api/micropostApi'
+import flashMessage from '../shared/flashMessages'
 // Alt + Shift + O
 
 // interface Props {
@@ -30,7 +27,7 @@ const Home: NextPage = () => {
   const [imageName, setImageName] = useState('')
   const inputEl = useRef() as MutableRefObject<HTMLInputElement>;
   const inputImage = useRef() as MutableRefObject<HTMLInputElement>;
-  const [errorMessage, setErrorMessage] = useState([])
+  const [errorMessage, setErrorMessage] = useState([] as string[])
   const userData = useAppSelector(selectUser);
 
   const setFeeds= useCallback(async () => { 
@@ -106,7 +103,7 @@ const Home: NextPage = () => {
         //   'Authorization': `Bearer ${localStorage.getItem('token')}`
         // }
       })
-      .then((response: any) => response.json().then((data: any) => {
+      .then((response: any) => response.json().then((data: CreateResponse) => {
         
         if (data.flash) {
           inputEl.current.blur()
@@ -130,7 +127,7 @@ const Home: NextPage = () => {
 
   const removeMicropost = (micropostid: number) => {
     micropostApi.remove(micropostid
-    ).then((response: any) => {
+    ).then(response => {
       if (response.flash) {
         flashMessage(...response.flash)
         setFeeds()
@@ -221,30 +218,23 @@ const Home: NextPage = () => {
 
       <div className="col-md-8">
         <h3>Micropost Feed</h3>
-        <Pagination
-          activePage={page}
-          itemsCountPerPage={5}
-          totalItemsCount={total_count}
-          pageRangeDisplayed={5}
-          onChange={handlePageChange}
-        />
         <ol className="microposts">
-          { feed_items.map((i: any, t) => (
+          { feed_items.map((i:any, t) => (
               <li key={t} id= {'micropost-'+i.id} >
-                <Link href={'/users/'+i.user_id}><a >
-                  <Image alt={i.user_name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+i.gravatar_id+"?s="+i.size} width='50' height='50'/>
-                </a></Link>
-                <span className="user"><Link href={'/users/'+i.user_id}><a >{i.user_name}</a></Link></span>
+                <a href={'/users/'+i.user_id}>
+                  <img alt={i.user_name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+i.gravatar_id+"?s="+i.size} />
+                </a>
+                <span className="user"><a href={'/users/'+i.user_id}>{i.user_name}</a></span>
                 <span className="content">
                   {i.content}
                   { i.image &&
-                    <Image alt="Micropost Photo" src={''+i.image+''} width='100%' height='100%'/>
+                    <img alt="Example User" src={''+i.image+''} />
                   }
                 </span>
                 <span className="timestamp">
                 {'Posted '+i.timestamp+' ago. '}
                 {userData.value.id === i.user_id &&
-                  <Link href={'#/microposts/'+i.id}><a  onClick={() => removeMicropost(i.id)}>delete</a></Link>
+                  <a href={'#/microposts/'+i.id} onClick={() => removeMicropost(i.id)}>delete</a>
                 }
                 </span>
               </li>

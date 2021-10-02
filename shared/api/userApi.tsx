@@ -1,6 +1,7 @@
 // import { ListParams, ListResponse, Student } from 'models';
 import API from '.';
 import { Micropost } from './micropostApi';
+import { User as UserCreate } from '../../redux/session/sessionSlice';
 
 export interface ListParams {
   page?: number
@@ -19,6 +20,23 @@ export interface User {
   size: number
 }
 
+export interface CreateParams {
+  user: SignUpField
+}
+
+export interface SignUpField {
+  name: string
+  email: string
+  password: string
+  password_confirmation: string
+}
+
+export interface CreateResponse<UserCreate> {
+  user?: UserCreate
+  flash?: [message_type: string, message: string]
+  error?: string[]
+}
+
 export interface UserShow {
   readonly id: number
   name: string
@@ -29,7 +47,7 @@ export interface UserShow {
   current_user_following_user: boolean
 }
 
-export interface ShowResponse {
+export interface ShowResponse<UserShow> {
   user: UserShow
   id_relationships?: number
   microposts: Micropost[]
@@ -73,7 +91,12 @@ const userApi = {
     return API.get(url, { params });
   },
 
-  show(id: string, params: ListParams): Promise<ShowResponse> {
+  create(params: CreateParams): Promise<CreateResponse<UserCreate>> {
+    const url = '/users';
+    return API.post(url, params);
+  },
+
+  show(id: string, params: ListParams): Promise<ShowResponse<UserShow>> {
     const url = `/users/${id}`;
     return API.get(url, { params });
   },

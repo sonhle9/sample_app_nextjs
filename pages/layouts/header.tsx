@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
-import { fetchUser, selectUser } from '../redux/session/sessionSlice'
+import { fetchUser, selectUser } from '../../redux/session/sessionSlice'
 import { useRouter } from 'next/router'
-import { useAppSelector } from '../redux/hooks'
-import sessionApi from '../shared/api/sessionApi'
+import { useAppSelector } from '../../redux/hooks'
+import sessionApi from '../../shared/api/sessionApi'
 
 const Header: NextPage = () => {
   const router = useRouter()

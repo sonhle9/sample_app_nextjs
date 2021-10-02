@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 //   message: string;
 // }
 
-const flashMessage = (message_type, message) => {
+const flashMessage = (message_type: string, message: string) => {
   switch(message_type) {
     case "success":
       toast.success(message)

@@ -26,28 +26,38 @@ export interface Micropost {
   user_name?: string
 }
 
+// export interface CreateParams {
+//   user: SignUpField
+// }
+
+// export interface SignUpField {
+//   name: string
+//   email: string
+//   password: string
+//   password_confirmation: string
+// }
+
+export interface CreateResponse {
+  flash?: [message_type: string, message: string]
+  error?: string[]
+}
+
+export interface Response {
+  flash?: [message_type: string, message: string]
+}
+
 const micropostApi = {
   getAll(params: ListParams): Promise<ListResponse<Micropost>> {
     const url = '';
     return API.get(url, { params });
   },
 
-  // getById(id: string): Promise<Student> {
-  //   const url = `/students/${id}`;
-  //   return API.get(url);
+  // create(params: CreateParams): Promise<CreateResponse> {
+  //   const url = '/microposts';
+  //   return API.post(url, params);
   // },
 
-  // add(data: Student): Promise<Student> {
-  //   const url = '/students';
-  //   return API.post(url, data);
-  // },
-
-  // update(data: Partial<Student>): Promise<Student> {
-  //   const url = `/students/${data.id}`;
-  //   return API.patch(url, data);
-  // },
-
-  remove(id: number): Promise<any> {
+  remove(id: number): Promise<Response> {
     const url = `/microposts/${id}`;
     return API.delete(url);
   },

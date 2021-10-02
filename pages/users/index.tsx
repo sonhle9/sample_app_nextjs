@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
 import React, { useCallback, useEffect, useState } from 'react'
 import Pagination from 'react-js-pagination'
-import { useAppSelector } from '../redux/hooks'
-import { selectUser } from '../redux/session/sessionSlice'
-import userApi, { User } from '../shared/api/userApi'
-import flashMessage from '../shared/flashMessages'
+import { useAppSelector } from '../../redux/hooks'
+import { selectUser } from '../../redux/session/sessionSlice'
+import userApi, { User } from '../../shared/api/userApi'
+import flashMessage from '../../shared/flashMessages'
 
 const Index: NextPage = () => {
   const [users, setUsers] = useState([] as User[])
