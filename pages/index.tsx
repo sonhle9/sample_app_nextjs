@@ -25,10 +25,10 @@ const Home: NextPage = () => {
   const [content, setContent] = useState('')
   const [image, setImage] = useState(null)
   const [imageName, setImageName] = useState('')
-  const inputEl = useRef() as MutableRefObject<HTMLInputElement>;
-  const inputImage = useRef() as MutableRefObject<HTMLInputElement>;
+  const inputEl = useRef() as MutableRefObject<HTMLInputElement>
+  const inputImage = useRef() as MutableRefObject<HTMLInputElement>
   const [errorMessage, setErrorMessage] = useState([] as string[])
-  const userData = useAppSelector(selectUser);
+  const userData = useAppSelector(selectUser)
 
   const setFeeds= useCallback(async () => { 
     micropostApi.getAll({page: page}
@@ -50,8 +50,8 @@ const Home: NextPage = () => {
   }, [page])
 
   useEffect(() => {
-    setFeeds()
-  }, [setFeeds])
+    if (userData.loggedIn) { setFeeds()}
+  }, [setFeeds, userData.loggedIn])
 
   const handlePageChange = (pageNumber: React.SetStateAction<number>) => {
     setPage(pageNumber)
@@ -98,10 +98,9 @@ const Home: NextPage = () => {
         method: "POST",
         body: formData2,
         credentials: 'include',
-        // headers: {
-        //   'X-CSRF-Token': getCookie('CSRF-TOKEN'),
-        //   'Authorization': `Bearer ${localStorage.getItem('token')}`
-        // }
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')} ${localStorage.getItem('remember_token')}`
+        }
       })
       .then((response: any) => response.json().then((data: CreateResponse) => {
         
@@ -126,16 +125,19 @@ const Home: NextPage = () => {
   }
 
   const removeMicropost = (micropostid: number) => {
-    micropostApi.remove(micropostid
-    ).then(response => {
-      if (response.flash) {
-        flashMessage(...response.flash)
-        setFeeds()
-      }
-    })
-    .catch((error: any) => {
-      console.log(error)
-    })
+    let sure = window.confirm("You sure?")
+    if (sure === true) {
+      micropostApi.remove(micropostid
+      ).then(response => {
+        if (response.flash) {
+          flashMessage(...response.flash)
+          setFeeds()
+        }
+      })
+      .catch((error: any) => {
+        console.log(error)
+      })
+    }
   }
 
   return userData.status === 'loading' ? (
@@ -145,14 +147,13 @@ const Home: NextPage = () => {
     </>
   ) : userData.error ? (
     <h2>{userData.error}</h2>
-  ) : userData.value ? (
+  ) : userData.loggedIn ? (
     <div className="row">
       <aside className="col-md-4">
         <section className="user_info">
-          <Image alt={userData.value.name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+gravatar+"?s=50"} width='50' height='50'/>
+          <img alt={userData.value.name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+gravatar+"?s=50"} />
           <h1>{userData.value.name}</h1>
           <span><Link href={"/users/"+userData.value.id}><a >view my profile</a></Link></span>
-          {/* <span><Pluralize singular={'micropost'} count={ micropost } /></span> */}
           <span>{micropost} micropost{micropost !== 1 ? 's' : ''}</span>
         </section>
 
@@ -218,6 +219,8 @@ const Home: NextPage = () => {
 
       <div className="col-md-8">
         <h3>Micropost Feed</h3>
+        {feed_items.length > 0 &&
+        <>
         <ol className="microposts">
           { feed_items.map((i:any, t) => (
               <li key={t} id= {'micropost-'+i.id} >
@@ -248,6 +251,8 @@ const Home: NextPage = () => {
           pageRangeDisplayed={5}
           onChange={handlePageChange}
         />
+        </>
+        }
       </div>
   </div>
   ) : (

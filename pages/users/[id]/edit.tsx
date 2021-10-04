@@ -6,8 +6,7 @@ import flashMessage from '../../../shared/flashMessages'
 
 const Edit: NextPage = () => {
   const router = useRouter()
-  // const id = router.query.id as string
-  const id = '1'
+  const { id } = router.query
   const [user, setUser] = useState({} as UserEdit)
 
   const [name, setName] = useState('')
@@ -20,7 +19,7 @@ const Edit: NextPage = () => {
   const inputEl = useRef(null)
 
   const getUserInfo= useCallback(async () => { 
-    userApi.edit(id
+    userApi.edit(id as string
     ).then(response => {
       if (response.user) {
         setUser(response.user)
@@ -57,7 +56,7 @@ const Edit: NextPage = () => {
   }
 
   const handleUpdate = (e: { preventDefault: () => void }) => {
-    userApi.update(id,
+    userApi.update(id as string,
       { 
         user: {
           name: name,

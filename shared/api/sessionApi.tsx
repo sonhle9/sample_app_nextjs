@@ -14,6 +14,8 @@ export interface LoginField {
 
 export interface Response<User> {
   user?: User
+  jwt: string
+  token: string
   flash?: [message_type: string, message: string]
 }
 

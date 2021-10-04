@@ -15,7 +15,7 @@ export interface DestroyResponse {
 const relationshipApi = {
   create(params: CreateParams): Promise<CreateResponse> {
     const url = '/relationships';
-    return API.post(url, { params });
+    return API.post(url, params);
   },
 
   destroy(id: number): Promise<DestroyResponse> {

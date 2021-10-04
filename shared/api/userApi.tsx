@@ -108,13 +108,51 @@ const userApi = {
 
   update(id: string, params: UpdateParams): Promise<UpdateResponse> {
     const url = `/users/${id}`;
-    return API.patch(url, { params });
+    return API.patch(url, params);
   },
 
   destroy(id: number): Promise<Response> {
     const url = `/users/${id}`;
     return API.delete(url);
   },
+
+  follow(id: string, page: number, lastUrlSegment: string): Promise<FollowResponse<UserFollow,IUserFollow>> {
+    const url = `/users/${id}/${lastUrlSegment}`;
+    return API.get(url, { params: { page } });
+  },
+
+  // following(id: string, page: number): Promise<FollowResponse<UserFollow,IUserFollow>> {
+  //   const url = `/users/${id}`;
+  //   return API.delete(url);
+  // },
+
+  // followers(id: string, page: number): Promise<FollowResponse<UserFollow,IUserFollow>> {
+  //   const url = `/users/${id}`;
+  //   return API.delete(url);
+  // },
 };
 
 export default userApi;
+
+export interface UserFollow {
+  readonly id: number
+  name: string
+  gravatar_id: string
+  size: number
+}
+
+export interface FollowResponse<UserFollow,IUserFollow> {
+  users: UserFollow[]
+  xusers: UserFollow[]
+  total_count: number
+  user: IUserFollow
+}
+
+export interface IUserFollow {
+  readonly id: number
+  name: string
+  followers: number
+  following: number
+  gravatar: string
+  micropost: number
+}

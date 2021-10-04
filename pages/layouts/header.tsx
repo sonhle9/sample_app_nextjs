@@ -15,6 +15,8 @@ const Header: NextPage = () => {
     sessionApi.destroy(
     ).then(() => {
       dispatch(fetchUser())
+      localStorage.removeItem("token")
+      localStorage.removeItem("remember_token")
       router.push('/')
     })
     .catch((error: any) => {
@@ -47,7 +49,7 @@ const Header: NextPage = () => {
                 <li><Link href="/"><a >Loading</a></Link></li>
               ) : userData.error ? (
                 <li><Link href="/"><a >{userData.error}</a></Link></li>
-              ) : userData.value ? (
+              ) : userData.loggedIn ? (
                 <>
                 <li><Link href="/users"><a >Users</a></Link></li>
                 <li><Link href={"/users/"+userData.value.id}>Profile</Link></li>
@@ -55,7 +57,7 @@ const Header: NextPage = () => {
                 <li className="divider"></li>
                 <li>
                   {/*<button onClick={onClick}>Logout</button>*/}
-                  <Link href="#logout"><a onClick={onClick}>Logout</a></Link>
+                  <Link href="#logout"><a onClick={onClick}>Log out</a></Link>
                 </li>
                 </>
               ) : (

@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-// import { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useState } from 'react'
 import Pagination from 'react-js-pagination'
 import { useAppSelector } from '../../../redux/hooks'
@@ -16,12 +16,11 @@ const Show: NextPage = () => {
   const [page, setPage] = useState(1)
   const [total_count, setTotalCount] = useState(1)
   const current_user = useAppSelector(selectUser);
-  // const router = useRouter()
-  // const id = router.query.id as string
+  const router = useRouter()
+  const { id } = router.query
   
-const id = '1'
   const setWall= useCallback(async () => { 
-    userApi.show(id, {page: page}
+    userApi.show(id as string, {page: page}
     ).then(response => {
       if (response.user) {
         setUser(response.user)
@@ -39,8 +38,8 @@ const id = '1'
   }, [page, id])
 
   useEffect(() => {
-    setWall()
-  }, [setWall])
+    if (id) { setWall() }
+  }, [setWall, id])
 
   const handlePageChange = (pageNumber: React.SetStateAction<number>) => {
     setPage(pageNumber)
@@ -50,7 +49,6 @@ const id = '1'
     relationshipApi.create({followed_id: id}
     ).then(response => {
       if (response.follow) {
-        setIdRelationships(null)
         setWall()
       }
     })
@@ -64,7 +62,6 @@ const id = '1'
     relationshipApi.destroy(id_relationships
     ).then(response => {
       if (response.unfollow) {
-        setIdRelationships(null)
         setWall()
       }
     })
@@ -75,16 +72,19 @@ const id = '1'
   }
 
   const removeMicropost = (micropostid: number) => {
-    micropostApi.remove(micropostid
-    ).then(response => {
-      if (response.flash) {
-        flashMessage(...response.flash)
-        setWall()
-      }
-    })
-    .catch(error => {
-      console.log(error)
-    })
+    let sure = window.confirm("You sure?")
+    if (sure === true) {
+      micropostApi.remove(micropostid
+      ).then(response => {
+        if (response.flash) {
+          flashMessage(...response.flash)
+          setWall()
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
   }
 
   return (
@@ -115,7 +115,7 @@ const id = '1'
       </aside>
 
       <div className="col-md-8">
-        {current_user && current_user.value.id !== parseInt(id) &&
+        {current_user && current_user.value.id !== parseInt(id as string) &&
         <div id="follow_form">
           {
             user.current_user_following_user ? (

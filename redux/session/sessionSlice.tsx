@@ -10,12 +10,14 @@ export interface User {
 }
 
 export interface UserState {
+  loggedIn: boolean
   value: User
   status: 'idle' | 'loading' | 'failed'
   error: string
 }
 
 const initialState: UserState = {
+  loggedIn: false,
   value: {} as User,
   status: 'idle',
   error: ''
@@ -87,11 +89,13 @@ export const sessionSlice = createSlice({
       })
       .addCase(fetchUser.fulfilled, (state, action: any) => {
         state.status = 'idle'
+        state.loggedIn = true
         state.value = action.payload.user
         state.error = ''
       })
       .addCase(fetchUser.rejected, (state, action: any) => {
         state.status = 'idle'
+        state.loggedIn = false
         state.value = {} as User
         state.error = action.payload
       });

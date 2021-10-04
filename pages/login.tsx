@@ -38,6 +38,8 @@ const New: NextPage = () => {
     )
     .then((response: Response<User>) => {
       if (response.user) {
+        localStorage.setItem("token", response.jwt)
+        localStorage.setItem("remember_token", response.token)
         dispatch(fetchUser())
         router.push("/users/"+response.user.id)
       }
@@ -74,7 +76,7 @@ const New: NextPage = () => {
           />
 
           <label htmlFor="session_password">Password</label>
-          <a href="/password_resets/new">(forgot password)</a>
+          <Link href="/password_resets/new">(forgot password)</Link>
           <input
           className="form-control"
           type="password"

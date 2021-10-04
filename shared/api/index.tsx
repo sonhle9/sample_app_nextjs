@@ -56,6 +56,12 @@ const API = axios.create({
 
 API.interceptors.request.use(
   function (config: AxiosRequestConfig) {
+    if (
+      localStorage.getItem('token') && localStorage.getItem('token') !== 'undefined'
+    ) 
+    {
+      config.headers.Authorization = `Bearer ${localStorage.getItem('token')} ${localStorage.getItem('remember_token')}`
+    }
     return config;
   },
   function (error) {
