@@ -62,6 +62,12 @@ API.interceptors.request.use(
     {
       config.headers.Authorization = `Bearer ${localStorage.getItem('token')} ${localStorage.getItem('remember_token')}`
     }
+    else if (
+      sessionStorage.getItem('token') && sessionStorage.getItem('token') !== 'undefined'
+    ) 
+    {
+      config.headers.Authorization = `Bearer ${sessionStorage.getItem('token')} ${sessionStorage.getItem('remember_token')}`
+    }
     return config;
   },
   function (error) {

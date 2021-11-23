@@ -17,9 +17,11 @@ const Header: NextPage = () => {
       dispatch(fetchUser())
       localStorage.removeItem("token")
       localStorage.removeItem("remember_token")
+      sessionStorage.removeItem("token")
+      sessionStorage.removeItem("remember_token")
       router.push('/')
     })
-    .catch((error: any) => {
+    .catch((error) => {
       console.log("logout error", error)
     })
   }

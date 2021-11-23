@@ -99,7 +99,9 @@ const Home: NextPage = () => {
         body: formData2,
         credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')} ${localStorage.getItem('remember_token')}`
+          'Authorization': localStorage.getItem('token') && localStorage.getItem('token') !== 'undefined' ?
+          `Bearer ${localStorage.getItem('token')} ${localStorage.getItem('remember_token')}` :
+          `Bearer ${sessionStorage.getItem('token')} ${sessionStorage.getItem('remember_token')}`
         }
       })
       .then((response: any) => response.json().then((data: CreateResponse) => {

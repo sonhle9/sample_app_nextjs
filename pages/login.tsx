@@ -11,18 +11,18 @@ const New: NextPage = () => {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [rememberMe, setRememberme] = useState('1')
+  const [rememberMe, setRememberme] = useState(true)
   const inputEl = useRef() as MutableRefObject<HTMLInputElement>
   const dispatch = useDispatch()
 
-  const handleEmailInput = (e: any) => {
+  const handleEmailInput = (e: { target: { value: React.SetStateAction<string> } }) => {
     setEmail(e.target.value)
   }
-  const handlePasswordInput = (e: any) => {
+  const handlePasswordInput = (e: { target: { value: React.SetStateAction<string> } }) => {
     setPassword(e.target.value)
   }
-  const handleRememberMeInput = (e: any) => {
-    setRememberme(e.target.value)
+  const handleRememberMeInput = (e: { target: { value: React.SetStateAction<string> } }) => {
+    setRememberme(!rememberMe)
   }
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
@@ -32,14 +32,19 @@ const New: NextPage = () => {
         session: {
           email: email,
           password: password,
-          remember_me: rememberMe
+          remember_me: rememberMe ? "1" : "1"
         }
       }
     )
     .then((response: Response<User>) => {
       if (response.user) {
-        localStorage.setItem("token", response.jwt)
-        localStorage.setItem("remember_token", response.token)
+        if (rememberMe) {
+          localStorage.setItem("token", response.jwt)
+          localStorage.setItem("remember_token", response.token)
+        } else {
+          sessionStorage.setItem("token", response.jwt)
+          sessionStorage.setItem("remember_token", response.token)
+        }
         dispatch(fetchUser())
         router.push("/users/"+response.user.id)
       }
@@ -92,10 +97,11 @@ const New: NextPage = () => {
             type="hidden"
             value="0" />
             <input
+            checked
             type="checkbox"
             name="remember_me"
             id="session_remember_me"
-            value={rememberMe}
+            value={rememberMe ? "1" : "0"}
             onChange={handleRememberMeInput}
             />
             <span>Remember me on this computer</span>
