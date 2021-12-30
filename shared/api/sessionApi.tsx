@@ -17,6 +17,7 @@ export interface Response<User> {
   jwt: string
   token: string
   flash?: [message_type: string, message: string]
+  error?: string[]
 }
 
 const sessionApi = {

@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
 import userApi, { UserEdit } from '../../../shared/api/userApi'
 import flashMessage from '../../../shared/flashMessages'
 
@@ -16,7 +16,7 @@ const Edit: NextPage = () => {
   const [errors, setErrors] = useState([] as string[])
   const [gravatar, setGravatar] = useState('')
 
-  const inputEl = useRef(null)
+  const inputEl = useRef() as MutableRefObject<HTMLInputElement>
 
   const getUserInfo= useCallback(async () => { 
     userApi.edit(id as string
@@ -66,6 +66,7 @@ const Edit: NextPage = () => {
         },
       }
     ).then(response => {
+      inputEl.current.blur()
       if (response.flash_success) {
         flashMessage(...response.flash_success)
         setPassword('')

@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { fetchUser, User } from '../redux/session/sessionSlice'
 import sessionApi, { Response } from '../shared/api/sessionApi'
 import flashMessage from '../shared/flashMessages'
+import errorMessage from '../shared/errorMessages'
 
 const New: NextPage = () => {
   const router = useRouter()
@@ -13,6 +14,7 @@ const New: NextPage = () => {
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberme] = useState(true)
   const inputEl = useRef() as MutableRefObject<HTMLInputElement>
+  const [errors, setErrors] = useState([] as string[])
   const dispatch = useDispatch()
 
   const handleEmailInput = (e: { target: { value: React.SetStateAction<string> } }) => {
@@ -26,7 +28,6 @@ const New: NextPage = () => {
   }
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
-    inputEl.current.blur()
     sessionApi.create(
       {
         session: {
@@ -38,6 +39,7 @@ const New: NextPage = () => {
     )
     .then((response: Response<User>) => {
       if (response.user) {
+        inputEl.current.blur()
         if (rememberMe) {
           localStorage.setItem("token", response.jwt)
           localStorage.setItem("remember_token", response.token)
@@ -48,8 +50,8 @@ const New: NextPage = () => {
         dispatch(fetchUser())
         router.push("/users/"+response.user.id)
       }
-      if (response.flash) {
-        flashMessage(...response.flash)
+      if (response.error) {
+        setErrors(response.error)
       }
     })
     .catch(error => {
@@ -69,6 +71,9 @@ const New: NextPage = () => {
         method="post"
         onSubmit={handleSubmit}
         >
+          { errors.length !== 0 &&
+            errorMessage(errors)
+          }
 
           <label htmlFor="session_email">Email</label>
           <input

@@ -266,7 +266,7 @@ const Home: NextPage = () => {
         </h2>
         <Link href="/signup"><a  className="btn btn-lg btn-primary">Sign up now!</a></Link>
     </div>
-    <Link href="https://rubyonrails.org/"><a ><Image alt="Rails logo" width="70" height="49.48" src="/logo.svg" /></a></Link>
+    <Link href="https://rubyonrails.org/"><a ><Image alt="Rails logo" width="70" height="49.48" src="/1200px-Nextjs-logo.svg.png" /></a></Link>
     </>
   )
 }

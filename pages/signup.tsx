@@ -47,7 +47,7 @@ const New: NextPage = () => {
         });
         flashMessage(...response.flash as [message_type: string, message: string])
         router.push("/")
-        window.location.assign('https://mail.google.com/mail/u/0')  
+        // window.location.assign('https://mail.google.com/mail/u/0')  
       }
       if (response.error) {
         myRef.current.blur()
