@@ -24,7 +24,7 @@ const initialState: UserState = {
 };
 
 export const fetchUser = createAsyncThunk('session/getCurrentUser', async () => {
-  const response = await API.get('/sessions')
+  const response = await API.get('/profile')
   return response;
 });
 

@@ -36,17 +36,18 @@ const New: NextPage = () => {
       }
     )
     .then((response: Response<User>) => {
-      if (response.user) {
+      if (response.access_token) {
         inputEl.current.blur()
         if (rememberMe) {
-          localStorage.setItem("token", response.jwt)
-          localStorage.setItem("remember_token", response.token)
+          localStorage.setItem("token", response.access_token)
+          // localStorage.setItem("remember_token", response.token)
         } else {
-          sessionStorage.setItem("token", response.jwt)
+          sessionStorage.setItem("token", response.access_token)
           sessionStorage.setItem("remember_token", response.token)
         }
         dispatch(fetchUser())
-        router.push("/users/"+response.user.id)
+        // router.push("/users/"+response.user.id)
+        router.push("/")
       }
       if (response.error) {
         setErrors(response.error)
