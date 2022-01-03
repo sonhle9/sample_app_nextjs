@@ -262,11 +262,11 @@ const Home: NextPage = () => {
     <div className="center jumbotron">
         <h1>Welcome to the Sample App</h1>
         <h2>
-        This is the home page for the <Link href="https://www.railstutorial.org/"><a >React Tutorial</a></Link> sample application.
+        This is the home page for the <Link href="https://nextjs.org/"><a target="_blank">NextJS Tutorial</a></Link> sample application.
         </h2>
         <Link href="/signup"><a  className="btn btn-lg btn-primary">Sign up now!</a></Link>
     </div>
-    <Link href="https://rubyonrails.org/"><a ><Image alt="Rails logo" width="70" height="49.48" src="/1200px-Nextjs-logo.svg.png" /></a></Link>
+    <Link href="https://nextjs.org/"><a target="_blank"><Image alt="Rails logo" width="70" height="49.48" src="/next-js.svg" /></a></Link>
     </>
   )
 }
