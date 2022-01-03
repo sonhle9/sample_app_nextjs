@@ -30,11 +30,9 @@ const New: NextPage = () => {
   const handleSubmit = (e: { preventDefault: () => void }) => {
     sessionApi.create(
       {
-        session: {
-          email: email,
-          password: password,
-          remember_me: rememberMe ? "1" : "1"
-        }
+        username: email,
+        password: password,
+        remember_me: rememberMe ? "1" : "1"
       }
     )
     .then((response: Response<User>) => {

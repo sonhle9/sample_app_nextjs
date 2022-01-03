@@ -2,12 +2,12 @@
 import API from '.';
 import { User } from '../../redux/session/sessionSlice';
 
-export interface SessionParams {
-  session: LoginField
-}
+// export interface SessionParams {
+//   user: LoginField
+// }
 
 export interface LoginField {
-  email: string
+  username: string
   password: string
   remember_me: string
 }
@@ -21,8 +21,8 @@ export interface Response<User> {
 }
 
 const sessionApi = {
-  create(params: SessionParams): Promise<Response<User>> {
-    const url = '/login';
+  create(params: LoginField): Promise<Response<User>> {
+    const url = 'auth/login';
     return API.post(url, params);
   },
 
