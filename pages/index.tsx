@@ -6,8 +6,8 @@ import Pagination from 'react-js-pagination'
 import Skeleton from 'react-loading-skeleton'
 import { useAppSelector } from '../redux/hooks'
 import { selectUser } from '../redux/session/sessionSlice'
-import micropostApi, { CreateResponse, ListResponse, Micropost } from '../shared/api/micropostApi'
-import flashMessage from '../shared/flashMessages'
+import micropostApi, { CreateResponse, ListResponse, Micropost } from '../components/shared/api/micropostApi'
+import flashMessage from '../components/shared/flashMessages'
 // Alt + Shift + O
 
 // interface Props {
@@ -226,10 +226,12 @@ const Home: NextPage = () => {
         <ol className="microposts">
           { feed_items.map((i:any, t) => (
               <li key={t} id= {'micropost-'+i.id} >
-                <a href={'/users/'+i.user_id}>
+                <Link href={'/users/'+i.user_id}>
+                <a >
                   <img alt={i.user_name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+i.gravatar_id+"?s="+i.size} />
                 </a>
-                <span className="user"><a href={'/users/'+i.user_id}>{i.user_name}</a></span>
+                </Link>
+                <span className="user"><Link href={'/users/'+i.user_id}><a >{i.user_name}</a></Link></span>
                 <span className="content">
                   {i.content}
                   { i.image &&

@@ -1,10 +1,10 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
-import flashMessage from '../../shared/flashMessages'
-import passwordResetApi from '../../shared/api/passwordResetApi'
+import flashMessage from '../../components/shared/flashMessages'
+import passwordResetApi from '../../components/shared/api/passwordResetApi'
 import { MutableRefObject, useRef, useState } from 'react'
-import errorMessage from '../../shared/errorMessages'
+import errorMessage from '../../components/shared/errorMessages'
 
 const initialState = {
   password: '',

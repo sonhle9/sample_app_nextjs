@@ -1,6 +1,6 @@
 // import { ListParams, ListResponse, Student } from 'models';
 import API from '.';
-import { User } from '../../redux/session/sessionSlice';
+import { User } from '../../../redux/session/sessionSlice';
 
 export interface Response<User> {
   user?: User

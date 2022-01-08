@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
-import userApi, { UserEdit } from '../../../shared/api/userApi'
-import flashMessage from '../../../shared/flashMessages'
+import userApi, { UserEdit } from '../../../components/shared/api/userApi'
+import flashMessage from '../../../components/shared/flashMessages'
 
 const Edit: NextPage = () => {
   const router = useRouter()

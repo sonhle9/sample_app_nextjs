@@ -1,8 +1,8 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import accountActivationApi from '../../shared/api/accountActivationApi'
+import accountActivationApi from '../../components/shared/api/accountActivationApi'
 import { useDispatch } from 'react-redux'
-import flashMessage from '../../shared/flashMessages'
+import flashMessage from '../../components/shared/flashMessages'
 import { fetchUser } from '../../redux/session/sessionSlice'
 
 const Edit: NextPage = () => {

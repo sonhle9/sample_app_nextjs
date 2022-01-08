@@ -1,9 +1,9 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { MutableRefObject, useRef, useState } from 'react'
-import userApi from '../shared/api/userApi'
-import errorMessage from '../shared/errorMessages'
-import flashMessage from '../shared/flashMessages'
+import userApi from '../components/shared/api/userApi'
+import errorMessage from '../components/shared/errorMessages'
+import flashMessage from '../components/shared/flashMessages'
 
 const initialState = {
   name: '',

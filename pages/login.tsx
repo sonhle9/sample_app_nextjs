@@ -4,9 +4,9 @@ import { useRouter } from 'next/router'
 import React, { MutableRefObject, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { fetchUser, User } from '../redux/session/sessionSlice'
-import sessionApi, { Response } from '../shared/api/sessionApi'
-import flashMessage from '../shared/flashMessages'
-import errorMessage from '../shared/errorMessages'
+import sessionApi, { Response } from '../components/shared/api/sessionApi'
+import flashMessage from '../components/shared/flashMessages'
+import errorMessage from '../components/shared/errorMessages'
 
 const New: NextPage = () => {
   const router = useRouter()

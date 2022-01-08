@@ -4,8 +4,8 @@ import { useRouter } from 'next/router'
 import { SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useAppSelector } from '../../../redux/hooks'
 import { selectUser } from '../../../redux/session/sessionSlice'
-import userApi, { IUserFollow, UserFollow } from '../../../shared/api/userApi'
-import flashMessage from '../../../shared/flashMessages'
+import userApi, { IUserFollow, UserFollow } from '../../../components/shared/api/userApi'
+import flashMessage from '../../../components/shared/flashMessages'
 import Pagination from 'react-js-pagination'
 
 const ShowFollow: NextPage = () => {

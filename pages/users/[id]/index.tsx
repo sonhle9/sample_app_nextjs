@@ -4,10 +4,11 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Pagination from 'react-js-pagination'
 import { useAppSelector } from '../../../redux/hooks'
 import { selectUser } from '../../../redux/session/sessionSlice'
-import micropostApi, { Micropost } from '../../../shared/api/micropostApi'
-import relationshipApi from '../../../shared/api/relationshipApi'
-import userApi from '../../../shared/api/userApi'
-import flashMessage from '../../../shared/flashMessages'
+import micropostApi, { Micropost } from '../../../components/shared/api/micropostApi'
+import relationshipApi from '../../../components/shared/api/relationshipApi'
+import userApi from '../../../components/shared/api/userApi'
+import flashMessage from '../../../components/shared/flashMessages'
+import FollowForm from '../../../components/users/FollowForm'
 
 const Show: NextPage = () => {
   const [user, setUser] = useState(Object)
@@ -116,51 +117,58 @@ const Show: NextPage = () => {
 
       <div className="col-md-8">
         {current_user && current_user.value.id !== parseInt(id as string) &&
-        <div id="follow_form">
-          {
-            user.current_user_following_user ? (
-              <form
-              action={"/relationships/"+id}
-              acceptCharset="UTF-8"
-              data-remote="true"
-              method="post"
-              onSubmit={handleUnfollow}
-              >
-                <input
-                type="submit"
-                name="commit"
-                value="Unfollow"
-                className="btn"
-                data-disable-with="Unfollow"
-                />
-              </form>
-            ) : (
-              <form
-              action="/relationships"
-              acceptCharset="UTF-8"
-              data-remote="true"
-              method="post"
-              onSubmit={handleFollow}
-              >
-                <div>
-                <input
-                type="hidden"
-                name="followed_id"
-                id="followed_id"
-                value={id}
-                />
-                </div>
-                <input
-                type="submit"
-                name="commit"
-                value="Follow"
-                className="btn btn-primary"
-                data-disable-with="Follow"
-                />
-              </form>
-            )
-          }
-        </div>
+        <FollowForm
+          id={id as string}
+          user={user}
+          handleUnfollow={handleUnfollow}
+          // image={maybe(() => category.backgroundImage)}
+          handleFollow={handleFollow}
+        />
+        // <div id="follow_form">
+        //   {
+        //     user.current_user_following_user ? (
+        //       <form
+        //       action={"/relationships/"+id}
+        //       acceptCharset="UTF-8"
+        //       data-remote="true"
+        //       method="post"
+        //       onSubmit={handleUnfollow}
+        //       >
+        //         <input
+        //         type="submit"
+        //         name="commit"
+        //         value="Unfollow"
+        //         className="btn"
+        //         data-disable-with="Unfollow"
+        //         />
+        //       </form>
+        //     ) : (
+        //       <form
+        //       action="/relationships"
+        //       acceptCharset="UTF-8"
+        //       data-remote="true"
+        //       method="post"
+        //       onSubmit={handleFollow}
+        //       >
+        //         <div>
+        //         <input
+        //         type="hidden"
+        //         name="followed_id"
+        //         id="followed_id"
+        //         value={id}
+        //         />
+        //         </div>
+        //         <input
+        //         type="submit"
+        //         name="commit"
+        //         value="Follow"
+        //         className="btn btn-primary"
+        //         data-disable-with="Follow"
+        //         />
+        //       </form>
+        //     )
+        //   }
+        // </div>
         }
         {microposts.length > 0 &&
         <>
