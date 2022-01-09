@@ -1,21 +1,50 @@
+import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
+import * as Yup from 'yup'
 import userApi, { UserEdit } from '../../../components/shared/api/userApi'
+import errorMessage from '../../../components/shared/errorMessages'
 import flashMessage from '../../../components/shared/flashMessages'
+import TextError from '../../../components/shared/TextError'
+
+const initialValues = {
+  name: '',
+  email: '',
+  password: '',
+  password_confirmation: '',
+  errors: [] as string[],
+  phNumbers: ['']
+}
+
+const savedValues = {
+  name: 'Example User',
+  email: 'example@railstutorial.org',
+  password: 'foobar',
+  password_confirmation: 'foobar',
+  errors: [] as string[],
+  phNumbers: ['+84912915132','+84904272299']
+}
+
+interface MyFormValues {
+  name: string
+  email: string
+  password: string
+  password_confirmation: string
+  errors: string[]
+}
 
 const Edit: NextPage = () => {
   const router = useRouter()
   const { id } = router.query
   const [user, setUser] = useState({} as UserEdit)
-
+  const [formValues, setFormValues] = useState(Object)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [password_confirmation, setPasswordConfirmation] = useState('')
   const [errors, setErrors] = useState([] as string[])
   const [gravatar, setGravatar] = useState('')
-
   const inputEl = useRef() as MutableRefObject<HTMLInputElement>
 
   const getUserInfo= useCallback(async () => { 
@@ -23,8 +52,8 @@ const Edit: NextPage = () => {
     ).then(response => {
       if (response.user) {
         setUser(response.user)
-        setName(response.user.name)
-        setEmail(response.user.email)
+        initialValues.name = response.user.name
+        initialValues.email = response.user.email
         setGravatar(response.gravatar)
       }
       if (response.flash) {
@@ -41,32 +70,31 @@ const Edit: NextPage = () => {
     getUserInfo()
   }, [getUserInfo])
 
-  const handleNameInput = (e: { target: { value: React.SetStateAction<string> } }) => {
-    setName(e.target.value)
-  }
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Required'),
+    email: Yup.string()
+      .email('Invalid email format')
+      .required('Required')
+  })
 
-  const handleEmailInput = (e: { target: { value: React.SetStateAction<string> } }) => {
-    setEmail(e.target.value)
-  }
-  const handlePasswordInput = (e: { target: { value: React.SetStateAction<string> } }) => {
-    setPassword(e.target.value)
-  }
-  const handlePasswordConfirmationInput = (e: { target: { value: React.SetStateAction<string> } }) => {
-    setPasswordConfirmation(e.target.value)
-  }
-
-  const handleUpdate = (e: { preventDefault: () => void }) => {
+  const onSubmit = (values: MyFormValues, submitProps: { setSubmitting: (arg0: boolean) => void; resetForm: () => void }) => {
+    console.log('Form data', values)
     userApi.update(id as string,
       { 
         user: {
-          name: name,
-          email: email,
-          password: password,
-          password_confirmation: password_confirmation
+          name: values.name,
+          email: values.email,
+          password: values.password,
+          password_confirmation: values.password_confirmation
         },
       }
     ).then(response => {
+      // setTimeout(function(){
       inputEl.current.blur()
+      // console.log('Form data', values)
+      // console.log('submitProps', submitProps)
+      submitProps.setSubmitting(false)
+      submitProps.resetForm()
       if (response.flash_success) {
         flashMessage(...response.flash_success)
         setPassword('')
@@ -76,11 +104,12 @@ const Edit: NextPage = () => {
       if (response.error) {
         setErrors(response.error)
       }
+      // }, 5000)
     })
     .catch(error => {
       console.log(error)
     })
-    e.preventDefault()
+    // e.preventDefault()
   }
 
   return (
@@ -88,66 +117,122 @@ const Edit: NextPage = () => {
     <h1>Update your profile</h1>
     <div className="row">
       <div className="col-md-6 col-md-offset-3">
-        <form
-        action="/users/1"
-        acceptCharset="UTF-8"
-        method="post"
-        onSubmit={handleUpdate}
+        <Formik
+          initialValues={savedValues || initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+          // validateOnChange={false}
+          // validateOnBlur={false}
+          // validateOnMount
         >
+        {
+          formik => {
+            // console.log('Formik props', formik)
+            return (
+        <Form>
           { errors.length !== 0 &&
-            <div id="error_explanation">
-              <div className="alert alert-danger">
-                The form contains {errors.length} error{errors.length !== 1 ? 's' : ''}.
-              </div>
-              <ul>
-                { errors.map((error, i) => {
-                   return (<li key={i}>{error}</li>)
-                })}
-              </ul>
-            </div>
+            errorMessage(errors)
           }
           <label htmlFor="user_name">Name</label>
-          <input
+          <Field
           className="form-control"
           type="text"
-          value={name}
           name="name"
           id="user_name"
-          onChange={handleNameInput}
           />
+          <ErrorMessage name='name' component={TextError} />
 
           <label htmlFor="user_email">Email</label>
-          <input
+          <Field
           className="form-control"
           type="email"
-          value={email}
           name="email"
           id="user_email"
-          onChange={handleEmailInput}
           />
+          <ErrorMessage name='email' component={TextError} />
 
           <label htmlFor="user_password">Password</label>
-          <input
+          <Field
           className="form-control"
           type="password"
           name="password"
           id="user_password"
-          value={password}
-          onChange={handlePasswordInput}
           />
+          <ErrorMessage name='password' component={TextError} />
 
           <label htmlFor="user_password_confirmation">Confirmation</label>
-          <input
+          <Field
           className="form-control"
           type="password"
           name="password_confirmation"
           id="user_password_confirmation"
-          value={password_confirmation}
-          onChange={handlePasswordConfirmationInput}
           />
+          <ErrorMessage name='password_confirmation' component={TextError} />
 
-          <input ref={inputEl} type="submit" name="commit" value="Save changes" className="btn btn-primary" data-disable-with="Save changes" />
-        </form>
+          <label htmlFor="user_phones">List of phone numbers</label>
+          <FieldArray name='phNumbers'>
+            {fieldArrayProps => {
+              const { push, remove, form } = fieldArrayProps
+              const { values } = form
+              const { phNumbers } = values
+              // console.log('fieldArrayProps', fieldArrayProps)
+              // console.log('Form errors', form.errors)
+              return (
+                <div>
+                  {phNumbers.map((phNumber: string, index: number) => (
+                    <div key={index}>
+                      <Field name={`phNumbers[${index}]`} className="form-control" />
+                      {index > 0 && (
+                        <button type='button' className="btn btn-danger" onClick={() => remove(index)}>
+                          REMOVE
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button type='button' className="btn btn-success" onClick={() => push('')}>
+                    ADD
+                  </button>
+                </div>
+              )
+            }}
+          </FieldArray>
+          <button
+            type='button'
+            onClick={() => formik.validateField('comments')}
+          >
+            Validate comments
+          </button>
+          <button
+            type='button'
+            onClick={() => formik.setFieldTouched('comments')}
+          >
+            Visit comments
+          </button>
+          <button type='button' onClick={() => formik.validateForm()}>
+            Validate all
+          </button>
+          <button
+            type='button'
+            onClick={() =>
+              formik.setTouched({
+                name: true,
+                email: true
+              })
+            }
+          >
+            Visit all
+          </button>
+          <button type='button' onClick={() => setFormValues(savedValues)}>
+            Load saved data
+          </button>
+          <button type='reset'>Reset</button>
+          <input ref={inputEl} type="submit" name="commit" value={formik.isSubmitting ? "Loading..." : "Save changes"} className="btn btn-primary" data-disable-with="Save changes" disabled={!formik.isValid || formik.isSubmitting} />
+        </Form>
+            )
+          }
+        }
+        
+        </Formik>
         <div className="gravatar_edit">
           <img alt={user.name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+gravatar+"?s=80"} />
           <a href="https://gravatar.com/emails" target="_blank" rel="noopener noreferrer">change</a>

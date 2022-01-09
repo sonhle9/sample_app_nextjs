@@ -4,10 +4,11 @@ import Link from 'next/link'
 import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react'
 import Pagination from 'react-js-pagination'
 import Skeleton from 'react-loading-skeleton'
+import micropostApi, { CreateResponse, ListResponse, Micropost } from '../components/shared/api/micropostApi'
+import errorMessage from '../components/shared/errorMessages'
+import flashMessage from '../components/shared/flashMessages'
 import { useAppSelector } from '../redux/hooks'
 import { selectUser } from '../redux/session/sessionSlice'
-import micropostApi, { CreateResponse, ListResponse, Micropost } from '../components/shared/api/micropostApi'
-import flashMessage from '../components/shared/flashMessages'
 // Alt + Shift + O
 
 // interface Props {
@@ -27,7 +28,7 @@ const Home: NextPage = () => {
   const [imageName, setImageName] = useState('')
   const inputEl = useRef() as MutableRefObject<HTMLInputElement>
   const inputImage = useRef() as MutableRefObject<HTMLInputElement>
-  const [errorMessage, setErrorMessage] = useState([] as string[])
+  const [errors, setErrors] = useState([] as string[])
   const userData = useAppSelector(selectUser)
 
   const setFeeds= useCallback(async () => { 
@@ -112,12 +113,12 @@ const Home: NextPage = () => {
           setContent('')
           setImage(null)
           inputImage.current.value = ''
-          setErrorMessage([])
+          setErrors([])
           setFeeds()
         }
         if (data.error) {
           inputEl.current.blur()
-          setErrorMessage(data.error)
+          setErrors(data.error)
         }
 
       })
@@ -182,17 +183,8 @@ const Home: NextPage = () => {
           method="post"
           onSubmit={handleSubmit}
           >
-            { errorMessage.length !== 0 &&
-              <div id="error_explanation">
-                <div className="alert alert-danger">
-                  The form contains { errorMessage.length } error.
-                </div>
-                <ul>
-                  { errorMessage.map((error, i) => {
-                     return (<li key={i}>{error}</li>)
-                  })}
-                </ul>
-              </div>
+            { errors.length !== 0 &&
+              errorMessage(errors)
             }
             <div className="field">
                 <textarea
@@ -203,6 +195,13 @@ const Home: NextPage = () => {
                 onChange={handleContentInput}
                 >
                 </textarea>
+                {/* <Field
+                  as='textarea'
+                  id='comments'
+                  name='comments'
+                  validate={validateComments}
+                />
+                <ErrorMessage name='comments' component={TextError} /> */}
             </div>
             <input ref={inputEl} type="submit" name="commit" value="Post" className="btn btn-primary" data-disable-with="Post" />
             <span className="image">

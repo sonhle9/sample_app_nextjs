@@ -7,6 +7,23 @@ import { fetchUser, User } from '../redux/session/sessionSlice'
 import sessionApi, { Response } from '../components/shared/api/sessionApi'
 import flashMessage from '../components/shared/flashMessages'
 import errorMessage from '../components/shared/errorMessages'
+import { ErrorMessage, Field, Form, Formik, FormikProps, useFormik, withFormik } from 'formik'
+import * as Yup from 'yup'
+import TextError from '../components/shared/TextError'
+
+const initialValues = {
+  email: '',
+  password: '',
+  rememberMe: '1',
+  errors: [] as string[],
+}
+
+interface MyFormValues {
+  email: string
+  password: string
+  rememberMe: string
+  errors: string[]
+}
 
 const New: NextPage = () => {
   const router = useRouter()
@@ -14,30 +31,27 @@ const New: NextPage = () => {
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberme] = useState(true)
   const inputEl = useRef() as MutableRefObject<HTMLInputElement>
-  const [errors, setErrors] = useState([] as string[])
+  // const [errors, setErrors] = useState([] as any)
   const dispatch = useDispatch()
 
-  const handleEmailInput = (e: { target: { value: React.SetStateAction<string> } }) => {
-    setEmail(e.target.value)
-  }
-  const handlePasswordInput = (e: { target: { value: React.SetStateAction<string> } }) => {
-    setPassword(e.target.value)
-  }
-  const handleRememberMeInput = (e: { target: { value: React.SetStateAction<string> } }) => {
-    setRememberme(!rememberMe)
-  }
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email('Invalid email format')
+      .required('Required'),
+    password: Yup.string().required('Required')
+  })
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const onSubmit = (values: MyFormValues) => {
     sessionApi.create(
       {
         session: {
-          email: email,
-          password: password,
-          remember_me: rememberMe ? "1" : "1"
+          email: values.email,
+          password: values.password,
+          remember_me: values.rememberMe ? "1" : "1"
         }
       }
     )
-    .then((response: Response<User>) => {
+    .then(response => {
       if (response.user) {
         inputEl.current.blur()
         if (rememberMe) {
@@ -50,69 +64,126 @@ const New: NextPage = () => {
         dispatch(fetchUser())
         router.push("/users/"+response.user.id)
       }
-      if (response.error) {
-        setErrors(response.error)
+      // if (response.error) {
+      //   console.log(Object.assign({}, response.error))
+      // }
+      if (response.flash) {
+        flashMessage(...response.flash)
       }
     })
     .catch(error => {
       console.log(error)
     })
-    e.preventDefault()
+    // e.preventDefault()
   }
+
+  // const formik: FormikProps<MyFormValues> = useFormik<MyFormValues>({
+  //   initialValues,
+  //   onSubmit,
+  //   validationSchema
+  // })
 
   return (
     <React.Fragment>
     <h1>Log in</h1>
     <div className="row">
       <div className="col-md-6 col-md-offset-3">
-        <form
-        action="/login"
-        acceptCharset="UTF-8"
-        method="post"
-        onSubmit={handleSubmit}
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+          // validateOnChange={false}
+          // validateOnBlur={false}
+          // validateOnMount
         >
-          { errors.length !== 0 &&
-            errorMessage(errors)
-          }
+        <Form>
+          {/* { Object.keys(formik.errors).length !== 0 && formik.touched &&
+            errorMessage(Object.keys(formik.errors).map((key) => (formik.errors as any)[key]))
+          } */}
 
           <label htmlFor="session_email">Email</label>
-          <input
+          <Field
           className="form-control"
           type="email"
           name="email"
           id="session_email"
-          value={email}
-          onChange={handleEmailInput}
+          placeholder='Login user email'
           />
+          <ErrorMessage name='email' component={TextError} />
 
           <label htmlFor="session_password">Password</label>
           <Link href="/password_resets/new">(forgot password)</Link>
-          <input
+          <Field
           className="form-control"
           type="password"
           name="password"
           id="session_password"
-          value={password}
-          onChange={handlePasswordInput}
+          placeholder='Login user password'
           />
+          <ErrorMessage name='password'>
+            {error => <div className='error' style={{color : 'red'}}>{error}</div>}
+          </ErrorMessage>
+
+          {/* <label htmlFor='address'>Address</label>
+          <Field name='address'>
+            {(props: { field: any; form: any; meta: any }) => {
+              const { field, form, meta } = props
+              console.log('Field render')
+              return (
+                <div>
+                  <input type='text' {...field} />
+                  {meta.touched && meta.error ? (
+                    <div>{meta.error}</div>
+                  ) : null}
+                </div>
+              )
+            }}
+          </Field>
+          <label htmlFor='address'>Address</label>
+          <FastField name='address'>
+            {({ field, form, meta }) => {
+              // console.log('Field render')
+              return (
+                <div>
+                  <input type='text' {...field} />
+                  {meta.touched && meta.error ? (
+                    <div>{meta.error}</div>
+                  ) : null}
+                </div>
+              )
+            }}
+          </FastField>
+          <label htmlFor='address'>Address</label>
+          <FastField name='address'>
+            {({ field, form, meta }) => {
+              // console.log('Field render')
+              return (
+                <div>
+                  <input type='text' {...field} />
+                  {meta.touched && meta.error ? (
+                    <div>{meta.error}</div>
+                  ) : null}
+                </div>
+              )
+            }}
+          </FastField> */}
 
           <label className="checkbox inline" htmlFor="session_remember_me">
             <input
             name="remember_me"
             type="hidden"
             value="0" />
-            <input
+            <Field
             checked
             type="checkbox"
             name="remember_me"
             id="session_remember_me"
-            value={rememberMe ? "1" : "0"}
-            onChange={handleRememberMeInput}
             />
             <span>Remember me on this computer</span>
           </label>
           <input ref={inputEl} type="submit" name="commit" value="Log in" className="btn btn-primary" data-disable-with="Log in" />
-        </form>
+        </Form>
+        </Formik>
         <p>New user? <Link href="/signup">Sign up now!</Link></p>
       </div>
     </div>

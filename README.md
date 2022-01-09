@@ -33,9 +33,12 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-CategoryBackground example parent and child component pass props, destructuring javascript
+CategoryBackground example parent and child component pass props, destructuring, Object Literal Shorthand Syntax
 https://github.com/saleor/saleor-dashboard/blob/8bcb8b70878078b74133aea0244dc840d75b492f/src/categories/components/CategoryBackground/CategoryBackground.tsx
 
 example use maybe popular abstraction javascript
 image={maybe(() => category.backgroundImage)}
 https://github.com/saleor/saleor-dashboard/blob/main/src/categories/components/CategoryUpdatePage/CategoryUpdatePage.tsx
+
+npm i formik yup
+npm i @types/yup
