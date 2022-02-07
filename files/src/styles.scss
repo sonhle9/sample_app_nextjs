@@ -1,0 +1,364 @@
+@use '~@angular/material' as mat;
+@import '~@ng-select/ng-select/themes/material.theme.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.css';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+@import '~@danielmoncada/angular-datetime-picker/assets/style/picker.min.css';
+@import './styles/variables';
+@import './styles/animation';
+@import './styles/reset';
+@import './styles/merchants';
+@import './styles/font-styles.css';
+@import '~@setel/portal-ui/dist/styles.css';
+
+@include mat.core();
+
+@import '~@ag-grid-community/all-modules/dist/styles/ag-grid.css';
+@import '~@ag-grid-community/all-modules/dist/styles/ag-theme-material.css';
+
+$primary: mat.define-palette(mat.$blue-palette);
+$accent: mat.define-palette(mat.$blue-palette);
+
+$theme: mat.define-light-theme($primary, $accent);
+
+@include mat.all-component-themes($theme);
+* {
+  outline: none;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: $body-font;
+  line-height: 1.5;
+  background-color: #f5f5f5;
+  overflow-y: hidden;
+}
+
+.setel-bg {
+  background: #f5f5f5;
+}
+
+h1,
+.h1 {
+  font-size: $h1-font;
+}
+
+h2,
+.h2 {
+  font-size: $h2-font;
+}
+
+h3,
+.h3 {
+  font-size: $h3-font;
+}
+
+h4,
+.h4 {
+  font-size: $h4-font;
+}
+
+h5,
+.h5 {
+  font-size: $h5-font;
+}
+
+h6,
+.h6 {
+  font-size: $h6-font;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: $divider-color;
+}
+
+a {
+  color: $link-color;
+  display: block;
+  text-decoration: none;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.mini-gap {
+  height: 0.5rem;
+}
+
+.input-gap {
+  height: 1.5rem;
+}
+
+.button-gap {
+  height: 3rem;
+}
+
+.btn-submit {
+  background: $link-color;
+  color: #fff;
+}
+
+img::selection,
+.no-highlight::selection {
+  background-color: transparent;
+}
+
+.detail-container {
+  padding: 30px 0;
+
+  .headline {
+    margin-bottom: 10px;
+  }
+}
+
+.card {
+  background-color: #fff;
+  box-shadow: $card-shadow;
+  position: relative;
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .card-footer,
+  .card-header,
+  .card-row {
+    grid-template-columns: repeat(4, 1fr);
+    .right {
+      text-align: right;
+      justify-content: flex-end;
+    }
+  }
+
+  @for $i from 2 through 8 {
+    &.col-#{$i} {
+      .card-footer,
+      .card-header,
+      .card-row {
+        grid-template-columns: repeat($i, 1fr);
+      }
+    }
+  }
+
+  .empty-text {
+    color: $empty-state-text;
+    font-size: $table-font;
+    padding: 40px 0;
+    text-align: center;
+    font-weight: normal;
+  }
+
+  app-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .card-header {
+    color: $table-header;
+    font-size: $small-font;
+    border-bottom: 1px solid $table-header-border;
+    display: grid;
+    grid-gap: 10px;
+    //height: $table-row-height;
+    //line-height: $table-row-height;
+    padding: 15px 20px;
+    .title {
+      font-weight: bold;
+      font-size: 16px;
+    }
+  }
+
+  .card-footer {
+    color: $table-header;
+    font-size: $small-font;
+    border-top: 1px solid $table-header-border;
+    display: grid;
+    grid-gap: 10px;
+    height: $table-row-height;
+    line-height: $table-row-height;
+    padding: 0 20px;
+  }
+
+  .card-content {
+    color: $table-content;
+    font-size: $table-font;
+    padding-bottom: 20px;
+
+    .card-row {
+      display: grid;
+      grid-gap: 10px;
+      height: $table-row-height;
+      line-height: $table-row-height;
+      padding: 0 20px;
+
+      .card-column {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: $table-content;
+        padding-right: 15px;
+
+        &.main {
+          color: $table-main;
+          font-weight: 600;
+        }
+
+        &.middle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        &.left {
+          text-align: left;
+          justify-content: flex-start;
+        }
+
+        &.last-column {
+          padding-right: 0px;
+          text-align: right;
+          justify-content: flex-end;
+        }
+      }
+
+      &:hover {
+        background-color: rgba($table-active, 0.05);
+
+        .card-column {
+          &.main {
+            color: $table-active;
+          }
+        }
+      }
+    }
+  }
+}
+
+.card-panel {
+  background-color: #fff;
+  box-shadow: $card-shadow;
+  position: relative;
+  padding: 24px;
+}
+
+.empty-state {
+  max-width: 505px;
+  margin: auto;
+  white-space: nowrap;
+
+  img {
+    width: 40px;
+    display: block;
+    margin: 20px auto;
+  }
+
+  h6 {
+    text-align: center;
+  }
+
+  ul {
+    padding: 15px 0 0 10px;
+    color: $empty-state-color;
+
+    li {
+      font-size: $small-font;
+      margin-bottom: 5px;
+
+      &:before {
+        content: '';
+        width: 4px;
+        height: 4px;
+        background: $empty-state-color;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 5px;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+app-message {
+  display: block;
+  position: relative;
+  height: 55px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.ngx-datatable {
+  &.row-pointer datatable-body-row {
+    cursor: pointer;
+  }
+
+  &.align-center datatable-body-cell {
+    display: flex;
+    align-items: center;
+  }
+
+  &.material {
+    box-shadow: $card-shadow;
+
+    .datatable-header {
+      border-bottom: 1px solid $table-header-border;
+    }
+
+    &:not(.cell-selection) .datatable-body-row:hover,
+    &:not(.cell-selection) .datatable-body-row:hover .datatable-row-group {
+      background-color: rgba($table-active, 0.05);
+    }
+
+    .datatable-body-cell-label {
+      color: $table-content;
+    }
+  }
+}
+
+.mat-chip-list-wrapper {
+  align-items: flex-end !important;
+}
+
+.btn-save {
+  background: $primary-color;
+  color: #fff;
+}
+
+.white-space-normal {
+  white-space: normal !important;
+}
+
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 1rem;
+}
+
+.json-container {
+  padding: 10px 20px;
+  background: #000;
+  color: #fff;
+}
+
+.z-index-1000 {
+  z-index: 1000;
+}
+
+.my-minus-8 {
+  margin: 0 -32px;
+}
+.max-height-table {
+  max-height: 790px;
+}

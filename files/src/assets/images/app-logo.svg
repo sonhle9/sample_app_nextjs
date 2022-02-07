@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Logo_Icon" data-name="Logo Icon" viewBox="0 0 31.599 35.712">
+    <defs>
+        <style>
+            .cls-1{fill:#00b0ff}.cls-2{fill:url(#linear-gradient)}.cls-3{fill:#2f48fa}
+        </style>
+        <linearGradient id="linear-gradient" x1=".21" x2=".776" y1=".863" y2="-.135" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#00b0ff"/>
+            <stop offset=".05" stop-color="#03b5f8"/>
+            <stop offset=".29" stop-color="#0eccdb"/>
+            <stop offset=".53" stop-color="#16dcc7"/>
+            <stop offset=".77" stop-color="#1be6ba"/>
+            <stop offset="1" stop-color="#1de9b6"/>
+        </linearGradient>
+    </defs>
+    <path id="Shape" d="M0 23.714l19.759-3.955L27.661 7.9 15.808 0 0 23.714z" class="cls-1" transform="translate(3.9 11.998)"/>
+    <path id="Shape-2" d="M27.665 0L7.9 3.955 0 15.808l11.857 7.906L27.665 0z" class="cls-2" data-name="Shape"/>
+    <path id="Shape-3" d="M0 11.857L7.9 0l11.859 7.9L0 11.857z" class="cls-3" data-name="Shape" transform="translate(11.84 11.942)"/>
+</svg>

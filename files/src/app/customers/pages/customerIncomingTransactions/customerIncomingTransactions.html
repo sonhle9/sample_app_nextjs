@@ -1,0 +1,56 @@
+<b>Incoming Balance Transactions </b>
+
+<app-message
+  *ngIf="messageContent"
+  [content]="messageContent"
+  [type]="messageType"
+  (close)="messageContent = ''"
+></app-message>
+
+<div class="card incoming-balance-card">
+  <div class="card-header">
+    <div></div>
+    <div>Transaction ID</div>
+    <div>Top up method</div>
+    <div>Created on</div>
+    <div class="amount">Amount</div>
+    <div>Remarks</div>
+  </div>
+  <div class="card-content">
+    <ng-container *ngIf="data.length !== 0; else emptyState">
+      <div class="card-row" *ngFor="let transaction of data">
+        <div class="card-column middle">
+          <div class="txn-status {{ transaction?.status | txnStatusCss }}"></div>
+        </div>
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/payments/transactions', transaction._id]"
+          target="_blank"
+          >{{ transaction._id }}</a
+        >
+        <div class="card-column">{{ transaction | topUpMethod | titlecase }}</div>
+        <div class="card-column">
+          {{ transaction.createdAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+        </div>
+        <div class="card-column amount">{{ transaction.amount | myrCurrency }}</div>
+        <div class="card-column">{{ transaction.message }}</div>
+      </div>
+    </ng-container>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</div>
+
+<button
+  class="try-use-incoming-balance-btn"
+  mat-flat-button
+  color="primary"
+  (click)="tryUseIncomingBalance()"
+  [disabled]="loading.page"
+  *ngIf="data.length > 0"
+>
+  Try Use Incoming Balance
+</button>
+
+<ng-template #emptyState>
+  <p *ngIf="!loading.page" class="empty-text">Customer does not have any incoming balances.</p>
+</ng-template>

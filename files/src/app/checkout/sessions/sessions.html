@@ -1,0 +1,92 @@
+<div class="container">
+  <h6 class="headline">Checkout transaction detail</h6>
+  <div class="wrapper" *ngIf="!loading.full; else loaderState">
+    <div class="card checkout-transaction-card">
+      <app-display-text label="Checkout Transaction ID" class="inline main">
+        {{ transaction?.id }}
+      </app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Reference ID" class="inline main">
+        {{ transaction?.referenceId }}
+      </app-display-text>
+      <div class="input-gap"></div>
+
+      <a [routerLink]="['/customers', transaction?.paymentMethodDetails?.userId]" target="_blank">
+        <app-display-text label="Customer name" class="inline main clickable">
+          {{ customer?.name }}
+        </app-display-text>
+      </a>
+      <div class="input-gap"></div>
+      <app-display-text label="Customer email" class="inline main">
+        {{ customer?.email }}
+      </app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Phone number" class="inline main">
+        {{ customer?.phone}}
+      </app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Created at" class="inline main">
+        {{ transaction?.createdAt | amDateFormat: 'DD MMM YYYY, hh:mmA' }}
+      </app-display-text>
+      <div class="input-gap"></div>
+
+      <div class="divider"></div>
+      <div class="input-gap"></div>
+      <div class="in-row">
+        <app-display-text label="Payment Status" class="inline main">
+          {{ transaction | checkoutTransactionStatus}}
+        </app-display-text>
+        <div class="submit">
+          <button mat-raised-button class="btn-submit" (click)="syncPaymentStatus()">Sync</button>
+        </div>
+      </div>
+      <app-message
+        *ngIf="message"
+        [content]="message"
+        [type]="messageType"
+        (close)="message = ''"
+      ></app-message>
+      <div class="input-gap"></div>
+      <app-display-text label="Payment Method" class="inline main">
+        {{ transaction?.paymentMethod | checkoutTransactionPaymentMethod }}
+      </app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Merchant" class="inline main">
+        {{ transaction?.merchantDetail?.name }}
+      </app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Sub merchant name" class="inline main">
+        {{ transaction?.subMerchant?.name }}
+      </app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Sub merchant reference" class="inline main">
+        {{ transaction?.subMerchant?.reference }}
+      </app-display-text>
+      <div class="input-gap"></div>
+
+      <div class="divider"></div>
+      <div class="input-gap"></div>
+      <app-display-text label="Loyalty card number" class="inline main"></app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Mesra points earned" class="inline main"></app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Mesra points after purchase" class="inline main"></app-display-text>
+    </div>
+    <div class="input-gap"></div>
+    <app-payment-processor-transactions
+      [userId]="transaction?.paymentMethodDetails?.userId"
+      [sessionId]="transaction?.id"
+      [targetService]="targetService"
+    ></app-payment-processor-transactions>
+
+    <div class="input-gap"></div>
+    <div class="input-gap"></div>
+    <h6>Checkout Transaction JSON</h6>
+    <div class="card-panel">
+      <ngx-json-viewer [json]="transaction"></ngx-json-viewer>
+    </div>
+  </div>
+</div>
+<ng-template #loaderState>
+  <app-loader class="big-loader" type="transparent"></app-loader>
+</ng-template>

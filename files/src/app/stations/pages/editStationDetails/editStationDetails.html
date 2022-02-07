@@ -1,0 +1,370 @@
+<div class="container">
+  <h4 class="headline">Edit Station</h4>
+  <app-message
+    *ngIf="message"
+    [hasClose]="false"
+    [content]="message"
+    [type]="messageType"
+  ></app-message>
+  <app-loader *ngIf="loading" type="transparent"></app-loader>
+  <form class="card-panel" *ngIf="!loading" (ngSubmit)="submit()" [formGroup]="form">
+    <app-display-text label="Station ID">{{ station?.id }}</app-display-text>
+    <div class="input-gap"></div>
+    <app-input
+      class="fff"
+      label="Station name"
+      helper="* Required field"
+      formControlName="name"
+      [errorMessage]="errorMessage.name"
+    ></app-input>
+    <div class="mini-gap"></div>
+    <app-input
+      class="fff"
+      label="Trading company name"
+      helper="* Required field"
+      formControlName="companyName"
+      [errorMessage]="errorMessage.companyName"
+    ></app-input>
+    <div class="mini-gap"></div>
+
+    <app-input
+      class="fff"
+      label="GST number"
+      formControlName="gstNumber"
+      [errorMessage]="errorMessage.gstNumber"
+    >
+    </app-input>
+    <div class="input-gap"></div>
+
+    <div class="divider"></div>
+    <div class="mini-gap"></div>
+
+    <app-input
+      class="fff"
+      label="Station address"
+      formControlName="address"
+      [errorMessage]="errorMessage.address"
+    >
+    </app-input>
+    <div class="mini-gap"></div>
+
+    <div class="half-container">
+      <app-input
+        class="fff"
+        label="Latitude"
+        formControlName="latitude"
+        [errorMessage]="errorMessage.latitude"
+      >
+      </app-input>
+      <app-input
+        class="fff"
+        label="Longitude"
+        formControlName="longtitude"
+        [errorMessage]="errorMessage.longtitude"
+      >
+      </app-input>
+    </div>
+    <div class="mini-gap"></div>
+
+    <div class="half-container">
+      <app-input
+        class="fff"
+        label="Geofence Latitude"
+        formControlName="geofenceLatitude"
+        [errorMessage]="errorMessage.geofenceLatitude"
+      >
+      </app-input>
+      <app-input
+        class="fff"
+        label="Geofence Longitude"
+        formControlName="geofenceLongitude"
+        [errorMessage]="errorMessage.geofenceLongitude"
+      >
+      </app-input>
+    </div>
+    <div class="mini-gap"></div>
+
+    <app-input
+      class="fff"
+      label="Geofence Radius"
+      formControlName="geofenceRadius"
+      [errorMessage]="errorMessage.geofenceRadius"
+    ></app-input>
+    <div class="mini-gap"></div>
+
+    <app-input
+      class="fff"
+      label="Phone number"
+      formControlName="phone"
+      [errorMessage]="errorMessage.phone"
+    ></app-input>
+
+    <div class="input-gap"></div>
+    <app-display-text label="Petrol pumps">{{ station?.pumps?.length || 0 }}</app-display-text>
+    <div class="input-gap"></div>
+
+    <div class="divider"></div>
+    <div class="input-gap"></div>
+
+    <div class="half-container">
+      <app-input
+        label="Merchant ID"
+        class="fff"
+        helper="Merchant ID from Kiple"
+        formControlName="merchantId"
+        [errorMessage]="errorMessage.merchantId"
+      ></app-input>
+
+      <app-input
+        label="LMS Merchant ID"
+        class="fff"
+        helper="Merchant ID from LMS"
+        formControlName="loyaltyVendorMerchantId"
+        [errorMessage]="errorMessage.loyaltyVendorMerchantId"
+      ></app-input>
+    </div>
+
+    <div class="input-gap"></div>
+    <div class="divider"></div>
+    <div class="input-gap"></div>
+
+    <div class="half-container">
+      <mat-form-field>
+        <input
+          type="text"
+          placeholder="Fuel merchant id"
+          matInput
+          formControlName="fuelMerchantId"
+          (input)="fetchFuelMerchants()"
+          [matAutocomplete]="autoFuel"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          type="text"
+          placeholder="Store merchant id"
+          matInput
+          formControlName="storeMerchantId"
+          (input)="fetchStoreMerchants()"
+          [matAutocomplete]="autoStore"
+        />
+      </mat-form-field>
+    </div>
+
+    <mat-autocomplete #autoFuel="matAutocomplete">
+      <mat-option *ngFor="let fuelMerchant of fuelMerchants" [value]="fuelMerchant.merchantId">
+        {{ fuelMerchant.merchantId }} - {{ fuelMerchant.name }}
+      </mat-option>
+    </mat-autocomplete>
+
+    <mat-autocomplete #autoStore="matAutocomplete">
+      <mat-option *ngFor="let storeMerchant of storeMerchants" [value]="storeMerchant.merchantId">
+        {{ storeMerchant.merchantId }} - {{ storeMerchant.name }}
+      </mat-option>
+    </mat-autocomplete>
+
+    <div class="input-gap"></div>
+
+    <div class="detail-flex">
+      <label>Fuel Status</label>
+      <div class="radio-container">
+        <app-radio
+          *ngFor="let status of statuses"
+          name="stt-status"
+          [value]="status"
+          formControlName="status"
+          >{{ status | stationStatus }}</app-radio
+        >
+      </div>
+    </div>
+
+    <div class="input-gap"></div>
+
+    <div class="detail-flex">
+      <label>Store Feature Status</label>
+      <div class="radio-container">
+        <app-radio
+          *ngFor="let status of storeStatuses"
+          name="store-status"
+          [value]="status"
+          formControlName="storeStatus"
+          >{{ status | storeStatus }}</app-radio
+        >
+      </div>
+    </div>
+    <div class="input-gap"></div>
+    <div class="detail-flex">
+      <label>Fuel In-Car Status</label>
+      <div class="radio-container">
+        <app-radio
+          *ngFor="let status of fuelInCarStatuses"
+          name="fuel-in-car-status"
+          [value]="status"
+          formControlName="fuelInCarStatus"
+          >{{ status | fuelInCarStatus }}</app-radio
+        >
+      </div>
+    </div>
+    <div class="input-gap"></div>
+    <div class="detail-flex">
+      <label>Concierge Status</label>
+      <div class="radio-container">
+        <app-radio
+          *ngFor="let status of conciergeStatuses"
+          name="concierge-status"
+          [value]="status"
+          formControlName="conciergeStatus"
+          >{{ status | fuelInCarStatus }}</app-radio
+        >
+      </div>
+    </div>
+    <div class="input-gap"></div>
+    <div>
+      <div>
+        <label class="field-label">Station Operating Hours</label>
+      </div>
+      <div style="margin-bottom: 20px; margin-top: 15px">
+        <mat-slide-toggle
+          formControlName="isOperating24Hours"
+          checked="{{ isOperating24Hours }}"
+        ></mat-slide-toggle>
+        <span style="padding-left: 5px">24 hours</span>
+      </div>
+      <div *ngIf="!form.value.isOperating24Hours">
+        <mat-list>
+          <mat-list-item
+            class="day-item"
+            *ngFor="let day of form.controls.operatingDays.controls; let i = index"
+          >
+            <div class="operating-days-container">
+              <mat-checkbox
+                #checkbox
+                (change)="onDayChange(i, 'operatingDays')"
+                [formControl]="day"
+              >
+                {{ days[i] }}
+              </mat-checkbox>
+              <div class="break"></div>
+              <div class="day-item-hours" *ngIf="checkbox.checked">
+                <label class="field-label">Hour slots</label>
+                <app-multiple-time-slots-picker
+                  [timeSlots]="form.controls.operatingHours.controls[i].value"
+                  (updateTimeSlot)="onOperatingHoursUpdate($event, i, form.controls.operatingHours)"
+                ></app-multiple-time-slots-picker>
+              </div>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+    <div class="input-gap"></div>
+
+    <div>
+      <div>
+        <label class="field-label">Fuel In-Car Operating Hours</label>
+      </div>
+      <mat-list>
+        <mat-list-item
+          class="day-item"
+          *ngFor="let day of form.controls.fuelInCarOperatingDays.controls; let i = index"
+        >
+          <div class="operating-days-container">
+            <mat-checkbox
+              #checkbox
+              (change)="onDayChange(i, 'fuelInCarOperatingDays')"
+              [formControl]="day"
+            >
+              {{ days[i] }}
+            </mat-checkbox>
+            <div class="break"></div>
+            <div class="day-item-hours" *ngIf="checkbox.checked">
+              <label class="field-label">Hour slots</label>
+              <app-multiple-time-slots-picker
+                [timeSlots]="form.controls.fuelInCarOperatingHours.controls[i].value"
+                (updateTimeSlot)="onOperatingHoursUpdate($event, i, form.controls.fuelInCarOperatingHours)"
+              ></app-multiple-time-slots-picker>
+            </div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="input-gap"></div>
+
+    <div class="detail-flex">
+      <label>Setel services</label>
+      <div class="checkbox-container">
+        <app-checkbox
+          *ngFor="let mode of modes"
+          name="setel-accept"
+          [value]="mode"
+          formControlName="setelAcceptedFor"
+          >{{ mode | setelAcceptedFor }}</app-checkbox
+        >
+      </div>
+    </div>
+
+    <div class="input-gap"></div>
+    <div class="detail-flex" formArrayName="pumps">
+      <label>Setel enabled petrol pumps</label>
+      <ul class="pump-mode">
+        <li
+          class="detail-flex"
+          *ngFor="let ctrl of pumpsForm?.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <b><span class="number">Pump #{{ctrl?.get('pumpId')?.value}}</span></b>
+          <app-radio
+            *ngFor="let status of pumpStatuses"
+            name="stt-pumps-{{i}}"
+            [value]="status"
+            formControlName="status"
+            >{{ status | stationStatus }}</app-radio
+          >
+        </li>
+        <li>
+          <app-button css="refresh small" (click)="syncPumps()">Pump sync</app-button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="input-gap"></div>
+    <div class="detail-flex">
+      <label>Features</label>
+      <ng-container *ngIf="features?.length; else dashStation">
+        <ul class="pump-mode">
+          <li class="detail-flex column" *ngFor="let type of features">
+            <b class="top"><span class="number">{{ type.name }}</span></b>
+            <div class="half-container">
+              <app-checkbox
+                *ngFor="let feature of type?.features"
+                name="stt-feature-{{type.typeId}}"
+                [value]="feature?.id"
+                [(ngModel)]="selectedFeatures[type.typeId]"
+                [ngModelOptions]="{standalone: true}"
+                >{{ feature?.name }}</app-checkbox
+              >
+            </div>
+          </li>
+        </ul>
+      </ng-container>
+    </div>
+
+    <div class="input-gap"></div>
+    <div class="divider"></div>
+    <div class="input-gap"></div>
+
+    <div class="button-group">
+      <app-button css="light" type="button" (click)="routeStation()">Cancel</app-button>
+      <app-button type="submit">Save changes</app-button>
+    </div>
+  </form>
+</div>
+
+<ng-template #dashStation>
+  <ul class="pump-mode">
+    <li>
+      <span>-</span>
+    </li>
+  </ul>
+</ng-template>

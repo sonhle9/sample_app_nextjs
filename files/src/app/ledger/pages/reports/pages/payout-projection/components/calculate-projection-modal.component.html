@@ -1,0 +1,56 @@
+<div class="container">
+  <header>
+    <h6 mat-dialog-title>Calculate Projection</h6>
+  </header>
+  <ng-template *ngIf="loaded$ | async; else loader"> </ng-template>
+  <ng-template #loader>
+    <app-loader></app-loader>
+  </ng-template>
+  <form [formGroup]="form">
+    <mat-dialog-content>
+      <div class="detail">
+        <div class="input-group">
+          <mat-form-field>
+            <mat-label>Buffer Days</mat-label>
+            <input matInput type="number" formControlName="bufferDays" required />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Discretionary Buffer (%)</mat-label>
+            <input matInput type="number" formControlName="discretionaryBuffer" />
+          </mat-form-field>
+        </div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Payout amount baseline</td>
+              <td class="value">{{ maxPayout$ | async | number: '1.2-2' }}</td>
+            </tr>
+            <tr>
+              <td>Total consecutive holidays/weekends</td>
+              <td class="value" data-testid="holidayNum">{{ data.numOfHolidayOrWeekend }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div>
+          <div class="output-row">
+            <div>
+              <p class="text-lg">Projected Amount</p>
+              <small
+                >(Total consecutive holidays/weekends + 1 + buffer days) <br />
+                x historical highest payout + % buffer</small
+              >
+            </div>
+            <b>
+              <output class="text-lg" data-testid="projected">
+                {{ projectedAmount$ | async | number: '1.2-2' }}
+              </output>
+            </b>
+          </div>
+        </div>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button (click)="onClose()" type="button" mat-stroked-button>Close</button>
+    </mat-dialog-actions>
+  </form>
+</div>

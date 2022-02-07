@@ -1,0 +1,120 @@
+<div class="container">
+  <h4 class="headline">Receivables</h4>
+  <div class="wrapper">
+    <div class="filter-container" *ngIf="roles?.hasIndex">
+      <app-pagination
+        [pagination]="pagination"
+        (next)="next()"
+        (prev)="prev()"
+        [mode]="1"
+      ></app-pagination>
+      <app-dropdown
+        label="Status"
+        [(ngModel)]="selectedStatus"
+        [items]="statuses"
+        (ngModelChange)="filter()"
+      >
+      </app-dropdown>
+      <!-- TODO: change elements size, reduce height -->
+      <!-- TODO: change elements color, make them the same -->
+      <app-dropdown
+        label="Created date"
+        [(ngModel)]="selectedDate"
+        [items]="dateTypes"
+        (ngModelChange)="updatDate()"
+      >
+      </app-dropdown>
+      <app-datepicker
+        [enabled]="selectedDate?.value === 's'"
+        label="Start date"
+        [(ngModel)]="startDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-datepicker
+        [enabled]="selectedDate?.value === 's'"
+        label="End date"
+        [(ngModel)]="endDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <div class="flex-gap"></div>
+      <app-button-download
+        [download]="downloadCsv()"
+        [disabled]="!pagination?.items.length ? 'disabled' : null"
+        [totalItem]="pagination.max"
+        fileName="receivables-list-"
+        >Download CSV</app-button-download
+      >
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyResult>
+  <div class="card receivable-card">
+    <div class="card-header">
+      <div></div>
+      <div>Transaction Date</div>
+      <div>Processor Name</div>
+      <div>Type</div>
+      <div>#Exceptions</div>
+      <div class="center">#Transactions</div>
+      <div class="center">Amount</div>
+      <div class="center">Reconciled</div>
+      <div class="center">Fee</div>
+      <div class="center">Variance</div>
+    </div>
+    <div class="card-content">
+      <ng-container *ngIf="pagination?.items.length !== 0; else noResult">
+        <div class="card-row" *ngFor="let item of pagination?.items">
+          <div class="card-column middle">
+            <div class="txn-status {{ item?.status | txnStatusCss }}"></div>
+          </div>
+          <a
+            class="card-column main clickable"
+            [routerLink]="['/receivables', item.id]"
+            target="_blank"
+          >
+            {{ item?.transactionDate | amDateFormat: 'DD MMM YYYY' }}
+          </a>
+          <div class="card-column">{{ item?.processorName | titlecase }}</div>
+          <div class="card-column">
+            {{item?.receivableType | emptyDash | replace: '_':' ' |titlecase }}
+          </div>
+          <a class="card-column">{{ item?.exceptions?.length }}</a>
+          <div class="card-column center">{{ item?.numberOfTransactions }}</div>
+          <div class="card-column center">{{ item?.recordedAmount | myrCurrency | emptyDash }}</div>
+          <div class="card-column center">
+            {{ item?.processedAmount | myrCurrency | emptyDash }}
+          </div>
+          <div class="card-column center">{{ item?.feeAmount | myrCurrency | emptyDash }}</div>
+          <div class="card-column center">{{ item?.variance | myrCurrency | emptyDash }}</div>
+        </div>
+      </ng-container>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

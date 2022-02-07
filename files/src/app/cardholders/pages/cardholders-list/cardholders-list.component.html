@@ -1,0 +1,140 @@
+<div class="container" [appBreadcrumbs]="breadcrumbs">
+  <h4 class="headline">Cardholders</h4>
+
+  <div class="wrapper">
+    <div class="filter-container" *ngIf="roles?.hasView">
+      <app-pagination
+        [pagination]="pagination"
+        (next)="next()"
+        (prev)="prev()"
+        [mode]="1"
+      ></app-pagination>
+      <app-dropdown
+        label="Created on"
+        [(ngModel)]="selectedDateFilter"
+        [items]="dateFilters"
+        (ngModelChange)="updateDateFilter()"
+      >
+      </app-dropdown>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="Start date"
+        [(ngModel)]="startDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="End date"
+        [(ngModel)]="endDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+
+      <app-searchbar
+        class="input-search"
+        placeholder="Search cardholders"
+        [(ngModel)]="searchValue"
+        (search$)="search()"
+      >
+      </app-searchbar>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #anyResult>
+  <div class="card terminal-card">
+    <div class="card-header">
+      <div>Name</div>
+
+      <div>Card</div>
+
+      <div>Merchant</div>
+
+      <div>Created on</div>
+    </div>
+    <div class="card-content">
+      <div class="card-row" *ngFor="let item of pagination?.items">
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/cardholders', item.id]"
+          target="_blank"
+        >
+          <div
+            class="three-dot"
+            title="{{
+              item.displayName
+                ? item.displayName + (item.name ? ' (' + item.name + ') ' : '')
+                : item.name
+            }}"
+          >
+            {{
+              item.displayName
+                ? item.displayName + (item.name ? ' (' + item.name + ') ' : '')
+                : item.name
+            }}
+          </div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/cardholders', item.id]"
+          target="_blank"
+        >
+          <div>
+            {{
+              item.card?.cardNumber
+                ? item.card?.cardNumber.substring(0, 6) +
+                  '*******' +
+                  item.card?.cardNumber.substring(13, 17)
+                : ''
+            }}
+          </div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          href="{{ dashboardUrl }}/settings?merchantId={{ item.merchantId }}&redirect-from=admin"
+        >
+          {{ item.merchant?.name }}
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/cardholders', item.id]"
+          target="_blank"
+        >
+          <div>{{ item?.createdAt | amDateFormat: 'DD MMM YYYY, hh:mm A' }}</div>
+        </a>
+
+        <!-- <div class="card-column action">
+          <mat-icon (click)="openEditDialog(item)">settings</mat-icon>
+        </div> -->
+      </div>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

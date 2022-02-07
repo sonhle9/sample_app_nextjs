@@ -1,0 +1,114 @@
+<div class="container card-details">
+  <h4 class="headline">Card details</h4>
+  <div class="header-card-details">
+    <h6 class="title-card">{{title}}</h6>
+    <div class="btn-edit">
+      <app-button
+        (click)="openModal()"
+        *ngIf="roles?.hasUpdate"
+        [disabled]="this.card?.status==='closed'"
+        class="btn-css"
+      >
+        Edit Card Details
+      </app-button>
+    </div>
+  </div>
+
+  <div class="card-panel">
+    <!-- <ngx-json-viewer [json]="card"></ngx-json-viewer> -->
+    <app-display-text label="Status" class="inline" *ngIf="this.card?.status"
+      >{{fnChangeShowName(this.card?.status)}}
+    </app-display-text>
+    <div class="input-gap" *ngIf="this.card?.status"></div>
+
+    <app-display-text label="Reason" class="inline" *ngIf="this.card?.reason"
+      >{{fnChangeShowName(this.card?.reason)}}
+    </app-display-text>
+    <div *ngIf="this.card?.reason" class="input-gap"></div>
+
+    <!-- <app-display-text label="Remark" class="inline txt-max"
+      >{{fnChangeShowName(this.card?.remark)}}</app-display-text
+    > -->
+    <span class="inline" *ngIf="this.card?.remark">
+      <p>Remark</p>
+      <b class="txt-remark" [title]="fnChangeShowName(this.card?.remark)"
+        >{{fnChangeShowName(this.card?.remark)}}</b
+      >
+    </span>
+    <div class="input-gap" *ngIf="this.card?.remark"></div>
+
+    <app-display-text label="Type" class="inline" *ngIf="this.card?.type"
+      >{{fnChangeShowName(this.card?.type)}}
+    </app-display-text>
+    <div class="input-gap" *ngIf="this.card?.type"></div>
+
+    <app-display-text label="Form factor" class="inline" *ngIf="this.card?.formFactor">
+      {{fnChangeShowName(this.card?.formFactor)}}</app-display-text
+    >
+    <div class="input-gap" *ngIf="this.card?.formFactor"></div>
+
+    <app-display-text label="Physical card type" class="inline" *ngIf="this.card?.physicalType">
+      {{fnChangeShowName(this.card?.physicalType)}}
+    </app-display-text>
+    <div class="input-gap" *ngIf="this.card?.physicalType"></div>
+
+    <app-display-text label="Subtype" class="inline" *ngIf="this.card?.subtype"
+      >{{fnChangeShowName(this.card?.subtype)}}
+    </app-display-text>
+    <div class="input-gap" *ngIf="this.card?.subtype"></div>
+
+    <app-display-text label="PIN required" class="inline"
+      >{{fnChangeShowName(this.card?.pinRequired)}}
+    </app-display-text>
+    <div class="input-gap"></div>
+
+    <app-display-text label="Mileage required" class="inline"
+      >{{fnChangeShowName(this.card?.mileageReading)}}
+    </app-display-text>
+    <div class="input-gap"></div>
+
+    <app-display-text label="Expiry" class="inline"
+      >{{this.card?.expiry?.expiryPeriod &&
+      (this.card?.createdAt|amAdd:this.card?.expiry?.expiryPeriod: 'months' | amDateFormat: 'MM /
+      YY')}}</app-display-text
+    >
+    <div class="input-gap"></div>
+
+    <app-display-text label="Created" class="inline"
+      >{{this.card?.createdAt | amDateFormat: 'DD MMM YYYY, hh:mm A'}}
+    </app-display-text>
+    <div class="input-gap"></div>
+
+    <app-display-text label="Card groups" class="inline"
+      >{{this.card?.cardGroup?.name}}</app-display-text
+    >
+  </div>
+
+  <div class="input-gap"></div>
+  <app-card-details-timeline [card]="timeline"> </app-card-details-timeline>
+
+  <div class="input-gap" *ngIf="card?.type==='gift'"></div>
+  <app-card-details-financial *ngIf="card?.type==='gift'" [cardBalance]="card?.cardBalance">
+  </app-card-details-financial>
+
+  <div class="input-gap" *ngIf="card?.cardholder"></div>
+  <app-card-details-cardholder *ngIf="card?.cardholder" [card]="card"></app-card-details-cardholder>
+  <div class="input-gap"></div>
+
+  <!-- <app-card-details-vehicle
+    *ngIf="card?.subtype!=='driver'"
+    [card]="vehicle"
+  ></app-card-details-vehicle>
+  <div class="input-gap" *ngIf="card?.subtype!=='driver'"></div> -->
+
+  <app-card-details-restriction *ngIf="card" [card]="card"></app-card-details-restriction>
+  <div class="on-tap">
+    <app-button
+      class="btn-carddetails-left"
+      (click)="gotoCarddetailsDB()"
+      [disabled]="card?.id ? false : true"
+    >
+      Card Details Dashboard
+    </app-button>
+  </div>
+</div>

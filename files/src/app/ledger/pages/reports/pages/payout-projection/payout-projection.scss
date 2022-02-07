@@ -1,0 +1,152 @@
+@import './../../../../../../styles/variables';
+
+.container {
+  padding: 20px 5%;
+
+  .headline {
+    margin-bottom: 20px;
+  }
+
+  .wrapper {
+    position: relative;
+    min-height: 250px;
+    padding: 30px 0;
+  }
+}
+
+// Filters for Dev purposes otherwise hide
+.filter-container {
+  display: none;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+
+  app-pagination {
+    margin-right: 10px;
+    margin-top: 5px;
+    min-width: 145px;
+  }
+
+  app-dropdown,
+  app-datepicker {
+    min-width: 130px;
+    margin-right: 10px;
+
+    &[type] {
+      margin-right: 0;
+      margin-top: 20px;
+    }
+  }
+  .flex-gap {
+    flex: 1;
+  }
+
+  .filter-message-input {
+    width: 100%;
+  }
+}
+
+.table-wrapper {
+  padding: 10px 20px;
+  overflow-x: auto;
+}
+
+.table {
+  table-layout: fixed;
+  min-width: 1000px;
+
+  thead {
+    border-bottom: 1px solid $table-header-border;
+  }
+
+  tbody {
+    tr {
+      &:hover {
+        background-color: rgba(1, 124, 255, 0.05);
+      }
+    }
+  }
+
+  td,
+  th {
+    padding: 5px;
+    font-size: inherit;
+
+    &:first-child {
+      width: 8rem;
+    }
+
+    &:nth-child(5) {
+      font-weight: bold;
+      border-left: 2px solid $secondary-color;
+      border-right: 2px solid $secondary-color;
+    }
+  }
+
+  th {
+    text-align: left;
+    font-weight: normal;
+  }
+
+  td {
+    line-height: 50px;
+  }
+}
+
+.card.transaction-card {
+  overflow-x: auto;
+
+  .card-content {
+    min-height: 140px;
+  }
+
+  .card-header,
+  .card-row {
+    grid-template-columns: 1fr 1fr 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr 0.75fr;
+  }
+
+  .txn-status {
+    width: 10px;
+    height: 10px;
+    align-self: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    &.success {
+      background-color: $success-color;
+    }
+
+    &.error {
+      background-color: $error-color;
+    }
+
+    &.fail {
+      background-color: $danger-color;
+    }
+
+    &.cancel,
+    &.pending {
+      background-color: $pending-color;
+    }
+
+    &.cancelled {
+      background-color: $inactive-color;
+    }
+  }
+}
+
+.counter-container {
+  font-size: $small-font;
+  color: $table-counter;
+  padding-top: $dropdown-font;
+  padding-right: 10px;
+}
+
+.empty-state {
+  padding-top: 50px;
+}
+
+app-loader {
+  display: block;
+  min-height: 500px;
+}

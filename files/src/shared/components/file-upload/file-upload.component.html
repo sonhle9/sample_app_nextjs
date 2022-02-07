@@ -1,0 +1,16 @@
+<div class="file-upload-wrapper">
+  <label class="choose-file-btn-wrapper" (click)="makeInputAvailable()" for="file">
+    <span class="choose-file-btn">Choose a file</span>
+  </label>
+  <span class="choose-file-name" title="{{ file ? file.name : '' }}" *ngIf="file">
+    {{ file ? file.name : '' }}
+  </span>
+  <input
+    class="file-input"
+    type="file"
+    name="file"
+    id="file"
+    accept="{{ getFileType() }}"
+    *ngIf="isFileAvailable()"
+  />
+</div>

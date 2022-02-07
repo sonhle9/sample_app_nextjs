@@ -1,0 +1,33 @@
+<b class="headline">Auto top-up</b>
+<div class="card col-6">
+  <div class="card-header">
+    <div>Active</div>
+    <div>Minimum balance</div>
+    <div>Top-up amount</div>
+    <div>Card</div>
+    <div>Created on</div>
+    <div>Updated on</div>
+  </div>
+  <div class="card-content" *ngIf="autoTopup; else noContent">
+    <div class="card-row">
+      <div class="card-column {{ autoTopup?.isActivated  | txnStatusCss }}">
+        {{ autoTopup?.isActivated | onoff }}
+      </div>
+      <div class="card-column">{{ autoTopup?.minimumBalanceThreshold | myrCurrency }}</div>
+      <div class="card-column">{{ autoTopup?.topupAmount | myrCurrency }}</div>
+      <div class="card-column">
+        {{ autoTopup?.cardSchema | titlecase }} - {{autoTopup?.lastFourDigits}}
+      </div>
+      <div class="card-column">
+        {{ autoTopup?.createdAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+      </div>
+      <div class="card-column">
+        {{ autoTopup?.updatedAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noContent>
+  <p class="empty-text" *ngIf="loading">Loading...</p>
+  <p class="empty-text" *ngIf="!loading">Customer has not enabled auto topup</p>
+</ng-template>

@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="header">
+    <h4 class="headline">Device Details</h4>
+    <button
+      *ngIf="allowEditing"
+      mat-stroked-button
+      class="blacklist"
+      [color]="deviceWithUsers?.device.isBlocked ? 'primary' : 'warn'"
+      (click)="onSwitchBlocked()"
+    >
+      {{ deviceWithUsers?.device.isBlocked ? 'Reactivate Device' : 'Blacklist Device' }}
+    </button>
+  </div>
+  <div class="loader-container" *ngIf="loading; else content">
+    <mat-spinner></mat-spinner>
+  </div>
+  <ng-template #content>
+    <div>
+      <div class="code">
+        <ngx-json-viewer *ngIf="deviceWithUsers" [json]="deviceWithUsers.device"> </ngx-json-viewer>
+      </div>
+    </div>
+    <ngx-datatable
+      class="material row-pointer align-center"
+      [columnMode]="'force'"
+      [rowHeight]="'auto'"
+      [headerHeight]="50"
+      [columns]="columns"
+      [loadingIndicator]="loading"
+      [rows]="deviceWithUsers?.users"
+      (activate)="onActivate($event)"
+    >
+    </ngx-datatable>
+  </ng-template>
+</div>

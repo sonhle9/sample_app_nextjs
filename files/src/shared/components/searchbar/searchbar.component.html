@@ -1,0 +1,13 @@
+<label *ngIf="label">{{ label }}</label>
+<form class="searchbar-container {{ formClass }}" (ngSubmit)="innerSearch()">
+  <input
+    #textInput
+    [id]="id"
+    type="search"
+    [(ngModel)]="value"
+    [maxlength]="maxlength"
+    [placeholder]="placeholder"
+    [ngModelOptions]="{standalone: true}"
+  />
+  <button class="{{ buttonClass }}" type="submit"></button>
+</form>

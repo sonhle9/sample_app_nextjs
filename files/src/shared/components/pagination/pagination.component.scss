@@ -1,0 +1,49 @@
+@import '../../../styles/variables';
+
+$button-height: 30px;
+$border-width: 3px;
+
+.filter-container {
+  display: flex;
+  align-items: center;
+}
+
+.counter-container {
+  font-size: $small-font;
+  color: $table-counter;
+  padding-right: 10px;
+  line-height: $button-height;
+}
+
+.btn {
+  background-color: #fff;
+  width: $button-height;
+  height: $button-height;
+  border: solid 1px $input-border-color;
+  cursor: pointer;
+  padding: 0;
+  background-size: 6px 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  &.left {
+    border-radius: 4px 0px 0px 4px;
+    background-image: url(/assets/images/icons/left-arrow.svg);
+    margin-left: -1px;
+  }
+
+  &.right {
+    border-radius: 0px 4px 4px 0px;
+    background-image: url(/assets/images/icons/right-arrow.svg);
+    border-left: none;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.btn-container {
+  height: $button-height;
+}

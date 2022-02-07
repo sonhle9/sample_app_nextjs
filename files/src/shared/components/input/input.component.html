@@ -1,0 +1,36 @@
+<div class="input-field" [ngClass]="errorMessage ? 'error' : ''">
+  <label *ngIf="label" [for]="id" [ngClass]="shouldLabelFloat ? 'active' : ''">{{ label }}</label>
+  <textarea
+    #textInput
+    *ngIf="textarea"
+    class="materialize-textarea"
+    [id]="id"
+    [(ngModel)]="value"
+    [disabled]="_disabled"
+    [maxlength]="maxlength"
+    [placeholder]="placeholder"
+    [readonly]="readonly"
+  >
+  </textarea>
+  <span class="prefix" *ngIf="prefix">{{ prefix }}</span>
+  <input
+    #textInput
+    *ngIf="!textarea"
+    [id]="id"
+    [type]="type"
+    [(ngModel)]="value"
+    [maxlength]="maxlength"
+    [placeholder]="placeholder"
+    [readonly]="readonly"
+    [disabled]="_disabled"
+    [ngClass]="_type"
+    (blur)="_onTouchedCallback($event)"
+  />
+  <img
+    class="icons postfix"
+    *ngIf="passwordIcon && !disableIcon"
+    (click)="togglePassword()"
+    [src]="passwordIcon"
+  />
+  <span class="helper-text">{{ errorMessage || helper }}</span>
+</div>

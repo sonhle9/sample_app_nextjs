@@ -1,0 +1,23 @@
+<div>
+  <h6 class="title-vehicle">Vehicle details</h6>
+</div>
+<div class="card-panel">
+  <app-display-text label="Registration number" class="inline"
+    >{{card?.vehicleReg}}</app-display-text
+  >
+  <div class="input-gap"></div>
+
+  <app-display-text label="Vehicle details" class="inline">
+    {{card?.vehicleDetails}}
+  </app-display-text>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Latest Mileage Reading" class="inline"
+    >{{card?.lastestMileage}}</app-display-text
+  >
+  <div class="input-gap"></div>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Created" class="inline">{{card?.dateCreated}}</app-display-text>
+  <div class="input-gap"></div>
+</div>

@@ -1,0 +1,11 @@
+<div class="order-dialog">
+  <h1 mat-dialog-title>Manual release</h1>
+  <div mat-dialog-content>
+    <p><strong>Are you sure want to proceed manual release for this order?</strong></p>
+    <p>Manual release can potentially cause unwanted order states, race conditions, etc</p>
+  </div>
+  <div mat-dialog-actions>
+    <button class="cancel-btn" (click)="onCancel()" mat-stroked-button>Cancel</button>
+    <button class="proceed-btn" (click)="onSubmit()" mat-raised-button>Proceed</button>
+  </div>
+</div>

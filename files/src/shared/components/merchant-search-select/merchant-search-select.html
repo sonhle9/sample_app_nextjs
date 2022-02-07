@@ -1,0 +1,18 @@
+<mat-select
+  [formControl]="merchantServerSideCtrl"
+  (selectionChange)="onSelectionChange($event)"
+  (openedChange)="openedChange($event)"
+>
+  <mat-option>
+    <ngx-mat-select-search
+      [formControl]="merchantServerSideFilteringCtrl"
+      [searching]="searching"
+      [placeholderLabel]="'Search...'"
+      [noEntriesFoundLabel]="'Not found'"
+    ></ngx-mat-select-search>
+  </mat-option>
+  <mat-option value="">All</mat-option>
+  <mat-option *ngFor="let merchant of filteredServerSideMerchants | async" [value]="merchant">
+    {{merchant.name}}
+  </mat-option>
+</mat-select>

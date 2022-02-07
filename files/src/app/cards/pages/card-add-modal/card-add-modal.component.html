@@ -1,0 +1,172 @@
+<div class="container">
+  <header>
+    <h6>Add card</h6>
+  </header>
+  <app-loader *ngIf="loading"></app-loader>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <mat-dialog-content>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Form factor</mat-label>
+          <mat-select formControlName="formFactor" (selectionChange)="onFormChange()">
+            <mat-option *ngFor="let item of formFactors" value="{{ item }}">{{
+              item | titlecase
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Physical card type</mat-label>
+          <mat-select formControlName="physicalType" (selectionChange)="onFormChange()">
+            <mat-option *ngFor="let item of physicalTypes" value="{{ item }}">{{
+              item | titlecase
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Type</mat-label>
+          <mat-select formControlName="type" (selectionChange)="onFormChange('type')">
+            <mat-option *ngFor="let item of types" value="{{ item }}">{{
+              item | titlecase
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Subtype</mat-label>
+          <mat-select formControlName="subtype" (selectionChange)="onFormChange()">
+            <mat-option *ngFor="let item of subtypes" value="{{ item }}">{{
+              item | titlecase
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Preload value</mat-label>
+          <input matInput formControlName="preload" (keypress)="onKeyPress($event)" />
+          <mat-error *ngIf="form.controls.preload.errors">
+            {{ form.controls.preload.errors.required && 'Required preload value !' }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Merchant</mat-label>
+          <mat-select formControlName="merchant" (selectionChange)="onFormChange()">
+            <mat-option>
+              <ngx-mat-select-search
+                formControlName="searchMerchant"
+                [placeholderLabel]="'Search...'"
+                [noEntriesFoundLabel]="'Not found'"
+                (ngModelChange)="fetchMerchants()"
+                [clearSearchInput]="false"
+              >
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let merchant of merchants" [(value)]="merchant.merchantId">
+              {{ merchant.merchantId }} - {{ merchant.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Card range (list by Type)</mat-label>
+          <mat-select formControlName="cardRange">
+            <mat-option *ngFor="let item of cardRanges" value="{{ item.id }}">{{
+              item.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Card groups (list by Type/Merchant)</mat-label>
+          <mat-select formControlName="cardGroup" ng-required="hintCardGroupIfTypeFleet">
+            <mat-option *ngFor="let item of cardGroups" value="{{ item.id }}">{{
+              item.name
+            }}</mat-option>
+          </mat-select>
+          <mat-hint align="start">
+            Can't find the required card groups, please click
+            <a [routerLink]="['/card-groups/list']" target="_blank" style="display: inline">here</a>
+            to create a new one.
+          </mat-hint>
+          <mat-hint align="end" *ngIf="hintCardGroupIfTypeFleet" style="color: red"
+            >Required. You need to select the merchant before</mat-hint
+          >
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px" style="padding-bottom: 1.25em; margin-top: 0.5em">
+        <mat-slide-toggle [labelPosition]="'after'" formControlName="isExpiry"></mat-slide-toggle>
+        <mat-label>Card expiry date</mat-label>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Cardholder name</mat-label>
+          <input matInput formControlName="cardholderName" />
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Display name</mat-label>
+          <input matInput formControlName="displayName" maxlength="26" #displayName />
+          <mat-hint align="end">{{ displayName.value.length }}/26</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px" style="padding-bottom: 1.25em">
+        <mat-slide-toggle
+          [labelPosition]="'after'"
+          formControlName="pinRequired"
+        ></mat-slide-toggle>
+        <mat-label>PIN</mat-label>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px" style="padding-bottom: 1.25em">
+        <mat-slide-toggle
+          [labelPosition]="'after'"
+          formControlName="mileageReading"
+        ></mat-slide-toggle>
+        <mat-label>Mileage Reading Required</mat-label>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Vehicle registration number</mat-label>
+          <input matInput formControlName="vehicle" />
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Number of cards</mat-label>
+          <input matInput formControlName="numberOfCards" (keypress)="onKeyPress($event)" />
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <div fxLayout="row" fxLayoutGap="10px">
+        <button mat-stroked-button type="button" (click)="onClose()">Cancel</button>
+        <button mat-stroked-button type="submit" color="primary" class="primary-btn">Save</button>
+      </div>
+    </mat-dialog-actions>
+  </form>
+</div>

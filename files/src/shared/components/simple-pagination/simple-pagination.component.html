@@ -1,0 +1,24 @@
+<ng-container *ngIf="pagination">
+  <div class="pagination-container">
+    <div class="counter-container" *ngIf="showCounters()">
+      <b>{{ pagination | paginationCount: mode }}</b> of
+      <b>{{ pagination | paginationCount: 'max' }}</b>
+    </div>
+    <div class="control-container">
+      <button
+        class="btn left"
+        [ngClass]="{disabled: !hasPrev}"
+        type="button"
+        (click)="internalPrev()"
+        aria-label="Previous page"
+      ></button>
+      <button
+        class="btn right"
+        [ngClass]="{disabled: !hasNext}"
+        type="button"
+        (click)="internalNext()"
+        aria-label="Next page"
+      ></button>
+    </div>
+  </div>
+</ng-container>

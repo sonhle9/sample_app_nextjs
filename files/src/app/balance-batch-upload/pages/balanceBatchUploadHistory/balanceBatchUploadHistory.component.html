@@ -1,0 +1,65 @@
+<ng-container>
+  <div class="wrapper">
+    <div class="block-title">
+      <b>Grant Wallet Balance Batch History</b>
+    </div>
+    <div class="filter-container">
+      <app-simple-pagination
+        class="pagination"
+        [pagination]="pagination"
+        (next)="nextPage()"
+        (prev)="prevPage()"
+        [disableNext]="isNextPageDisabled()"
+      ></app-simple-pagination>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+  <ng-template #anyResult>
+    <ngx-datatable
+      class="material"
+      [rows]="getData()"
+      [columns]="getColumns()"
+      [columnMode]="'flex'"
+      [headerHeight]="50"
+      [footerHeight]="0"
+      [rowHeight]="'auto'"
+      [loadingIndicator]="loading.page"
+    >
+    </ngx-datatable>
+  </ng-template>
+
+  <ng-template #fileNameColumnTpl let-row="row" let-value="value">
+    <div (click)="downloadOriginalFile(row)" class="load-file-link">{{ value }}</div>
+  </ng-template>
+
+  <ng-template #failedFileColumnTpl let-row="row" let-value="value">
+    <div class="load-failed-file-wrapper">
+      <button
+        *ngIf="isFailedTransactionExist(row)"
+        (click)="downloadFailedFile(row)"
+        mat-stroked-button
+        color="primary"
+        class="load-failed-file-btn"
+      >
+        Download
+      </button>
+    </div>
+  </ng-template>
+
+  <a class="download-hyperlink" #downloadEl></a>
+
+  <ng-template #anyOrEmptyResult>
+    <ng-container
+      *ngIf="loading.page || getData()?.length !== 0; then anyResult; else noResult"
+    ></ng-container>
+  </ng-template>
+
+  <ng-template #noResult>
+    <div class="empty-state">
+      <img src="assets/images/icons/empty_result.svg" />
+      <h6>No results matching your search were found.</h6>
+    </div>
+  </ng-template>
+</ng-container>

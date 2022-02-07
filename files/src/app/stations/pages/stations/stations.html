@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="header">
+    <h4 class="title">Station</h4>
+  </div>
+
+  <div class="nav-tabs">
+    <nav mat-tab-nav-bar>
+      <a
+        mat-tab-link
+        *ngFor="let link of tabNavs; let i = index"
+        [routerLink]="link.link"
+        routerLinkActive
+        #rla="routerLinkActive"
+        (click)="activeLink = i"
+        [active]="rla.isActive"
+      >
+        {{ link.label }}
+      </a>
+    </nav>
+  </div>
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

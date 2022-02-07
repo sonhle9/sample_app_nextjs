@@ -1,0 +1,49 @@
+<div class="heading" *ngIf="withHeading">
+  <div class="key-label">NAME</div>
+  <div class="value-label">VALUE</div>
+</div>
+<section class="json-viewer">
+  <section
+    *ngFor="let segment of segments; let i = index"
+    [ngClass]="['segment', 'segment-type-' + segment.type]"
+  >
+    <section
+      (click)="toggle(segment)"
+      [ngClass]="{
+        'segment-main': true,
+        expandable: isExpandable(segment),
+        expanded: segment.expanded
+      }"
+    >
+      <div
+        class="segment-key"
+        [ngStyle]="{
+          'paddingLeft.px': currentLevel * 24 + 8
+        }"
+      >
+        <mat-icon
+          *ngIf="isExpandable(segment); else togglerSpace"
+          class="expand-icon"
+          aria-hidden
+          >{{ segment.expanded ? 'remove_circle' : 'add_circle' }}</mat-icon
+        >
+        {{ segment.key }}
+      </div>
+      <span *ngIf="!segment.expanded || !isExpandable(segment)" class="segment-value">{{
+        segment.description
+      }}</span>
+    </section>
+    <section *ngIf="segment.expanded && isExpandable(segment)">
+      <app-json-viewer
+        [json]="segment.value"
+        [expanded]="expanded"
+        [currentLevel]="currentLevel + 1"
+        [withHeading]="false"
+      ></app-json-viewer>
+    </section>
+  </section>
+</section>
+
+<ng-template #togglerSpace>
+  <div class="icon-placeholder">&nbsp;</div>
+</ng-template>

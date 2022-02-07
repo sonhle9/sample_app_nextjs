@@ -1,0 +1,76 @@
+@import './../../../../styles/variables';
+
+.wrapper {
+  position: relative;
+  min-height: 250px;
+  padding: 30px 0;
+  margin-top: 32px;
+}
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+
+  app-pagination {
+    margin-top: 5px;
+    margin-right: 10px;
+    min-width: 145px;
+  }
+
+  ::ng-deep app-button {
+    margin-left: auto;
+
+    button {
+      height: 32px;
+      line-height: 32px;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  }
+}
+
+.card.alert-card {
+  .card-content {
+    min-height: 140px;
+
+    ::ng-deep .button-delete {
+      button {
+        background-color: #d20000;
+        padding: 4px 8px;
+        color: #fff;
+        border: none;
+        font-size: 12px;
+        height: 26px;
+        line-height: 20px;
+        max-width: 90px;
+      }
+    }
+  }
+
+  .card-header,
+  .card-row {
+    grid-template-columns: 1fr 1fr 3fr;
+
+    .card-column {
+      color: #808fa4;
+    }
+  }
+}
+
+.counter-container {
+  font-size: $small-font;
+  color: $table-counter;
+  padding-top: $dropdown-font;
+  padding-right: 10px;
+}
+
+.empty-state {
+  padding-top: 50px;
+}
+
+app-loader {
+  display: block;
+  min-height: 500px;
+}

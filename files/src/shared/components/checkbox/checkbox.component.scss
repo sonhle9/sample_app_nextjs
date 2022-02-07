@@ -1,0 +1,114 @@
+@import '../../../styles/variables';
+
+$square-checkbox: $checkbox-height * 0.5;
+
+input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  padding: 0;
+  margin: 0;
+  -webkit-appearance: none;
+
+  &:checked + span {
+    color: $checkbox-checked-color;
+
+    &:before,
+    &:after {
+      content: '';
+      transition: border 0.25s, background-color 0.25s, width 0.2s 0.1s, height 0.2s 0.1s,
+        top 0.2s 0.1s, left 0.2s 0.1s;
+      z-index: 1;
+    }
+
+    &:before {
+      width: $square-checkbox * 0.3;
+      height: $square-checkbox * 0.7;
+      border-top: 2px solid transparent;
+      border-left: 2px solid transparent;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: translateY(-60%) rotateZ(37deg);
+      transform-origin: 100% 100%;
+    }
+
+    &:after {
+      border: 2px solid $checkbox-checked-color;
+      background-color: $checkbox-checked-color;
+      z-index: 0;
+    }
+  }
+}
+
+span {
+  position: relative;
+  padding-left: $checkbox-height;
+  cursor: pointer;
+  height: $checkbox-height;
+  line-height: $checkbox-height;
+  font-size: 1rem;
+  transition: 0.28s ease;
+  user-select: none;
+  display: inline-block;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: $square-checkbox;
+    height: $square-checkbox;
+    z-index: 0;
+    border: 2px solid $checkbox-color;
+    border-radius: 2px;
+    transition: border 0.25s, background-color 0.25s, width 0.2s 0.1s, height 0.2s 0.1s,
+      top 0.2s 0.1s, left 0.2s 0.1s;
+    z-index: 1;
+    transform: translateY(-50%);
+  }
+
+  &:before {
+    width: 0;
+    height: 0;
+    border: 3px solid transparent;
+    transform: translateY(-50%) rotateZ(37deg);
+    transform-origin: 100% 100%;
+  }
+}
+
+label span {
+  color: $checkbox-color;
+  font-size: $checkbox-font;
+  font-weight: 600;
+}
+
+label {
+  &.disabled span {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &.text-left {
+    input:checked + span {
+      &:before {
+        transform: translateX(-8px) translateY(-60%) rotateZ(37deg);
+      }
+    }
+
+    span {
+      padding-left: 0;
+      padding-right: $checkbox-height;
+
+      &:before,
+      &:after {
+        left: auto;
+        right: 0;
+      }
+
+      &:before {
+        transform: translateX(-8px) translateY(-50%) rotateZ(37deg);
+      }
+    }
+  }
+}

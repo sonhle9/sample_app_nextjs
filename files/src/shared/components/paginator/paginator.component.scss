@@ -1,0 +1,20 @@
+.paginator {
+  height: 56px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 8px;
+
+  .per-page {
+    margin: 6px 4px 0 4px;
+    width: 56px;
+  }
+
+  .per-page-label {
+    margin: 0 4px;
+  }
+
+  .controls {
+    margin-left: 24px;
+  }
+}

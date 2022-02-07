@@ -1,0 +1,28 @@
+<div>
+  <div *ngIf="timeSlots">
+    <mat-list class="picker-list">
+      <mat-list-item *ngFor="let slots of timeSlots.slots; let i = index">
+        <input
+          class="time-picker"
+          [owlDateTimeTrigger]="timeComponent"
+          [selectMode]="'range'"
+          [owlDateTime]="timeComponent"
+          [(ngModel)]="timeSlots.slots[i]"
+          [min]="minTime"
+          [max]="maxTime"
+          (dateTimeChange)="onTimeChange($event, i)"
+        />
+        <owl-date-time
+          [pickerType]="'timer'"
+          [hour12Timer]="true"
+          [stepMinute]="30"
+          #timeComponent
+        ></owl-date-time>
+        <button class="remove-btn" *ngIf="timeSlots.slots.length > 1" (click)="onRemoveSlot(i)">
+          -
+        </button>
+      </mat-list-item>
+    </mat-list>
+    <button class="add-btn" (click)="onAddSlot($event)">Add a slot</button>
+  </div>
+</div>

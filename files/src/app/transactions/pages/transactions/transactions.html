@@ -1,0 +1,140 @@
+<div class="container" [appBreadcrumbs]="breadcrumbs">
+  <h4 class="headline">Transactions</h4>
+  <div class="wrapper">
+    <div class="filter-container" *ngIf="roles?.hasView">
+      <app-pagination
+        [pagination]="pagination"
+        (next)="next()"
+        (prev)="prev()"
+        [mode]="1"
+      ></app-pagination>
+      <app-dropdown
+        label="Type"
+        [(ngModel)]="selectedMixType"
+        [items]="types"
+        (ngModelChange)="updateType()"
+      >
+      </app-dropdown>
+      <app-dropdown
+        label="Status"
+        [(ngModel)]="selectedStatus"
+        [items]="statuses"
+        (ngModelChange)="filter()"
+      >
+      </app-dropdown>
+      <!-- TODO: change elements size, reduce height -->
+      <!-- TODO: change elements color, make them the same -->
+      <app-dropdown
+        label="Created date"
+        [(ngModel)]="selectedDate"
+        [items]="dateTypes"
+        (ngModelChange)="updateDate()"
+      >
+      </app-dropdown>
+      <app-dropdown
+        label="Payment method"
+        [(ngModel)]="paymentMixMethod"
+        [items]="paymentMixMethods"
+        (ngModelChange)="updatePaymentMethod()"
+      >
+      </app-dropdown>
+      <app-datepicker
+        [enabled]="selectedDate?.value === 's'"
+        label="Start date"
+        [(ngModel)]="startDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-datepicker
+        [enabled]="selectedDate?.value === 's'"
+        label="End date"
+        [(ngModel)]="endDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <div class="flex-gap"></div>
+      <app-button-download
+        [download]="downloadCsv()"
+        [totalItem]="pagination.max"
+        fileName="transaction-"
+        >Download CSV</app-button-download
+      >
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyResult>
+  <div class="card transaction-card">
+    <div class="card-header">
+      <div>Status</div>
+      <div>Transaction Id</div>
+      <div>Customer</div>
+      <div>Created on</div>
+      <div>Type</div>
+      <div>Payment method</div>
+      <div>Amount</div>
+      <div>Error message</div>
+      <div>Message</div>
+    </div>
+    <div class="card-content">
+      <ng-container *ngIf="pagination?.items.length !== 0; else emptyState">
+        <div class="card-row" *ngFor="let item of pagination?.items">
+          <div
+            class="card-column txn-status {{ item?.status | txnStatusCss }}"
+            title="{{ item?.status | titlecase }}"
+          >
+            {{ item?.status | titlecase }}
+          </div>
+          <a
+            class="card-column main clickable"
+            [routerLink]="['/payments/transactions', item.id]"
+            target="_blank"
+            >{{ item?.id }}</a
+          >
+          <a
+            class="card-column main clickable"
+            [routerLink]="['/customers', item.userId]"
+            target="_blank"
+            >{{ item?.fullName | titlecase }}</a
+          >
+          <div class="card-column">
+            {{ item?.createdAt | amDateFormat: 'DD MMM YYYY - hh:mm A' }}
+          </div>
+          <div class="card-column">{{ item | txnType }}</div>
+          <div class="card-column" title="{{ transformToMixPaymentMethod(item) }}">
+            {{ transformToMixPaymentMethod(item) }}
+          </div>
+          <div class="card-column">{{ item?.amount | myrCurrency | emptyDash }}</div>
+          <div class="card-column" title="{{ item | transactionError }}">
+            {{ item | transactionError }}
+          </div>
+          <div class="card-column" title="{{ item.message }}">{{ item.message }}</div>
+        </div>
+      </ng-container>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

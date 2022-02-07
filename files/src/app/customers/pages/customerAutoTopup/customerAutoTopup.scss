@@ -1,0 +1,15 @@
+@import '../shared/customers';
+b {
+  margin: 20px 0;
+  display: block;
+}
+
+.card .card-content .card-row .card-column {
+  &.success {
+    color: $success-color;
+  }
+
+  &.fail {
+    color: $inactive-color;
+  }
+}

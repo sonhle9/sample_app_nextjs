@@ -1,0 +1,82 @@
+<div class="container">
+  <h4 class="headline">Viewing Mesra detail</h4>
+  <div class="card order-card">
+    <app-display-text label="Customer name" class="inline main"
+      >{{ customer?.name }}
+    </app-display-text>
+    <div class="input-gap"></div>
+    <app-display-text label="Mesra Card number" class="inline main"
+      >{{ myCard?.cardNumber }}</app-display-text
+    >
+    <div class="input-gap"></div>
+    <app-display-text label="Issued by" class="inline main"
+      >{{ myCard?.issuedBy?.charAt(0).toUpperCase() + myCard?.issuedBy?.slice(1)
+      }}</app-display-text
+    >
+    <div class="input-gap"></div>
+    <app-display-text label="Type" class="inline main"
+      >{{ myCard?.isPhysicalCard ? 'Physical' : 'Virtual' }}</app-display-text
+    >
+    <div class="input-gap"></div>
+    <div class="divider"></div>
+    <div class="input-gap"></div>
+    <app-display-text label="Available Points" class="inline"
+      >{{ myCard?.pointRedeemableBalance }}</app-display-text
+    >
+    <div class="input-gap"></div>
+    <app-display-text label="Pending Points" class="inline"
+      >{{ myCard?.pointRedeemableBalance - myCard?.pointRedeemableBalance }}</app-display-text
+    >
+    <div class="input-gap"></div>
+    <div class="divider"></div>
+    <div class="input-gap"></div>
+    <app-display-text label="Created on" class="inline"
+      >{{ myCard?.createdAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}</app-display-text
+    >
+    <div class="input-gap"></div>
+    <app-display-text label="Updated On" class="inline"
+      >{{ myCard?.updatedAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}</app-display-text
+    >
+    <div class="input-gap"></div>
+    <app-display-text label="Status" class="inline">{{ myCard?.status }}</app-display-text>
+    <div class="input-gap"></div>
+    <app-display-text label="Vendor Status" class="inline"
+      >{{ myCard?.vendorStatus }}</app-display-text
+    >
+    <div class="input-gap"></div>
+    <ng-container *ngIf="myCard?.status !== 'active' && myCard?.status !== 'issued'">
+      <app-display-text label="Frozen on" class="inline"
+        >{{ myCard?.isFrozenAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}</app-display-text
+      >
+      <div class="input-gap"></div>
+      <app-display-text label="Frozen by Ops" class="inline"
+        >{{ myCard?.overriddenToTemporarilyFrozen ? 'Yes' : 'No' }}</app-display-text
+      >
+      <div class="input-gap"></div>
+      <app-display-text label="Reason" class="inline">{{ myCard?.frozenReason }}</app-display-text>
+      <div class="input-gap"></div>
+    </ng-container>
+    <app-display-text label="Points earning enabled" class="inline"
+      >{{ myCard?.isPointEarningEnabled ? 'Yes' : 'No' }}</app-display-text
+    >
+    <div class="input-gap"></div>
+    <app-display-text label="Redemption enabled" class="inline"
+      >{{ myCard?.isPointRedemptionEnabled ? 'Yes' : 'No' }}</app-display-text
+    >
+    <div class="input-gap"></div>
+    <app-display-text label="Activated redemption on" class="inline"
+      >{{ myCard?.isActivatedAt | amDateFormat: 'DD MMM YYYY - hh:mmA'}}</app-display-text
+    >
+    <div class="input-gap"></div>
+  </div>
+  <div class="input-gap"></div>
+  <h6 class="headline">Loyalty Card JSON</h6>
+  <div class="card-panel" *ngIf="card$ | async as card">
+    <ngx-json-viewer [json]="card"></ngx-json-viewer>
+  </div>
+  <div class="input-gap"></div>
+  <h6 class="headline">Loyalty Card JSON (From Cardtrend)</h6>
+  <div class="card-panel" *ngIf="vendorCard$ | async as vendorCard">
+    <ngx-json-viewer [json]="vendorCard"></ngx-json-viewer>
+  </div>
+</div>

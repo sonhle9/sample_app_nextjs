@@ -1,0 +1,29 @@
+@import '../../../../styles/variables';
+
+.order-dialog {
+  padding: 1em;
+  .dialog-header {
+    text-align: center;
+  }
+  .mat-dialog-content {
+    padding-bottom: 1em;
+    p {
+      padding-bottom: 2em;
+    }
+  }
+  .mat-dialog-actions {
+    justify-content: center;
+    button {
+      margin-right: 0.5em;
+      min-width: 8em;
+    }
+    .proceed-btn {
+      background: $link-color;
+      color: #fff;
+    }
+    .cancel-btn {
+      border-color: $link-color;
+      color: $link-color;
+    }
+  }
+}

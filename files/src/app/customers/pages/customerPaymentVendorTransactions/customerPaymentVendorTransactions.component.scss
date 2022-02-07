@@ -1,0 +1,58 @@
+@import './../../../../styles/variables';
+
+b {
+  display: block;
+  margin: 20px 0;
+}
+
+.loader-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.card.topups-card {
+  .card-content {
+    min-height: 140px;
+    overflow-y: auto;
+    height: 500px;
+  }
+
+  .card-header,
+  .card-row {
+    grid-template-columns: 1fr 2fr 3fr 2fr 1fr;
+  }
+
+  .txn-status {
+    width: 10px;
+    height: 10px;
+    align-self: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    &.success {
+      background-color: $success-color;
+    }
+
+    &.fail {
+      background-color: $error-color;
+    }
+
+    &.cancel,
+    &.pending {
+      background-color: $pending-color;
+    }
+
+    &.cancelled {
+      background-color: $inactive-color;
+    }
+  }
+}
+
+app-pagination {
+  display: block;
+  margin: 0 10px 15px;
+  min-width: 145px;
+}

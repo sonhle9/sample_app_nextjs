@@ -1,0 +1,53 @@
+<b>Exceptions</b>
+<div class="wrapper">
+  <div class="filter-container">
+    <app-pagination
+      [pagination]="pagination"
+      (next)="next()"
+      (prev)="prev()"
+      [mode]="1"
+    ></app-pagination>
+  </div>
+</div>
+<div class="card reconciliations-card">
+  <div class="card-header">
+    <div>Transaction Date</div>
+    <div>Reference ID</div>
+    <div>Gateway Transaction ID</div>
+    <div class="amount">Amount</div>
+    <div class="amount">Fee Amount</div>
+    <div>Reason</div>
+    <div>Action</div>
+  </div>
+  <div class="card-content">
+    <ng-container *ngIf="pagination?.items?.length !== 0; else emptyState">
+      <div class="card-row" *ngFor="let exception of pagination?.items">
+        <a class="card-column main"
+          >{{ exception.metadata?.date | amDateFormat: 'DD MMM YYYY - hh:mmA' }}</a
+        >
+        <div class="card-column">{{ exception.metadata?.merchantRefNo }}</div>
+        <div class="card-column">{{ exception.metadata?.transId }}</div>
+        <div class="card-column amount">{{ exception.metadata?.amount | myrCurrency }}</div>
+        <div class="card-column amount">{{ exception.metadata?.feeAmount | myrCurrency }}</div>
+        <div class="card-column">{{ exception.reason }}</div>
+        <div class="card-column">
+          <button
+            [ngClass]="{'resolved': exception.isResolved, 'unresolved': !exception.isResolved}"
+            class="small-icon-button"
+            mat-icon-button
+            color="primary"
+            matTooltip="Resolve exception"
+            [matTooltipPosition]="'after'"
+            [disabled]="!roles?.hasAdjust"
+            (click)="resolveException(exception)"
+          >
+            <mat-icon>check_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<ng-template #emptyState>
+  <p class="empty-text">This receivable does not have any exceptions.</p>
+</ng-template>

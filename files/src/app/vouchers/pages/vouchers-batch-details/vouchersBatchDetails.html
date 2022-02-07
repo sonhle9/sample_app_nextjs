@@ -1,0 +1,113 @@
+<div class="container vouchers-batch-details">
+  <h4 class="headline">Vouchers Batch</h4>
+  <div class="header-buttons">
+    <a class="download-hyperlink" #downloadEl></a>
+    <app-button *ngIf="isCsvDownloadable()" [disabled]="isCsvLoading" (click)="downloadBatchCsv()"
+      >Download CSV</app-button
+    >
+    <app-button
+      *appHasPermission="vouchersRole.void"
+      class="void-voucher"
+      (click)="openVoidVoucherModal()"
+    >
+      Void Voucher
+    </app-button>
+    <app-button *appHasPermission="vouchersBatchRole.clone" (click)="cloneBatch()"
+      >Clone</app-button
+    >
+    <app-button *appHasPermission="[vouchersBatchRole.create]" (click)="editBatch()"
+      >Edit</app-button
+    >
+  </div>
+  <div class="wrapper" *ngIf="!loading.full; else loaderState">
+    <div class="card order-card">
+      <app-display-text label="Name" class="inline main">{{ batch?.name }}</app-display-text>
+      <app-display-text label="Description" class="inline multiline"
+        >{{ batch?.description | notAvailable }}</app-display-text
+      >
+      <div class="divider"></div>
+      <app-display-text label="Vouchers Count" class="inline"
+        >{{ batch?.vouchersCount }}</app-display-text
+      >
+      <app-display-text label="Generation type" class="inline"
+        >{{ batch?.generationType }}</app-display-text
+      >
+      <app-display-text label="Redeem Type" class="inline"
+        >{{ batch?.redeemType }}</app-display-text
+      >
+      <app-display-text label="Start Date" class="inline"
+        >{{ batch?.startDate | amDateFormat: 'DD MMM YYYY - hh:mmA' }}</app-display-text
+      >
+      <app-display-text label="Linking Expiry Date" class="inline"
+        >{{ batch?.expiryDate | amDateFormat: 'DD MMM YYYY - hh:mmA' | notAvailable
+        }}</app-display-text
+      >
+
+      <app-display-text *ngIf="batch?.redeemExpiry?.date" label="Redeem Expiry Date" class="inline"
+        >{{ batch?.redeemExpiry.date | amDateFormat: 'DD MMM YYYY - hh:mmA' }}</app-display-text
+      >
+
+      <app-display-text *ngIf="batch?.redeemExpiry?.days" label="Redeem Expiry Days" class="inline"
+        >{{ batch?.redeemExpiry?.days }}</app-display-text
+      >
+
+      <div class="divider"></div>
+      <app-display-text label="Term Content" class="inline multiline"
+        >{{ batch?.termContent | notAvailable }}</app-display-text
+      >
+      <app-display-text label="Terms Url" class="inline"
+        >{{ batch?.termsUrl | notAvailable }}</app-display-text
+      >
+      <app-display-text label="Banner Url" class="inline"
+        >{{ batch?.bannerUrl | notAvailable }}</app-display-text
+      >
+      <app-display-text label="Icon Url" class="inline"
+        >{{ batch?.iconUrl | notAvailable }}</app-display-text
+      >
+      <div class="divider"></div>
+      <app-display-text label="Issued" class="inline"
+        >{{ batchBreakdown?.issued }}</app-display-text
+      >
+      <app-display-text label="Granted" class="inline"
+        >{{ batchBreakdown?.granted }}</app-display-text
+      >
+      <app-display-text label="Redeemed" class="inline"
+        >{{ batchBreakdown?.redeemed }}</app-display-text
+      >
+      <app-display-text label="Expired" class="inline"
+        >{{ batchBreakdown?.expired }}</app-display-text
+      >
+      <app-display-text label="Voided" class="inline"
+        >{{ batchBreakdown?.voided }}</app-display-text
+      >
+    </div>
+    <div class="batch-rules" *ngIf="batch.rules?.length">
+      <h6 class="subtitle">Batch Rules</h6>
+      <ngx-datatable
+        class="material"
+        [rows]="batch.rules"
+        [columns]="rulesColumns"
+        [columnMode]="'flex'"
+        [headerHeight]="50"
+        [footerHeight]="0"
+        [rowHeight]="'auto'"
+      >
+      </ngx-datatable>
+    </div>
+    <h6>Batch JSON</h6>
+    <div class="card-panel">
+      <ngx-json-viewer [json]="batch"></ngx-json-viewer>
+    </div>
+  </div>
+  <ng-template #ruleExpiryDateColumnTpl let-row="row" let-value="value">
+    {{ value | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+  </ng-template>
+  <ng-template #loaderState>
+    <app-loader class="big-loader" type="transparent"></app-loader>
+  </ng-template>
+  <app-modal-void-voucher
+    [isShowModal]="isShowVoidVoucherModal"
+    (success)="onVoucherVoided()"
+    (cancel)="closeVoidVoucherModal()"
+  ></app-modal-void-voucher>
+</div>

@@ -1,0 +1,97 @@
+<div class="container" [appBreadcrumbs]="breadcrumbs">
+  <h4 class="headline">Card Expiry Date</h4>
+  <div class="add-container">
+    <app-button css="add" (click)="openAddDialog()" *ngIf="roles?.hasCreate" class="btn-add"
+      >Add Card Expiry Date</app-button
+    >
+  </div>
+  <div class="wrapper">
+    <div class="filter-container" *ngIf="roles?.hasView">
+      <app-pagination
+        [pagination]="pagination"
+        (next)="next()"
+        (prev)="prev()"
+        [mode]="1"
+      ></app-pagination>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #anyResult>
+  <div class="card terminal-card">
+    <div class="card-header">
+      <div>Type</div>
+
+      <div>Form Factor</div>
+
+      <div>Card Expiry Period</div>
+
+      <div>Auto renewal</div>
+
+      <div class="action">Action</div>
+    </div>
+    <div class="card-content">
+      <div class="card-row" *ngFor="let item of pagination?.items">
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/card-expiry-date', item.id]"
+          target="_blank"
+        >
+          {{ fnChangeShowType(item.type) }}
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/card-expiry-date', item.id]"
+          target="_blank"
+        >
+          <div>
+            {{ fnChangeShowFormFactor(item.formFactor) }}
+          </div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/card-expiry-date', item.id]"
+          target="_blank"
+        >
+          <div>{{ item.expiryPeriod }}</div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/card-expiry-date', item.id]"
+          target="_blank"
+        >
+          <div>{{ item.autoRenewal }}</div>
+        </a>
+
+        <div class="card-column action">
+          <mat-icon (click)="openEditDialog(item)" *ngIf="roles?.hasUpdate">settings</mat-icon>
+        </div>
+      </div>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

@@ -1,0 +1,7 @@
+<div class="header {{ active ? 'active' : '' }} {{ small ? 'small' : '' }}" (click)="toggle()">
+  <span class="header-content {{ small ? 'small' : '' }}">{{ title }}</span>
+  <img class="icon" [src]="expandMenuIcon()" />
+</div>
+<div class="content {{ active ? 'active' : '' }} {{ small ? 'small' : '' }}" *ngIf="active">
+  <ng-content></ng-content>
+</div>

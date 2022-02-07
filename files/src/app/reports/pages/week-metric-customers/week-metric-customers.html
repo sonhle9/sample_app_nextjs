@@ -1,0 +1,65 @@
+<h6 class="headline">Weekly report: Customer listing</h6>
+<div class="filter-container">
+  <app-pagination
+    [pagination]="pagination"
+    (next)="next()"
+    (prev)="prev()"
+    [mode]="1"
+  ></app-pagination>
+  <app-datepicker
+    [pickerType]="'calendar'"
+    label="Users created start date"
+    [(ngModel)]="createdUsersFrom"
+    (ngModelChange)="filter()"
+  ></app-datepicker>
+  <app-datepicker
+    [pickerType]="'calendar'"
+    label="Users created end date"
+    [(ngModel)]="createdUsersTo"
+    (ngModelChange)="filter()"
+  ></app-datepicker>
+  <div class="vertical-line"></div>
+  <app-datepicker
+    [pickerType]="'calendar'"
+    label="Orders start date"
+    [(ngModel)]="hasOrderFrom"
+    (ngModelChange)="filter()"
+  ></app-datepicker>
+  <app-datepicker
+    [pickerType]="'calendar'"
+    label="Orders end date"
+    [(ngModel)]="hasOrderTo"
+    (ngModelChange)="filter()"
+  ></app-datepicker>
+  <div class="vertical-line"></div>
+  <app-checkbox [(ngModel)]="repeatedOrders" [value]="true" (ngModelChange)="filter()"
+    >Limit to repeat orders</app-checkbox
+  >
+  <app-checkbox [(ngModel)]="limitOrderCount" [value]="true" (ngModelChange)="filter()"
+    >Limit order to range</app-checkbox
+  >
+</div>
+<div class="card metrix-card">
+  <div class="card-header">
+    <div>Full name</div>
+    <div>Phone number</div>
+    <div>Email</div>
+    <div>Created on</div>
+    <div class="amount">Order count</div>
+  </div>
+  <div class="card-content">
+    <div class="card-row" *ngFor="let item of pagination.items">
+      <a
+        class="card-column main clickable"
+        [routerLink]="['/customers', item.userId]"
+        target="_blank"
+        >{{item?.name | titlecase }}</a
+      >
+      <div class="card-column">{{item?.phone}}</div>
+      <div class="card-column">{{item?.email}}</div>
+      <div class="card-column">{{item?.createdAt | amDateFormat: 'DD MMM YYYY, hh:mmA'}}</div>
+      <div class="card-column amount">{{item?.orderCount}}</div>
+    </div>
+  </div>
+  <app-loader *ngIf="loading.page" type="progress"></app-loader>
+</div>

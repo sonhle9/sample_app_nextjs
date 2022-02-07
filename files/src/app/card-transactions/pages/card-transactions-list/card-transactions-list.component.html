@@ -1,0 +1,216 @@
+<div class="container">
+  <h4 class="headline">Card transactions</h4>
+  <div class="wrapper">
+    <div class="filter-container" *ngIf="roles?.hasView">
+      <app-pagination
+        [pagination]="pagination"
+        (next)="next()"
+        (prev)="prev()"
+        [mode]="1"
+      ></app-pagination>
+      <app-dropdown
+        label="Created date"
+        [(ngModel)]="selectedDateFilter"
+        [items]="dateFilters"
+        (ngModelChange)="updateDateFilter()"
+      >
+      </app-dropdown>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="Start date"
+        [(ngModel)]="startDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="End date"
+        [(ngModel)]="endDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-dropdown
+        label="Transaction Type"
+        [(ngModel)]="selectedTransactionType"
+        [items]="transactionTypeFilters"
+        (ngModelChange)="updateTransactionTypeFilter()"
+      >
+      </app-dropdown>
+      <app-dropdown
+        label="Transaction Status"
+        [(ngModel)]="selectedTransactionStatus"
+        [items]="transactionStatusFilters"
+        (ngModelChange)="updateTransactionStatusFilter()"
+      >
+      </app-dropdown>
+      <button mat-button [matMenuTriggerFor]="menu" class="download-btn" [disabled]="isCsvLoading">
+        Download CSV
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="directDownload()">Direct download</button>
+        <button mat-menu-item (click)="sendEmail()">Send email</button>
+      </mat-menu>
+
+      <div class="search-card-transaction">
+        <div class="filter-container-searchbar">
+          <app-dropdown
+            class="level-dropdown"
+            label="Level"
+            [(ngModel)]="selectLevel"
+            (ngModelChange)="onChangeLevel()"
+            [items]="levels"
+            errorMessage="{{ errorLevel ? errorLevel : null }}"
+          >
+          </app-dropdown>
+
+          <mat-form-field
+            appearance="outline"
+            class="search-input"
+            *ngIf="selectLevel.value !== 'merchant'"
+          >
+            <mat-label>{{
+              selectLevel.value !== '' ? selectLevel.text : 'Please select level'
+            }}</mat-label>
+            <input
+              type="text"
+              placeholder="{{
+                selectLevel.value !== '' ? 'Search ' + selectLevel.text : 'Please select level'
+              }}"
+              matInput
+              [(ngModel)]="valueSearch"
+              (ngModelChange)="checkRequired()"
+            />
+          </mat-form-field>
+          <ng-select
+            *ngIf="selectLevel.value === 'merchant'"
+            class="search-input"
+            [items]="merchants"
+            appendTo="body"
+            bindLabel="name"
+            bindValue="merchantId"
+            [multiple]="true"
+            [searchFn]="customSearchFn"
+            (search)="onSearchMerchant($event)"
+            placeholder="Select merchants"
+            [(ngModel)]="merchantMerchantIds"
+          >
+          </ng-select>
+
+          <button mat-button class="search-btn" (click)="onSearch()">Search</button>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #anyResult>
+  <div class="card terminal-card">
+    <div
+      [class]="
+        selectLevel.value === 'cardNumber' || selectLevel.value === 'merchant'
+          ? 'card-header row-5 '
+          : 'card-header row-4'
+      "
+    >
+      <div *ngIf="selectLevel.value === 'cardNumber'">Card number</div>
+
+      <div *ngIf="selectLevel.value === 'merchant'">Station Name</div>
+
+      <div>Amount</div>
+
+      <div>Status</div>
+
+      <div>Transaction Type</div>
+
+      <div>Created On</div>
+    </div>
+    <div class="card-content">
+      <div
+        [class]="
+          selectLevel.value === 'cardNumber' || selectLevel.value === 'merchant'
+            ? 'card-row row-5 '
+            : 'card-row row-4'
+        "
+        *ngFor="let item of pagination?.items"
+      >
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-transactions', item.id]"
+          target="_blank"
+          *ngIf="selectLevel.value === 'cardNumber'"
+        >
+          <div>{{ item.cardNumber }}</div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-transactions', item.id]"
+          target="_blank"
+          *ngIf="selectLevel.value === 'merchant'"
+        >
+          <div>{{ item.station || '' }}</div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-transactions', item.id]"
+          target="_blank"
+        >
+          <div>
+            {{ item.amount }}
+          </div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-transactions', item.id]"
+          target="_blank"
+        >
+          {{ fnChangeShowStatus(item.status) }}
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-transactions', item.id]"
+          target="_blank"
+        >
+          <div>{{ fnChangeShowType(item.type) }}</div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-transactions', item.id]"
+          target="_blank"
+        >
+          <div>{{ item?.createdAt | amDateFormat: 'DD MMM YYYY, hh:mm A' }}</div>
+        </a>
+      </div>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<a class="download-hyperlink" #downloadEl></a>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

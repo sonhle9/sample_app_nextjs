@@ -1,0 +1,58 @@
+@import '../../../styles/dialog';
+
+.flex-container {
+  display: flex;
+  align-items: stretch;
+  padding: 22px;
+  height: 545px;
+}
+
+.mat-dialog-actions {
+  &[align='end'] {
+    justify-content: flex-end;
+  }
+
+  &[align='center'] {
+    justify-content: center;
+  }
+}
+
+.json-editor {
+  height: 400px;
+  width: 400px;
+}
+
+.json-preview {
+  height: 400px;
+  width: 400px;
+  overflow: auto;
+}
+
+.right-margin {
+  margin-right: 12px;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.full-height-width {
+  height: 100%;
+  width: 100%;
+}
+
+.top-margin {
+  margin-top: 12px;
+}
+
+::ng-deep .ngx-json-viewer {
+  overflow: auto !important;
+}
+
+.large-top-margin {
+  margin-top: 26px;
+}
+
+.red-border {
+  border: red 1px solid;
+}

@@ -1,0 +1,124 @@
+<div class="container">
+  <header>
+    <h6>Edit Card Restriction</h6>
+  </header>
+  <app-loader *ngIf="loading"></app-loader>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <mat-dialog-content>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <input
+            matInput
+            placeholder="Maximum Amount per Transaction"
+            formControlName="singleTransactionLimit"
+            (keypress)="onKeyPressRMInput($event)"
+            (focus)="onFocusRMInput('singleTransactionLimit')"
+            (blur)="onBlurRMInput('singleTransactionLimit')"
+            (change)="onChangeRMInput('singleTransactionLimit')"
+          />
+          <mat-error *ngIf="form.controls.singleTransactionLimit.invalid">
+            {{
+              form.controls.singleTransactionLimit.errors.min
+                ? 'Min value is ' + form.controls.singleTransactionLimit.errors.min.min
+                : ''
+            }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <input
+            matInput
+            placeholder="Daily Max Amount"
+            formControlName="dailyCardLimit"
+            (keypress)="onKeyPressRMInput($event)"
+            (focus)="onFocusRMInput('dailyCardLimit')"
+            (blur)="onBlurRMInput('dailyCardLimit')"
+            (change)="onChangeRMInput('dailyCardLimit')"
+          />
+          <mat-error *ngIf="form.controls.dailyCardLimit.invalid">
+            {{
+              form.controls.dailyCardLimit.errors.min
+                ? 'Min value is ' + form.controls.dailyCardLimit.errors.min.min
+                : ''
+            }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <input
+            matInput
+            placeholder="Daily Max Count"
+            type="number"
+            formControlName="dailyCountLimit"
+            (keypress)="onKeyPressRMInput($event)"
+          />
+          <mat-error *ngIf="form.controls.dailyCountLimit.invalid">
+            {{
+              form.controls.dailyCountLimit.errors.min
+                ? 'Min value is ' + form.controls.dailyCountLimit.errors.min.min
+                : ''
+            }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <input
+            matInput
+            placeholder="Monthly Max Amount"
+            formControlName="monthlyCardLimit"
+            (keypress)="onKeyPressRMInput($event)"
+            (focus)="onFocusRMInput('monthlyCardLimit')"
+            (blur)="onBlurRMInput('monthlyCardLimit')"
+            (change)="onChangeRMInput('monthlyCardLimit')"
+          />
+          <mat-error *ngIf="form.controls.monthlyCardLimit.invalid">
+            {{
+              form.controls.monthlyCardLimit.errors.min
+                ? 'Min value is ' + form.controls.monthlyCardLimit.errors.min.min
+                : ''
+            }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <input
+            matInput
+            placeholder="Monthly Max Count"
+            type="number"
+            formControlName="monthlyCountLimit"
+            min="0"
+            (keypress)="onKeyPressRMInput($event)"
+          />
+          <mat-error *ngIf="form.controls.monthlyCountLimit.invalid">
+            {{
+              form.controls.monthlyCountLimit.errors.min
+                ? 'Min value is ' + form.controls.monthlyCountLimit.errors.min.min
+                : ''
+            }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Allowed Fuel Product</mat-label>
+          <mat-select formControlName="allowedFuelProducts" multiple>
+            <mat-option *ngFor="let restriction of allowedFuelProductList" [value]="restriction">
+              {{ restriction | allowFuelProduct }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <div fxLayout="row" fxLayoutGap="10px">
+        <button mat-stroked-button type="button" (click)="onClose()">Cancel</button>
+        <button mat-stroked-button type="submit" color="primary" class="primary-btn">Save</button>
+      </div>
+    </mat-dialog-actions>
+  </form>
+</div>

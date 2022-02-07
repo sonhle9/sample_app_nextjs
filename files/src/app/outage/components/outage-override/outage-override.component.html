@@ -1,0 +1,45 @@
+<div class="wrapper">
+  <h5 class="sub-headline">{{ label }}</h5>
+  <app-message type="error" *ngIf="errorMessage" [hasClose]="false" [content]="errorMessage">
+  </app-message>
+  <form class="card-panel" (ngSubmit)="onSave()" *ngIf="show; else viewer">
+    <ng-container *ngFor="let entry of fields | entries">
+      <div class="detail-flex">
+        <label>{{ entry[1].label }}</label>
+        <app-toggle
+          [value]="true"
+          [(ngModel)]="toggles[entry[0]]"
+          [ngModelOptions]="{standalone: true}"
+          (change)="onChange(entry)"
+        >
+        </app-toggle>
+      </div>
+      <div class="input-gap"></div>
+    </ng-container>
+    <div class="divider"></div>
+    <div class="input-gap"></div>
+    <div class="button-group">
+      <app-button css="light" type="button" (click)="onCancel()"> Cancel </app-button>
+      <app-button type="submit">Save changes</app-button>
+    </div>
+  </form>
+</div>
+
+<ng-template #viewer>
+  <div class="card-panel">
+    <ng-container *ngFor="let entry of fields | entries">
+      <div class="detail-flex">
+        <label>{{ entry[1].label }}</label>
+        <div class="stt-status" [ngClass]="{active: fields[entry[0]].value}">
+          {{ fields[entry[0]].value | onoff }}
+        </div>
+      </div>
+      <div class="input-gap"></div>
+    </ng-container>
+    <div class="divider"></div>
+    <div class="input-gap"></div>
+    <div class="button-group" *ngIf="hasUpdatePermissions">
+      <app-button type="button" (click)="onEdit()">Edit</app-button>
+    </div>
+  </div>
+</ng-template>

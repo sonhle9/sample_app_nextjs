@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="background"></div>
+  <div class="wrapper">
+    <div class="logo">
+      <img src="assets/images/app-logo.svg" />
+    </div>
+    <h3 class="headline">Welcome to Setel Ops Portal</h3>
+    <div class="card-wrapper">
+      <form (ngSubmit)="login()" [formGroup]="form" class="login-card">
+        <app-message *ngIf="serverErrors" [content]="serverErrors" type="error"></app-message>
+        <app-loader *ngIf="loading"></app-loader>
+        <app-input
+          type="email"
+          label="Email"
+          formControlName="email"
+          [errorMessage]="errorMessage.email"
+        ></app-input>
+        <div class="input-gap"></div>
+        <app-input
+          type="password"
+          label="Password"
+          formControlName="password"
+          [errorMessage]="errorMessage.password"
+        >
+        </app-input>
+        <div class="button-gap"></div>
+        <app-button css="gradient large" type="submit">Log in</app-button>
+      </form>
+      <div class="divider"></div>
+      <div class="card-footer">
+        <a class="nav-link" routerLink="/{{enterprise}}/passwords/request-otp">Forgot Password?</a>
+      </div>
+    </div>
+  </div>
+</div>

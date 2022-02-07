@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>
+  {{ data.title }}
+</h1>
+<h4 class="device">
+  {{ data.device.deviceId }}
+</h4>
+<form class="remark-form" *ngIf="data.withRemark" [formGroup]="remarkForm">
+  <mat-form-field>
+    <textarea formControlName="remark" matInput placeholder="Remark"></textarea>
+    <mat-error *ngIf="remarkForm.controls.remark.hasError('required')"> Required </mat-error>
+    <mat-error *ngIf="remarkForm.controls.remark.hasError('maxlength')">
+      Remark may be 400 characters max
+    </mat-error>
+  </mat-form-field>
+</form>
+<div class="actions" mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="{confirmed: false, payload: null}">Cancel</button>
+  <button
+    mat-button
+    color="warn"
+    [disabled]="data.withRemark && remarkForm.invalid"
+    [mat-dialog-close]="{confirmed: true, payload: data.withRemark ? remarkForm.value : null}"
+  >
+    Confirm
+  </button>
+</div>

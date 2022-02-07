@@ -1,0 +1,75 @@
+@import '../shared/customers';
+@import '../../../../styles/modal';
+
+b.title {
+  margin: 20px 0;
+  display: block;
+}
+
+b.subtitle {
+  margin: 20px 0;
+  display: block;
+  font-size: 0.8rem;
+}
+
+.text-unlink {
+  color: $danger-color !important;
+  font-family: $font-sailec;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.modal-title {
+  font-family: $font-sailec;
+  color: $display-small-header-color;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.modal-content {
+  font-family: $font-sailec;
+  color: $text-dark-grey;
+  font-size: 1rem;
+  font-weight: normal;
+  padding-bottom: 0px;
+}
+
+.modal {
+  width: 600px;
+  height: 212px;
+  padding-bottom: 15px;
+  .text-capitalize {
+    text-transform: capitalize;
+  }
+  .dot {
+    border: 1px solid;
+    height: 4px;
+    width: 4px;
+    background-color: black;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0px 1px 2px 0px;
+  }
+}
+
+.modal-action {
+  margin-top: 40px;
+  button {
+    height: 40px;
+    padding: 12px 16px;
+    font-family: $font-sailec;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+  .btn-info {
+    color: $brand;
+    border: solid 1px $brand;
+    width: 90px;
+  }
+  .btn-danger {
+    background-color: $danger-color;
+    color: white;
+    width: 99px;
+  }
+}

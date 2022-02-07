@@ -1,0 +1,162 @@
+<div class="container">
+  <header>
+    <h6>{{ fnChangeShowName(mode) }} Card Range</h6>
+  </header>
+  <app-loader *ngIf="loading"></app-loader>
+  <app-message
+    *ngIf="message"
+    [content]="message"
+    [type]="messageType"
+    (close)="message = ''"
+  ></app-message>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <mat-dialog-content>
+      <div class="merchant-info">
+        <mat-form-field>
+          <mat-label>Type</mat-label>
+          <mat-select required formControlName="type" disabled>
+            <mat-option *ngFor="let item of types" [value]="item.name">{{ item.id }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.controls.type.errors">
+            {{ form.controls.type.errors.required ? 'Required type value. ' : '' }}</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Card range name"
+            formControlName="name"
+            maxlength="20"
+            required
+          />
+          <mat-error *ngIf="form.controls.name.errors">
+            {{ form.controls.name.errors.pattern ? 'Requires alphanumeric type. ' : '' }}
+            {{ form.controls.name.errors.required ? 'Required name value. ' : '' }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Description"
+            type="text"
+            formControlName="description"
+            maxlength="100"
+          />
+          <mat-error *ngIf="form.controls.description.errors">
+            {{
+              form.controls.description.errors.pattern ? 'Requires alphanumeric type. ' : ''
+            }}</mat-error
+          >
+        </mat-form-field>
+
+        <span class="labled-number">Start number</span>
+        <mat-form-field class="input-number">
+          <span matPrefix [class]="checkCurrentNumber ? 'color-disable' : ''"
+            >{{ prefixCardNumber }} &nbsp;</span
+          >
+          <input
+            matInput
+            type="text"
+            required
+            formControlName="startNumber"
+            minlength="10"
+            maxlength="10"
+            (keypress)="onKeyPressInput($event)"
+            (change)="onChangeStartNumber($event.target.value)"
+          />
+          <mat-error *ngIf="form.controls.startNumber.errors">
+            {{
+              form.controls.startNumber.errors.required
+                ? 'Must be 16 digits. '
+                : form.controls.startNumber.errors.minlength ||
+                  form.controls.startNumber.errors.maxlength
+                ? 'Must be 16 digits. '
+                : ''
+            }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Current number"
+            type="text"
+            formControlName="currentNumber"
+          />
+          <mat-error *ngIf="errorMessages.currentNumber">{{
+            errorMessages.currentNumber
+          }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Total number"
+            type="text"
+            value="{{ totalNumber > 0 ? totalNumber : 0 }}"
+            maxlength="10"
+            (keypress)="onKeyPressInput($event)"
+            (change)="onChangeTotalNumber($event.target.value)"
+          />
+        </mat-form-field>
+
+        <span class="labled-number">End number</span>
+        <mat-form-field>
+          <span matPrefix>{{ prefixCardNumber }} &nbsp;</span>
+          <input
+            matInput
+            type="text"
+            required
+            formControlName="endNumber"
+            minlength="10"
+            maxlength="10"
+            (keypress)="onKeyPressInput($event)"
+            (change)="onChangeEndNumber($event.target.value)"
+          />
+          <mat-error *ngIf="form.controls.endNumber.errors">
+            {{
+              form.controls.endNumber.errors.required
+                ? 'Must be 16 digits. '
+                : form.controls.endNumber.errors.minlength ||
+                  form.controls.endNumber.errors.maxlength
+                ? 'Must be 16 digits. '
+                : ''
+            }}
+          </mat-error>
+          <mat-error *ngIf="errorMessageEndNumber?.endNumber"
+            >End number must bigger than Current number, Start number</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field class="mt-3">
+          <input
+            matInput
+            placeholder="Created on"
+            type="text"
+            value="{{ createdAt | amDateFormat: 'DD MMM YYYY, hh:mm A' }}"
+            disabled
+          />
+        </mat-form-field>
+
+        <mat-form-field *ngIf="mode === 'edit'">
+          <input
+            matInput
+            placeholder="Updated date"
+            type="text"
+            value="{{ updatedAt | amDateFormat: 'DD MMM YYYY, hh:mm A' }}"
+            disabled
+          />
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-stroked-button type="button" (click)="onClose()">CANCEL</button>
+      <button style="background-color: #00b0ff; color: white" mat-raised-button type="submit">
+        {{ fnChangeShowName(mode) == 'Add' ? 'SAVE' : 'SAVE CHANGES' }}
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

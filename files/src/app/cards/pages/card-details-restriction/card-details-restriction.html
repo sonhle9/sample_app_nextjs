@@ -1,0 +1,66 @@
+<div style="margin-bottom: 10px; height: 42px">
+  <h6 class="" style="display: inline-block; margin-top: 10px">Restriction details</h6>
+  <div class="btn-edit" style="float: right">
+    <app-button (click)="openModal()" *ngIf="roles?.hasUpdate" class="btn-css">
+      Edit Restriction Details</app-button
+    >
+  </div>
+</div>
+<div class="card-panel">
+  <app-display-text label="Maximum Amount per Transaction" class="inline">
+    {{card?.limitation?.singleTransactionLimit ? 'RM' +
+    convertToSensitiveNumber(card?.limitation?.singleTransactionLimit) : 'None'}}
+  </app-display-text>
+  <div class="input-gap"></div>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Daily Max Amount" class="inline">
+    {{card?.limitation?.dailyCardLimit ? 'RM' +
+    convertToSensitiveNumber(card?.limitation?.dailyCardLimit) : 'None'}}
+  </app-display-text>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Daily Card Limit Balance" class="inline">RM0</app-display-text>
+  <div class="input-gap"></div>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Daily Max Count" class="inline">
+    {{card?.limitation?.dailyCountLimit || 'None'}}
+  </app-display-text>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Daily Count Limit Balance" class="inline">0</app-display-text>
+  <div class="input-gap"></div>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Monthly Max Amount" class="inline">
+    {{card?.limitation?.monthlyCardLimit ? 'RM' +
+    convertToSensitiveNumber(card?.limitation?.monthlyCardLimit) : "None"}}
+  </app-display-text>
+  <div class="input-gap"></div>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Monthly Card Limit Balance" class="inline">RM0</app-display-text>
+  <div class="input-gap"></div>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Monthly Max Count" class="inline">
+    {{card?.limitation?.monthlyCountLimit || 'None'}}
+  </app-display-text>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Monthly Count Limit Balance" class="inline">0</app-display-text>
+  <div class="input-gap"></div>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Allowed Fuel Product" class="inline">
+    <div *ngFor="let item of allowedFuelProducts">
+      <mat-checkbox [checked]="item.checked" disabled="true"
+        >{{ item.value | allowFuelProduct }}</mat-checkbox
+      >
+    </div>
+  </app-display-text>
+  <div class="input-gap"></div>
+  <div class="input-gap"></div>
+  <div class="input-gap"></div>
+</div>

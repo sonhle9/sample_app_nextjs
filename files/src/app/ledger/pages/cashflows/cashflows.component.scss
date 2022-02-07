@@ -1,0 +1,129 @@
+@import './../../../../styles/variables';
+
+.container {
+  padding: 20px 5%;
+
+  .headline {
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    color: $display-text-color;
+    margin-bottom: 10px;
+  }
+
+  .wrapper {
+    position: relative;
+    padding: 30px 0;
+  }
+}
+
+.cashflows-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px 20px;
+
+  .account {
+    font-weight: bold;
+    color: $display-text-color;
+  }
+
+  .title {
+    color: $label-color;
+  }
+
+  .aggregates {
+    color: $display-text-color;
+
+    .item {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0;
+      min-height: 40px;
+    }
+    .item .description {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      order: 1;
+      margin-right: 5px;
+    }
+    .item:after {
+      content: '';
+      background-image: radial-gradient(circle, currentcolor 1.5px, transparent 2px);
+      background-position-y: bottom;
+      background-size: 1ex 2px;
+      background-repeat: repeat-x;
+      height: 1em;
+      flex-grow: 1;
+      order: 2;
+    }
+    .item .total {
+      flex-shrink: 0;
+      min-width: 20%;
+      order: 3;
+      margin-left: 5px;
+    }
+  }
+
+  &.three-one {
+    grid-template-columns: 0.6fr 0.4fr;
+    align-items: center;
+    .value {
+      margin-bottom: 0 !important;
+    }
+    .operating-transfer {
+      color: #2196f3;
+      font-weight: bold;
+    }
+    .mat-icon {
+      width: 40px;
+      font-size: 40px;
+    }
+  }
+  &.col-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .card-panel {
+    padding: 20px 30px;
+    border-radius: 0.5rem;
+    margin-bottom: 20px;
+
+    &.three-quarter {
+      max-width: 75%;
+      padding-bottom: 40px;
+    }
+
+    &.half {
+      max-width: 50%;
+    }
+
+    .title {
+      color: $label-color;
+    }
+
+    .value {
+      color: black;
+      font-weight: bold;
+      overflow: hidden;
+      margin-bottom: 20px;
+
+      &.error {
+        color: $danger-color;
+      }
+    }
+  }
+}
+
+.small-icon-button {
+  .mat-icon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .material-icons {
+    font-size: 20px !important;
+    transform: translateY(-0.2rem);
+  }
+}

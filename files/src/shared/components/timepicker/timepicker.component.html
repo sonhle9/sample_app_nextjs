@@ -1,0 +1,13 @@
+<div class="timepicker-field {{ enabled ? '' : 'disabled' }}" [ngClass]="hasError ? 'error' : ''">
+  <label [for]="id">{{ label }}</label>
+  <div class="timepicker">
+    <input
+      type="datetime-local"
+      [id]="id"
+      [disabled]="!enabled"
+      [(ngModel)]="value"
+      (blur)="_onTouchedCallback($event)"
+    />
+  </div>
+  <span class="helper-text">{{ errorMessage || helper }}</span>
+</div>

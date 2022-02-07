@@ -1,0 +1,20 @@
+<div>
+  <h6 class="title-card-transaction">Merchant details</h6>
+</div>
+<div class="card-panel">
+  <app-display-text
+    label="Settlement batch ID"
+    class="inline mgb-15"
+    *ngIf="merchantDetails?.settlementId"
+  >
+    {{ merchantDetails?.settlementId }}
+  </app-display-text>
+
+  <app-display-text label="Merchant Id" class="inline mgb-15" *ngIf="merchantDetails?.merchant">
+    {{ merchantDetails?.merchant }}
+  </app-display-text>
+
+  <app-display-text label="Device Id" class="inline mgb-15" *ngIf="merchantDetails?.deviceId">
+    {{ merchantDetails?.deviceId }}
+  </app-display-text>
+</div>

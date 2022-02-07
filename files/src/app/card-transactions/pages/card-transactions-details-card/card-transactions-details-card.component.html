@@ -1,0 +1,15 @@
+<div>
+  <h6 class="title-card-transaction">Card details</h6>
+</div>
+<div class="card-panel">
+  <app-display-text label="Card number" class="inline mgb-15" *ngIf="cardDetails?.cardNumber">{{
+    cardDetails?.cardNumber
+  }}</app-display-text>
+
+  <app-display-text
+    label="Auth card number"
+    class="inline mgb-15"
+    *ngIf="cardDetails?.authCardNumber"
+    >{{ cardDetails?.authCardNumber }}</app-display-text
+  >
+</div>

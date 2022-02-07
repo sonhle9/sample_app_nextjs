@@ -1,0 +1,138 @@
+@import './../../../../styles/variables';
+
+.container {
+  padding: 20px 0;
+  max-width: 660px;
+  margin: auto;
+
+  .headline {
+    margin-bottom: 20px;
+    padding-left: 30px;
+  }
+
+  .wrapper {
+    position: relative;
+    min-height: 250px;
+    padding: 30px 0;
+  }
+}
+
+.detail-flex {
+  display: flex;
+
+  &.column {
+    flex-direction: column;
+  }
+
+  label {
+    padding-right: 55px;
+    width: 195px;
+    color: $display-label-color;
+  }
+
+  .item {
+    color: $display-text-color;
+  }
+
+  .radio-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.stt-status {
+  height: 30px;
+  line-height: 30px;
+  text-transform: uppercase;
+  border-radius: 30px;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 0 15px;
+  color: #fff;
+  background-color: $inactive-color;
+
+  &.active {
+    background-color: $success-color;
+  }
+}
+
+.setel-mode {
+  li {
+    margin-bottom: 5px;
+  }
+}
+
+.pump-mode {
+  li {
+    margin-bottom: 10px;
+    display: flex;
+  }
+
+  b {
+    font-weight: 600;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: $header-text;
+
+    &.top {
+      align-items: flex-start;
+      justify-content: flex-start;
+      color: #333;
+      margin-bottom: 5px;
+    }
+  }
+
+  span {
+    display: block;
+  }
+
+  small {
+    margin-left: 10px;
+    color: $inactive-color;
+    font-weight: 600;
+    font-size: $small-font;
+
+    &.active {
+      color: $success-color;
+    }
+  }
+
+  .number {
+    width: 90px;
+    font-size: $message-font;
+  }
+
+  .status {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-left: 5px;
+    background-color: $inactive-color;
+
+    &.active {
+      background-color: $success-color;
+    }
+  }
+}
+
+.feature-mode {
+  li {
+    margin-bottom: 0;
+  }
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  app-button {
+    width: 200px;
+    display: block;
+    margin: 0 5px;
+  }
+}

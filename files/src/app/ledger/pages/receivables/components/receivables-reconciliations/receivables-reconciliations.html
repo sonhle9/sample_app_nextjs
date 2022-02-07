@@ -1,0 +1,62 @@
+<b>Reconciliations</b>
+<div class="wrapper">
+  <div class="filter-container">
+    <app-pagination
+      [pagination]="pagination"
+      (next)="next()"
+      (prev)="prev()"
+      [mode]="1"
+    ></app-pagination>
+    <app-dropdown
+      label="Status"
+      [(ngModel)]="selectedStatus"
+      [items]="statusFilter"
+      (ngModelChange)="filter()"
+    >
+    </app-dropdown>
+    <div class="flex-gap"></div>
+    <app-button-download
+      [download]="downloadCsv()"
+      [totalItem]="pagination.max"
+      fileName="reconciliations-"
+      >Download CSV</app-button-download
+    >
+  </div>
+  <div class="card reconciliations-card">
+    <div class="card-header">
+      <div></div>
+      <div>Transaction ID</div>
+      <div>Transaction Type</div>
+      <div class="amount">Amount</div>
+      <div class="amount">Fee</div>
+      <div>Payment Gateway</div>
+      <div>Created on</div>
+    </div>
+    <div class="card-content">
+      <ng-container *ngIf="pagination?.items.length !== 0; else emptyState">
+        <div class="card-row" *ngFor="let reconciliation of pagination?.items">
+          <div class="card-column middle">
+            <div class="txn-status {{ reconciliation?.isReconciled | txnStatusCss }}"></div>
+          </div>
+          <a
+            class="card-column main clickable"
+            [routerLink]="['/ledger-transactions', reconciliation.transactionId]"
+            target="_blank"
+            >{{ reconciliation.transactionId }}</a
+          >
+          <div class="card-column">{{ reconciliation.transactionType | titlecase }}</div>
+          <div class="card-column amount">{{ reconciliation.amount | myrCurrency }}</div>
+          <div class="card-column amount">{{ reconciliation.feeAmount | myrCurrency }}</div>
+          <div class="card-column">{{ reconciliation.paymentGatewayVendor | titlecase }}</div>
+          <div class="card-column">
+            {{ reconciliation.createdAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+          </div>
+        </div>
+      </ng-container>
+      <app-loader *ngIf="loading.page" type="progress"></app-loader>
+    </div>
+  </div>
+  <ng-template #emptyState>
+    <p *ngIf="!loading.page" class="empty-text">This receivable does not have any top-ups.</p>
+  </ng-template>
+</div>

@@ -1,0 +1,107 @@
+<div class="container">
+  <header>
+    <h6>Add Recovery Information</h6>
+  </header>
+
+  <mat-progress-bar *ngIf="isLoadingResults" mode="indeterminate"></mat-progress-bar>
+
+  <app-message
+    *ngIf="message"
+    [content]="message"
+    [type]="messageType"
+    (close)="message = ''"
+  ></app-message>
+
+  <form #recoveryForm="ngForm" name="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <mat-form-field>
+        <input
+          matInput
+          [matDatepicker]="from"
+          formControlName="transactionCompletedAt"
+          placeholder="Transaction Date"
+        />
+        <!-- Below is the old code having type error when migrate to Angular 12 -->
+        <!-- <input
+          matInput
+          [matDatepicker]="from"
+          formControlName="transactionCompletedAt"
+          (dateChange)="addEvent('startDate', $event)"
+          placeholder="Transaction Date"
+        /> -->
+        <mat-datepicker-toggle matSuffix [for]="from"></mat-datepicker-toggle>
+        <mat-datepicker #from disabled="false"></mat-datepicker>
+        <mat-error *ngIf="transactionCompletedAt?.errors">
+          <span *ngIf="transactionCompletedAt?.errors?.required"> Transaction date required </span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Fuel Type</mat-label>
+        <mat-select formControlName="fuelType">
+          <mat-option *ngFor="let type of fuelTypes" [value]="type">
+            {{ type }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="fuelType?.errors">
+          <span *ngIf="fuelType?.errors?.required"> Fuel type required </span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input formControlName="pricePerUnit" matInput placeholder="Price Per Unit" type="number" />
+        <mat-error *ngIf="pricePerUnit?.errors">
+          <span *ngIf="pricePerUnit?.errors?.pattern"> Invalid price </span>
+          <span *ngIf="pricePerUnit?.errors?.required"> Price per unit required </span>
+        </mat-error>
+      </mat-form-field>
+
+      <div class="charges-type">
+        <div class="label">
+          <mat-label>Charged by</mat-label>
+        </div>
+        <mat-radio-group (change)="onChargesType($event)">
+          <mat-radio-button
+            *ngFor="let charges of chargedBy; let i = index"
+            [checked]="i === 0"
+            [value]="charges"
+            >{{ charges }}</mat-radio-button
+          >
+        </mat-radio-group>
+      </div>
+
+      <mat-form-field *ngIf="!isChargedByAmount">
+        <input
+          formControlName="completedVolume"
+          matInput
+          placeholder="Completed Volume"
+          type="number"
+        />
+        <mat-error *ngIf="completedVolume?.errors">
+          <span *ngIf="completedVolume?.errors?.required"> Completed volume required </span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf="isChargedByAmount">
+        <input
+          formControlName="completedAmount"
+          matInput
+          placeholder="Completed Amount"
+          type="number"
+        />
+        <mat-error *ngIf="completedAmount?.errors">
+          <span *ngIf="completedAmount?.errors?.required"> Completed amount required </span>
+        </mat-error>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-stroked-button type="button" (click)="onClose()">cancel</button>
+      <button
+        mat-raised-button
+        type="submit"
+        [ngClass]="{isDisabled: !recoveryForm.valid}"
+        [disabled]="!recoveryForm.valid"
+        class="primary-btn"
+      >
+        save
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

@@ -1,0 +1,23 @@
+.container {
+  padding: 20px 5%;
+
+  .headline {
+    margin-bottom: 20px;
+  }
+
+  .wrapper {
+    position: relative;
+    min-height: 250px;
+    padding: 30px 0;
+  }
+
+  .action-area {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+
+    app-button {
+      flex: 0 0 auto;
+    }
+  }
+}

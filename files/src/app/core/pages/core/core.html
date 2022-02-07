@@ -1,0 +1,67 @@
+<main class="flex">
+  <app-sidebar [menu]="menus" [hidden]="!isOpenMenu" [mainContent]="mainContent"></app-sidebar>
+  <div class="flex-1 h-screen overflow-y-auto" #mainContent>
+    <nav class="horizontal flex items-center px-4 space-x-4">
+      <div class="menu">
+        <img class="clickable" [src]="menuIcon" (click)="toggleMenu()" />
+      </div>
+      <div class="flex flex-grow justify-start items-center -mb-4">
+        <app-breadcrumbs></app-breadcrumbs>
+      </div>
+      <div
+        class="profile clickable"
+        data-testid="profile-menu"
+        (click)="isOpenProfile = !isOpenProfile"
+        #profileMenu
+      >
+        <div class="name">
+          <b>{{ session.name || session.preferred_username }}</b>
+          <p class="desc">{{ session.email }}</p>
+        </div>
+        <span
+          *ngIf="username; else placeHolder"
+          class="
+            inline-flex
+            items-center
+            justify-center
+            w-9
+            h-9
+            bg-carbon-500
+            rounded-full
+            uppercase
+            mr-2
+          "
+        >
+          <span class="text-white select-none"> {{ username }} </span>
+        </span>
+        <div class="arrow"></div>
+        <ul
+          class="profile-menu font-sans w-28 right-0 py-1 border border-gray-100"
+          *ngIf="isOpenProfile"
+        >
+          <li (click)="goToProfilePage()" class="clickable px-4 py-2 hover:bg-gray-100">Profile</li>
+          <li (click)="logOut()" class="clickable px-4 py-2 hover:bg-gray-100">Log Out</li>
+        </ul>
+      </div>
+    </nav>
+    <router-outlet></router-outlet>
+  </div>
+</main>
+
+<ng-template #placeHolder>
+  <img src="assets/images/default-profile.svg" />
+</ng-template>
+
+<ng-template #planText let-item="item">
+  <span class="menu-text">{{ item?.text }}</span>
+</ng-template>
+
+<ng-template #hrefText let-item="item">
+  <a
+    class="menu-text has-link"
+    [routerLink]="item?.url"
+    [queryParams]="item.queryParams"
+    (click)="closeNavMenu(item)"
+    >{{ item?.text }}</a
+  >
+</ng-template>

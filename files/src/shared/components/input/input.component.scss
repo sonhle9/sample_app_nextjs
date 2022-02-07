@@ -1,0 +1,197 @@
+@import '../../../styles/variables';
+
+$pad-left: 10px;
+
+textarea,
+input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid $input-border-color;
+  border-radius: 0;
+  height: 3rem;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-shadow: none;
+  transition: all 0.3s;
+  font-family: inherit;
+
+  &:focus {
+    border-bottom-color: $primary-color;
+    box-shadow: 0 1px 0 0 $primary-color;
+  }
+
+  &:disabled {
+    background: #f9f9f9;
+  }
+
+  &.password {
+    padding-right: 45px;
+  }
+
+  &::-ms-clear {
+    display: none;
+  }
+
+  &::placeholder {
+    color: $searchbar-placeholder;
+    font-size: $small-font;
+  }
+
+  &:-ms-input-placeholder {
+    color: $searchbar-placeholder;
+    font-size: $small-font;
+  }
+
+  &::-ms-input-placeholder {
+    color: $searchbar-placeholder;
+    font-size: $small-font;
+  }
+}
+
+label {
+  color: $label-color;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1rem;
+  cursor: text;
+  transition: transform 0.2s ease-out, color 0.2s ease-out;
+  transform-origin: 0% 100%;
+  transform: translateY(12px);
+  transition: all 0.3s;
+  &.active {
+    transform: translateY(-14px) scale(0.8);
+    transform-origin: 0 0;
+  }
+}
+
+.helper-text {
+  position: relative;
+  display: block;
+  font-size: $helper-font;
+  color: $helper-text-color;
+  transition: all 0.3s;
+  margin-top: 1px;
+  min-height: 18px;
+
+  &.error {
+    color: $danger-color;
+  }
+}
+
+.input-field {
+  position: relative;
+
+  &.error {
+    color: $danger-color;
+
+    > textarea,
+    > input {
+      border-bottom-color: $danger-color;
+
+      &:focus {
+        box-shadow: 0 1px 0 0 $danger-color;
+      }
+    }
+
+    label {
+      color: inherit;
+    }
+
+    .helper-text {
+      color: inherit;
+    }
+  }
+}
+
+.icons.postfix {
+  width: 2rem;
+  position: absolute;
+  right: 0;
+  bottom: 25px;
+  cursor: pointer;
+}
+
+textarea:-webkit-autofill,
+input:-webkit-autofill {
+  animation-name: autofill;
+  animation-fill-mode: both;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+:host {
+  &.fff {
+    textarea,
+    input {
+      padding-left: $pad-left;
+      height: $input-fff-height;
+      background-color: $searchbar-bg;
+      border: 1px solid $input-fff-border-color;
+      border-radius: 4px;
+
+      &:read-only,
+      &:disabled {
+        background: $read-only-input;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    textarea {
+      height: $input-fff-height * 3;
+    }
+
+    label {
+      color: $input-fff-label-color;
+      font-size: $input-fff-font;
+      cursor: text;
+      font-weight: 600;
+      padding-left: $pad-left;
+      position: static;
+    }
+
+    .helper-text {
+      padding-left: $pad-left;
+      min-height: auto;
+    }
+
+    & .input-field.error {
+      color: $danger-color;
+
+      textarea,
+      input {
+        border: 1px solid $danger-color;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+.prefix {
+  color: $display-text-color;
+  font-weight: 600;
+  font-size: 11px;
+  position: absolute;
+  left: $pad-left;
+  top: 38px;
+
+  + textarea,
+  + input {
+    padding-left: 34px;
+  }
+}
+
+textarea {
+  height: 5rem;
+  max-height: 12rem;
+  resize: none;
+  padding: 10px;
+}

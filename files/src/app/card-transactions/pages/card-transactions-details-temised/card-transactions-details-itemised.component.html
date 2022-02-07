@@ -1,0 +1,26 @@
+<div>
+  <h6 class="title-card-transaction">Itemised details</h6>
+</div>
+<div class="card-panel">
+  <app-display-text
+    label="Item categories code"
+    class="inline mgb-15"
+    *ngIf="itemisedDetails?.categoriesCode"
+    >{{ itemisedDetails?.categoriesCode }}</app-display-text
+  >
+
+  <app-display-text label="Unit price" class="inline mgb-15" *ngIf="itemisedDetails?.unitPrice">{{
+    itemisedDetails?.unitPrice
+  }}</app-display-text>
+
+  <app-display-text label="Litre" class="inline mgb-15" *ngIf="itemisedDetails?.litre">{{
+    itemisedDetails?.litre
+  }}</app-display-text>
+
+  <app-display-text
+    label="Item amount"
+    class="inline mgb-15"
+    *ngIf="itemisedDetails?.totalAmount"
+    >{{ itemisedDetails?.totalAmount }}</app-display-text
+  >
+</div>

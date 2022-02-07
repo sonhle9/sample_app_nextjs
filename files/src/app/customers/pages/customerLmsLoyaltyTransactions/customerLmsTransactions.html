@@ -1,0 +1,34 @@
+<b>Loyalty Vendor Transactions</b>
+<app-pagination
+  [pagination]="pagination"
+  (next)="next()"
+  (prev)="prev()"
+  [mode]="1"
+></app-pagination>
+<div class="card loy-txn-card">
+  <div class="card-header">
+    <div>Code</div>
+    <div>Description</div>
+    <div>Date</div>
+    <div>Merchant Name</div>
+    <div>Points</div>
+  </div>
+  <div class="card-content">
+    <ng-container *ngIf="pagination?.items.length !== 0; else emptyState">
+      <div class="card-row" *ngFor="let txn of pagination?.items">
+        <div class="card-column">{{ txn?.transactionCode }}</div>
+        <div class="card-column">{{ txn?.description }}</div>
+        <div class="card-column">
+          {{ txn?.transactionDate | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+        </div>
+        <div class="card-column">{{ txn?.merchName }}</div>
+        <div class="card-column">{{ txn?.points }}</div>
+      </div>
+    </ng-container>
+  </div>
+  <app-loader *ngIf="loading.page" type="progress"></app-loader>
+</div>
+
+<ng-template #emptyState>
+  <p class="empty-text" *ngIf="!loading.page">{{ errorMessage }}</p>
+</ng-template>

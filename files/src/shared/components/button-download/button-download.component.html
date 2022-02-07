@@ -1,0 +1,8 @@
+<app-button
+  (click)="downloadFile()"
+  [disabled]="disabled"
+  css="download small {{ isLoading ? 'loading' : '' }}"
+>
+  <ng-content></ng-content>
+</app-button>
+<a class="download-hyperlink" #downloadEl></a>

@@ -1,0 +1,182 @@
+<div *ngIf="customer">
+  <app-seo [pageTitle]="customer?.name" appendString=" - Account Details"></app-seo>
+</div>
+
+<mat-tab-group
+  [selectedIndex]="activeTab"
+  [disableRipple]="true"
+  (selectedTabChange)="onTabIndexChange($event)"
+  [@.disabled]="true"
+>
+  <mat-tab label="Dashboard">
+    <ng-template matTabContent>
+      <div class="container">
+        <app-customer-dashboard></app-customer-dashboard>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Account">
+    <ng-template matTabContent>
+      <div class="container">
+        <app-customer-account-details [customerId]="customerId"></app-customer-account-details>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Engagement">
+    <ng-template matTabContent>
+      <div class="container">
+        <h1 class="text-3xl mb-6 sticky setel-bg top-0">{{ customer?.name }}</h1>
+
+        <app-customer-membership [customerId]="customerId"></app-customer-membership>
+
+        <app-customer-rewards [customerId]="customerId"></app-customer-rewards>
+
+        <app-customer-voucher [customerId]="customerId"></app-customer-voucher>
+
+        <app-customer-badges
+          *appHasPermission="[badgeCampaignsRoles.menu]"
+          [customerId]="customerId"
+        ></app-customer-badges>
+
+        <app-collapse title="Loyalty">
+          <app-customer-loyalty-cards [customerId]="customerId" [customerName]="customer?.name">
+          </app-customer-loyalty-cards>
+          <app-customer-loyalty-expiry [customerId]="customerId" [customerName]="customer?.name">
+          </app-customer-loyalty-expiry>
+          <app-customer-loyalty-unlink-history [customerId]="customerId">
+          </app-customer-loyalty-unlink-history>
+
+          <app-grant-points
+            *ngIf="roles?.hasLoyaltyPointsGranting"
+            [customerId]="customerId"
+          ></app-grant-points>
+
+          <app-order-loyalty-transactions
+            [customerId]="customerId"
+          ></app-order-loyalty-transactions>
+          <app-lms-transactions [customerId]="customerId"></app-lms-transactions>
+        </app-collapse>
+
+        <app-collapse title="Experience">
+          <button
+            *ngIf="experienceAppSettingsRoles.hasManageAccount"
+            mat-raised-button
+            color="primary"
+            (click)="onUpdateVariable()"
+          >
+            Update variables
+          </button>
+        </app-collapse>
+
+        <app-customer-loyalty
+          [customerId]="customerId"
+          [customerName]="customer?.name"
+          *ngIf="environment.showBetaPages || environment.setelUrl.includes('staging') "
+        ></app-customer-loyalty>
+
+        <app-customer-data-platform [customerId]="customerId"></app-customer-data-platform>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Financial">
+    <ng-template matTabContent>
+      <div class="container">
+        <h1 class="text-3xl mb-6">{{ customer?.name }}</h1>
+
+        <app-collapse title="Top-up and Payments">
+          <app-grant-wallet
+            *ngIf="roles?.hasWallet"
+            [customerId]="customerId"
+            (added)="afterAddedTransaction()"
+          >
+          </app-grant-wallet>
+          <app-add-top-up-transaction
+            *ngIf="roles?.hasTransactions"
+            [customerId]="customerId"
+            (added)="afterAddedTransaction()"
+          >
+          </app-add-top-up-transaction>
+          <app-customer-topups [customerId]="customerId"></app-customer-topups>
+          <app-customer-incoming-transactions
+            [customerId]="customerId"
+          ></app-customer-incoming-transactions>
+          <app-customer-payment-vendor-transactions
+            [customerId]="customerId"
+            [customerName]="customer?.name"
+          ></app-customer-payment-vendor-transactions>
+          <app-customer-credit-cards [customerId]="customerId"></app-customer-credit-cards>
+          <app-customer-auto-top [customerId]="customerId"></app-customer-auto-top>
+          <app-customer-checkout-transactions
+            [customerId]="customerId"
+            title=""
+          ></app-customer-checkout-transactions>
+          <app-customer-expiring-wallet-balance
+            [customerId]="customerId"
+          ></app-customer-expiring-wallet-balance>
+        </app-collapse>
+
+        <app-customer-topUps-beta
+          [customerId]="customerId"
+          *ngIf="environment.showBetaPages"
+        ></app-customer-topUps-beta>
+
+        <app-customer-budget [customerId]="customerId"></app-customer-budget>
+
+        <app-customer-treasury-component
+          [walletId]="storecard?.id"
+          [customerId]="customerId"
+        ></app-customer-treasury-component>
+
+        <app-customer-setelshare-component
+          [customerId]="customerId"
+        ></app-customer-setelshare-component>
+
+        <app-collapse *ngIf="showDevices" title="Device List">
+          <app-device-table
+            [allowEditing]="allowDevicesEditing"
+            [hideFilters]="true"
+            [userId]="customerId"
+          >
+          </app-device-table>
+        </app-collapse>
+
+        <app-customer-fraud-profile [userId]="customerId"></app-customer-fraud-profile>
+
+        <app-customer-risk-profile [userId]="customerId"></app-customer-risk-profile>
+
+        <app-customer-wallet-transactions
+          [customerId]="customerId"
+        ></app-customer-wallet-transactions>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Retail">
+    <ng-template matTabContent>
+      <div class="container">
+        <h1 class="text-3xl mb-6">{{ customer?.name }}</h1>
+
+        <app-customer-fuel-orders [customerId]="customerId"></app-customer-fuel-orders>
+
+        <app-customer-store-orders [customerId]="customerId"></app-customer-store-orders>
+
+        <app-customer-external-orders [customerId]="customerId"> </app-customer-external-orders>
+
+        <app-customer-deliver2me-orders [customerId]="customerId"></app-customer-deliver2me-orders>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Motorist">
+    <ng-template matTabContent>
+      <div class="container">
+        <h1 class="text-3xl mb-6">{{ customer?.name }}</h1>
+
+        <app-customer-vehicles [customerId]="customerId"></app-customer-vehicles>
+      </div>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

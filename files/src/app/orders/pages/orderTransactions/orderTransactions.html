@@ -1,0 +1,101 @@
+<div>
+  <h6 class="subtitle">Payment transactions</h6>
+</div>
+<div *ngIf="roles?.hasFuelOrderUpdate">
+  <p class="subject">Manual charge & cancel hold</p>
+  <mat-card class="card-manual-row">
+    <div class="type">
+      <mat-form-field class="type" appearance="outline">
+        <mat-label>Select Action</mat-label>
+        <mat-select #type (selectionChange)="onChange($event)">
+          <mat-option *ngFor="let type of transactionType" [value]="type.value">
+            {{ type.text }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="amount">
+      <mat-form-field appearance="outline">
+        <mat-label>RM</mat-label>
+        <input [(ngModel)]="amount" matInput [disabled]="isInputDisabled || !type.value" />
+      </mat-form-field>
+    </div>
+    <div class="submit">
+      <button
+        mat-raised-button
+        class="btn-submit"
+        [disabled]="!type.value || (type.value === 'chargeByAmount' && !amount) || amount == 0"
+        (click)="openDialog(type)"
+      >
+        Submit
+      </button>
+    </div>
+  </mat-card>
+</div>
+
+<app-message
+  *ngIf="message"
+  [content]="message"
+  [type]="messageType"
+  (close)="message = ''"
+></app-message>
+
+<app-pagination
+  [pagination]="pagination"
+  (next)="next()"
+  (prev)="prev()"
+  [mode]="1"
+></app-pagination>
+<div class="card txn-card">
+  <div class="card-header">
+    <div></div>
+    <div>Transaction ID</div>
+    <div>Created on</div>
+    <div>Type</div>
+    <div class="amount">Amount</div>
+    <div>Error message</div>
+    <div>Remark</div>
+  </div>
+  <div class="card-content">
+    <ng-container *ngIf="pagination?.items.length !== 0; else emptyState">
+      <div class="card-row" *ngFor="let txn of pagination?.items">
+        <div class="card-column middle">
+          <div class="status {{ txn?.status | txnStatusCss }}"></div>
+        </div>
+        <a
+          [routerLink]="['/payments/transactions/', txn?.id]"
+          [queryParams]="{'target-service': targetService}"
+          target="_blank"
+        >
+          <div class="card-column main">{{ txn?.id }}</div></a
+        >
+        <div class="card-column">{{ txn?.createdAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}</div>
+        <div class="card-column">{{ txn?.type | titlecase }}</div>
+        <div class="card-column amount">{{ txn?.amount | myrCurrency | emptyDash }}</div>
+        <div class="card-column">{{ (txn?.error | txnErrorMessage) || '-' }}</div>
+        <div class="card-column">{{ txn?.remark || 'None' }}</div>
+      </div>
+    </ng-container>
+  </div>
+  <app-loader *ngIf="loading.page" type="progress"></app-loader>
+</div>
+
+<ng-container *ngIf="hasAddModal">
+  <div class="modal-background"></div>
+  <app-loader *ngIf="modalLoading"></app-loader>
+  <form class="modal">
+    <app-loader *ngIf="modalLoading"></app-loader>
+    <div class="modal-content">
+      <h6>Cancel Authorize</h6>
+      <p>Are you sure you want to proceed with Cancel Authorize?</p>
+    </div>
+    <div class="modal-action">
+      <app-button type="button" css="light" (click)="onCancel()">Cancel</app-button>
+      <app-button type="button" (click)="onProceedAction()">Proceed</app-button>
+    </div>
+  </form>
+</ng-container>
+
+<ng-template #emptyState>
+  <p class="empty-text" *ngIf="!loading.page">Order does not have any payment transactions.</p>
+</ng-template>

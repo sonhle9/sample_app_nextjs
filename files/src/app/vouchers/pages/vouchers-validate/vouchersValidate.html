@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="block-title">
+    <b>Vouchers validation</b>
+  </div>
+  <ng-container *ngIf="checkPermissions()">
+    <div class="top-block-wrapper">
+      <div class="form-wrapper">
+        <form class="card-panel" (ngSubmit)="validateVoucher()" [formGroup]="form">
+          <mat-form-field class="code-input">
+            <input matInput placeholder="Voucher code" formControlName="code" />
+            <mat-error *ngIf="errorMessage.code">{{errorMessage.code}}</mat-error>
+          </mat-form-field>
+          <button type="submit" mat-raised-button color="primary">Validate voucher</button>
+          <div class="loader-container" *ngIf="loading">
+            <app-loader type="progress"></app-loader>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="voucherInfo">
+        <button *ngIf="checkForVoid()" mat-raised-button color="primary" (click)="voucherVoid()">
+          Void voucher
+        </button>
+      </div>
+    </div>
+    <div class="wrapper" *ngIf="voucherInfo">
+      <div class="block-title">
+        <b>Voucher Info</b>
+      </div>
+      <div class="voucher-info">
+        <app-display-text class="sub" label="Batch name">{{ getBatchName() }}</app-display-text>
+        <app-display-text class="sub" label="Code">{{ voucherInfo?.code }}</app-display-text>
+        <app-display-text class="sub" label="Status"
+          >{{ voucherInfo?.status }} {{ getRedeemDate() | date: 'd MMM, y, h:mm
+          a'}}</app-display-text
+        >
+        <app-display-text class="sub" label="Start date"
+          >{{ voucherInfo?.startDate | date: 'd MMM, y, h:mm a'}}</app-display-text
+        >
+        <app-display-text class="sub" label="Redeem type"
+          >{{ voucherInfo?.redeemType }}</app-display-text
+        >
+        <app-display-text *ngIf="voucherInfo?.expiryDate" class="sub" label="Expiry date"
+          >{{ voucherInfo?.expiryDate | date: 'd MMM, y, h:mm a'}}</app-display-text
+        >
+        <app-display-text *ngIf="voucherInfo?.userId" class="sub" label="Linked to">
+          <a
+            class="main clickable"
+            [routerLink]="['/customers', voucherInfo?.userId]"
+            target="_blank"
+          >
+            {{ getVoucherUserName() }}</a
+          ></app-display-text
+        >
+      </div>
+
+      <div class="block-title">
+        <b>Voucher Rules</b>
+      </div>
+      <ngx-datatable
+        class="material rules-table"
+        [columnMode]="'flex'"
+        [headerHeight]="50"
+        [footerHeight]="0"
+        [rowHeight]="'auto'"
+        [columns]="columns"
+        [rows]="voucherInfo?.rules"
+      >
+      </ngx-datatable>
+
+      <div class="block-title">
+        <b>Voucher history</b>
+      </div>
+      <ngx-datatable
+        class="material history-table"
+        [columnMode]="'flex'"
+        [headerHeight]="50"
+        [footerHeight]="0"
+        [rowHeight]="'auto'"
+        [columns]="historyColumns"
+        [rows]="voucherInfo?.actions"
+      >
+      </ngx-datatable>
+      <div class="loader-container" *ngIf="loading">
+        <app-loader type="progress"></app-loader>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #reTriggerColumnTpl let-row="row" let-value="value">
+  <button
+    type="button"
+    *ngIf="isReTriggerVisible(row)"
+    mat-raised-button
+    color="primary"
+    (click)="reTriggerRule(value)"
+  >
+    Re-trigger
+  </button>
+</ng-template>

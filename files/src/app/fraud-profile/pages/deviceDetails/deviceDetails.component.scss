@@ -1,0 +1,32 @@
+.container {
+  padding: 0 5% 25px 5%;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .headline {
+    margin: 25px 0;
+  }
+
+  .loader-container {
+    display: flex;
+    height: 60vh;
+
+    mat-spinner {
+      margin: auto;
+    }
+  }
+
+  .code {
+    display: inline-block;
+    padding: 20px;
+    border: 1px dashed lightgray;
+  }
+
+  ngx-datatable {
+    margin-top: 30px;
+  }
+}

@@ -1,0 +1,180 @@
+/**
+    Color
+**/
+
+$primary-color: #00b2f6;
+$secondary-color: #1ac9c4;
+$danger-color: #f44336;
+$display-text-color: #434f5d;
+$display-small-header-color: #000000;
+$input-border-color: #dce2ed;
+$input-text-color: #535b65;
+$input-fff-label-color: $display-text-color;
+$input-fff-border-color: $input-border-color;
+$display-label-color: #a1a1a1;
+$label-color: #808fa4;
+$dropdown-text-color: #696969;
+$datepicker-text-color: $dropdown-text-color;
+$timepicker-text-color: $dropdown-text-color;
+$combobox-text-color: $dropdown-text-color;
+$helper-text-color: #bebebe;
+$divider-color: $input-fff-border-color;
+$link-color: #017cff;
+$loader-color: #19c6e9;
+$loader-trans-color: $label-color;
+$card-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px 0px rgba(0, 0, 0, 0.14),
+  0px 1px 10px 0px rgba(0, 0, 0, 0.07);
+$empty-state-color: $input-text-color;
+$empty-state-text: #707070;
+$select-arrow-color: $label-color;
+$select-label-color: #9b9b9b;
+$select-color: $link-color;
+$button-color: $select-color;
+$light-button-color: rgb(0 176 255);
+$disabled-button-color: #9eb1c8;
+$success-color: #6cbc14;
+$error-color: #d50000;
+$pending-color: #f39c12;
+$failed-color: magenta;
+$active-color: $success-color;
+$inactive-color: $helper-text-color;
+$settled-color: #207868;
+$radio-checked-color: #526173;
+$radio-color: #9eb1c8;
+$checkbox-checked-color: $radio-checked-color;
+$checkbox-color: $radio-color;
+$yes-color: $success-color;
+$read-only-input: #dce2ed;
+$form-sub-item: #f8f8f8;
+$datepicker-groups-bg-color: rgba(160, 185, 231, 0.2);
+$text-dark-grey: #2d333a;
+$brand: #00b0ff;
+
+$material-error: #ff4444;
+$material-success: #00c851;
+
+$gray-out: #0000008a;
+
+/**
+    StatusColor
+**/
+
+$status-active: #6cbc14;
+$status-confirmed: $status-active;
+$status-inactive: #d50000;
+$status-error: $status-inactive;
+$status-canceled: #707070;
+$status-warning: #ef9409;
+/**
+    Header
+**/
+
+$header-bg: #fff;
+$header-line: $divider-color;
+$header-desc: $label-color;
+$header-arrow: #bfcbde;
+$header-text: $radio-color;
+$header-active-text: $radio-checked-color;
+/**
+    Searchbar
+**/
+
+$searchbar-bg: $header-bg;
+$searchbar-placeholder: $label-color;
+$searchbar-border: $divider-color;
+$searchbar-border-radius: 4px;
+/**
+    Table
+**/
+
+$table-header: #696969;
+$table-header-border: rgba(220, 226, 237, 0.5);
+$table-content: $label-color;
+$table-active: $select-color;
+$table-main: #354350;
+$table-row-height: 50px;
+$table-counter: $select-label-color;
+$table-title-color: #f3f3f3;
+$table-title: #354350;
+$table-error: rgba(213, 0, 0, 0.05);
+/**
+    Font Size
+**/
+
+$body-font: 16px;
+$small-font: 0.8rem;
+$h1-font: 3.25rem;
+$h2-font: 2.5rem;
+$h3-font: 2.25rem;
+$h4-font: 1.75rem;
+$h5-font: 1.5rem;
+$h6-font: 1.125rem;
+$large-button-font: 1.35rem;
+$button-font: 0.85rem;
+$small-button-font: 0.8rem;
+$mini-button-font: 0.625rem;
+$table-font: 0.875rem;
+$dropdown-font: 0.7rem;
+$helper-font: 0.625rem;
+$datepicker-font: $dropdown-font;
+$timepicker-font: $dropdown-font;
+$input-fff-font: $dropdown-font;
+$combobox-font: $dropdown-font;
+$radio-font: $button-font;
+$checkbox-font: $radio-font;
+$message-font: $button-font;
+
+/**
+    Font Family
+**/
+$font-sailec: Sailec;
+
+/**
+    Z-Index
+**/
+
+$loader-z-index: 100;
+$modal-z-index: 950;
+
+/**
+    Forms
+**/
+$searchbar-height: 48px;
+$input-fff-height: 42px;
+$btn-height: $input-fff-height;
+$radio-height: 25px;
+$radio-input-height: 14px;
+$checkbox-height: $radio-height;
+$dropdown-height: 30px;
+$dropdown-large-height: $input-fff-height;
+$arrow-height: 4px;
+$icon-button-height: 25px;
+
+/**
+    Modals
+**/
+$modal-max-width: 450px;
+
+/**
+ * Spacing
+ * Shamelessly copied from tailwindcss default:
+ * https://tailwindcss.com/docs/customizing-spacing
+*/
+$space-unit: 8px;
+$space-1: 0.5 * $space-unit;
+$space-2: $space-unit;
+$space-3: 1.5 * $space-unit;
+$space-4: 2 * $space-unit;
+$space-5: 2.5 * $space-unit;
+$space-6: 3 * $space-unit;
+$space-8: 4 * $space-unit;
+$space-10: 5 * $space-unit;
+$space-12: 6 * $space-unit;
+$space-16: 8 * $space-unit;
+$space-20: 10 * $space-unit;
+$space-24: 12 * $space-unit;
+$space-32: 16 * $space-unit;
+$space-40: 20 * $space-unit;
+$space-48: 24 * $space-unit;
+$space-56: 28 * $space-unit;
+$space-64: 32 * $space-unit;

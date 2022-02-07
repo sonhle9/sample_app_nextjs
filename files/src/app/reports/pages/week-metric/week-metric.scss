@@ -1,0 +1,43 @@
+@import './../../../../styles/variables';
+
+h6 {
+  margin-bottom: 20px;
+}
+
+.card.metric-card {
+  .card-content {
+    min-height: 140px;
+    padding: 0;
+  }
+
+  .card-header,
+  .card-row {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr;
+    padding: 0;
+    text-align: center;
+    grid-gap: 0;
+  }
+
+  .card-row {
+    height: auto;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  .card-column {
+    color: $label-color;
+    &.title {
+      background-color: $table-title-color;
+      color: $table-title;
+      padding-left: 15px;
+      text-align: left;
+    }
+
+    &:hover {
+      background-color: rgba($select-color, 0.05);
+      color: $select-color;
+    }
+  }
+}

@@ -1,0 +1,72 @@
+@import './../../../../../../styles/variables';
+
+b {
+  display: block;
+  margin: 20px 0;
+}
+
+.loader-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.card.reconciliations-card {
+  .card-content {
+    padding-bottom: 0 !important;
+  }
+
+  .card-header,
+  .card-row {
+    grid-template-columns: 0.75fr 1fr 0.75fr 0.5fr 0.5fr 2fr 0.2fr;
+  }
+
+  .txn-status {
+    width: 10px;
+    height: 10px;
+    align-self: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    &.success {
+      background-color: $success-color;
+    }
+
+    &.fail {
+      background-color: $error-color;
+    }
+
+    &.cancel,
+    &.pending {
+      background-color: $pending-color;
+    }
+
+    &.cancelled {
+      background-color: $inactive-color;
+    }
+  }
+}
+
+.wrapper {
+  margin-bottom: 10px;
+}
+
+.unresolved {
+  color: $inactive-color;
+}
+
+.resolved {
+  color: $success-color !important;
+}
+
+app-pagination {
+  margin-bottom: 10px;
+  min-width: 145px;
+}
+
+app-button-download {
+  margin-left: auto;
+  min-width: 125px;
+}

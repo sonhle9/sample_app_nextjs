@@ -1,0 +1,86 @@
+export const PUKAL_STATUS = ['Posted', 'Approved', 'Pending', 'Rejected'];
+export const PUKAL_TYPE = {
+  ST: 'ST: State treasury',
+  AG: 'AG: Accountant general',
+};
+
+export const PUKAL_ST_CODE = [
+  {value: '0200', label: '0200 Johor'},
+  {value: '0209', label: '0209 Kedah'},
+  {value: '0217', label: '0217 Kelantan'},
+  {value: '0225', label: '0225 Melaka'},
+  {value: '0229', label: '0229 Negeri Sembilan'},
+  {value: '0233', label: '0233 Pahang'},
+  {value: '0241', label: '0241 Pulau Pinang'},
+  {value: '0245', label: '0245 Perak'},
+  {value: '0254', label: '0254 Perlis'},
+  {value: '0257', label: '0257 Selangor'},
+  {value: '0264', label: '0264 Terengganu'},
+];
+
+export const PUKAL_AG_CODE = [
+  {value: '1000', label: '1000 KERAJAAN PERSEKUTUAN MALAYSIA'},
+  {value: '1001', label: '1001 JABATAN AKAUNTAN NEGARA NEGERI JOHOR'},
+  {value: '1002', label: '1002 JABATAN AKAUNTAN NEGARA NEGERI KEDAH'},
+  {value: '1003', label: '1003 JABATAN AKAUNTAN NEGARA NEGERI KELANTAN'},
+  {value: '1004', label: '1004 JABATAN AKAUNTAN NEGARA NEGERI MELAKA'},
+  {value: '1005', label: '1005 JABATAN AKAUNTAN NEGARA NEGERI SEMBILAN'},
+  {value: '1006', label: '1006 JABATAN AKAUNTAN NEGARA NEGERI PAHANG'},
+  {value: '1007', label: '1007 JABATAN AKAUNTAN NEGARA NEGERI PULAU PINANG'},
+  {value: '1008', label: '1008 JABATAN AKAUNTAN NEGARA NEGERI PERAK'},
+  {value: '1009', label: '1009 JABATAN AKAUNTAN NEGARA NEGERI PERLIS'},
+  {value: '1010', label: '1010 JABATAN AKAUNTAN NEGARA NEGERI SELANGOR'},
+  {value: '1011', label: '1011 JABATAN AKAUNTAN NEGARA NEGERI TERENGGANU'},
+  {value: '1012', label: '1012 JABATAN AKAUNTAN NEGARA (PERBENDAHARAAN UTAMA)'},
+  {value: '1020', label: '1020 JABATAN AKAUNTAN NEGARA NEGERI SABAH'},
+  {value: '1021', label: '1021 JABATAN AKAUNTAN NEGARA CAWANGAN KENINGAU'},
+  {value: '1022', label: '1022 JABATAN AKAUNTAN NEGARA CAWANGAN SANDAKAN'},
+  {value: '1023', label: '1023 JABATAN AKAUNTAN NEGARA CAWANGAN TAWAU'},
+  {value: '1024', label: '1024 JABATAN AKAUNTAN NEGARA CAWANGAN WILAYAH PERSEKUTUAN LABUAN'},
+  {value: '1030', label: '1030 JABATAN AKAUNTAN NEGARA NEGERI SARAWAK'},
+  {value: '1031', label: '1031 JABATAN AKAUNTAN NEGARA CAWANGAN SRI AMAN'},
+  {value: '1032', label: '1032 JABATAN AKAUNTAN NEGARA CAWANGAN SIBU'},
+  {value: '1033', label: '1033 JABATAN AKAUNTAN NEGARA CAWANGAN MIRI'},
+  {value: '1034', label: '1034 JABATAN AKAUNTAN NEGARA CAWANGAN LIMBANG'},
+  {value: '1035', label: '1035 JABATAN AKAUNTAN NEGARA CAWANGAN SARIKEI'},
+  {value: '1036', label: '1036 JABATAN AKAUNTAN NEGARA CAWANGAN KAPIT'},
+  {value: '1037', label: '1037 JABATAN AKAUNTAN NEGARA CAWANGAN BINTULU'},
+  {value: '1101', label: '1101 JABATAN PERDANA MENTERI'},
+  {value: '1102', label: '1102 KEMENTERIAN KEWANGAN'},
+  {value: '1103', label: '1103 KEMENTERIAN PENGANGKUTAN'},
+  {value: '1104', label: '1104 KEMENTERIAN KERJA RAYA'},
+  {value: '1105', label: '1105 KEMENTERIAN KOMUNIKASI DAN MULTIMEDIA'},
+  {value: '1106', label: '1106 KEMENTERIAN PERTAHANAN'},
+  {value: '1107', label: '1107 KEMENTERIAN KESIHATAN'},
+  {value: '1108', label: '1108 KEMENTERIAN PERTANIAN DAN INDUSTRI MAKANAN'},
+  {value: '1109', label: '1109 KEMENTERIAN PENDIDIKAN MALAYSIA'},
+  {value: '1110', label: '1110 KEMENTERIAN DALAM NEGERI'},
+  {value: '1111', label: '1111 KEMENTERIAN LUAR NEGERI'},
+  {value: '1112', label: '1112 KEMENTERIAN PERUSAHAAN PERLADANGAN DAN KOMODITI'},
+  {value: '1113', label: '1113 KEMENTERIAN PEMBANGUNAN LUAR BANDAR'},
+  {value: '1114', label: '1114 KEM. TENAGA & SUMBER ASLI'},
+  {value: '1115', label: '1115 KEMENTERIAN PERDAGANGAN ANTARABANGSA DAN INDUSTRI'},
+  {value: '1116', label: '1116 KEMENTERIAN PERDAGANGAN DALAM NEGERI DAN HAL EHWAL PENGGUNA'},
+  {value: '1118', label: '1118 KEM. SAINS, TEKNOLOGI & INOVASI'},
+  {value: '1119', label: '1119 KEMENTERIAN PELANCONGAN, SENI DAN BUDAYA MALAYSIA'},
+  {value: '1120', label: '1120 KEMENTERIAN WILAYAH PERSEKUTUAN'},
+  {value: '1121', label: '1121 KEMENTERIAN PERUMAHAN DAN KERAJAAN TEMPATAN'},
+  {value: '1122', label: '1122 KEMENTERIAN SUMBER MANUSIA'},
+  {value: '1123', label: '1123 KEMENTERIAN BELIA DAN SUKAN'},
+  {value: '1124', label: '1124 KEMENTERIAN PEMBANGUNAN WANITA, KELUARGA DAN MASYARAKAT'},
+  {value: '1125', label: '1125 KEMENTERIAN PENDIDIKAN TINGGI'},
+  {value: '1127', label: '1127 KEMENTERIAN PEMBANGUNAN USAHAWAN DAN KOPERASI (MEDAC)'},
+  {value: '1128', label: '1128 KEMENTERIAN HAL EHWAL EKONOMI'},
+  {value: '1129', label: '1129 KEMENTERIAN ALAM SEKITAR DAN AIR'},
+  {value: '1501', label: '1501 FAMA'},
+];
+
+export const AG_OBJECT_CODE = ['26201: Mogas', '26202: Diesel'];
+export const GL_SETTLEMENT = [
+  '1101: CIMB 1 - SMPY',
+  '1102: CIMB 2 - COLL SVC',
+  '1301: MBB 1 - SMPY',
+];
+
+export const TRANSACTION_CODE = ['10040: Payment Through Branches (Cheque)'];
+export const ISSUING_BANK = ['CIMB', 'MBB'];

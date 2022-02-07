@@ -1,0 +1,66 @@
+.fuel-recovery-container {
+  .fuel-recovery-table {
+    table {
+      width: 100%;
+      ::ng-deep {
+        .custom-header {
+          width: 17%;
+          text-align: center;
+        }
+        .custom-date-header {
+          width: 20%;
+        }
+        .custom-edit-header {
+          text-align: right;
+        }
+        .custom-table-data {
+          text-align: center;
+        }
+        .custom-edit-data {
+          text-align: right;
+          mat-icon {
+            color: #7b7b7b;
+            cursor: pointer;
+            font-size: 1.5em;
+          }
+          .edit-icon {
+            margin-right: 0.5em;
+          }
+        }
+        .mat-column-pump {
+          width: 5em;
+          text-align: center;
+        }
+        .mat-column-action {
+          text-align: center;
+        }
+        .mat-column-createdAt {
+          text-align: center;
+          width: 10%;
+        }
+        .mat-column-userId {
+          text-align: center;
+        }
+        .mat-column-orderId {
+          text-align: center;
+        }
+        .mat-column-stationName {
+          width: 11%;
+        }
+        .mat-column-status {
+          width: 15%;
+          text-align: center;
+        }
+      }
+      thead {
+        tr {
+          width: 20%;
+        }
+      }
+      th,
+      td {
+        vertical-align: middle;
+      }
+    }
+  }
+}

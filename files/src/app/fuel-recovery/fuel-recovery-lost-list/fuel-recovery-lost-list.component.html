@@ -1,0 +1,79 @@
+<div class="fuel-recovery-container">
+  <section class="fuel-recovery-table">
+    <div class="mat-elevation-z8">
+      <mat-progress-bar *ngIf="isLoadingResults" mode="indeterminate"></mat-progress-bar>
+      <table mat-table [dataSource]="data">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="title">Customer Name</th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="table-data"
+            [routerLink]="['../' + element.id + '/details']"
+          >
+            {{ element.name }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="orderId">
+          <th mat-header-cell *matHeaderCellDef class="title">Order Id</th>
+          <td mat-cell *matCellDef="let element" class="table-data status">
+            {{ element.orderId }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="userId">
+          <th mat-header-cell *matHeaderCellDef class="title">User Id</th>
+          <td mat-cell *matCellDef="let element" class="table-data status">
+            {{ element.userId }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="stationName">
+          <th mat-header-cell *matHeaderCellDef class="title">Station Name</th>
+          <td mat-cell *matCellDef="let element" class="table-data status">
+            {{ element.stationName }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pump">
+          <th mat-header-cell *matHeaderCellDef class="title">Pump</th>
+          <td mat-cell *matCellDef="let element" class="table-data status">
+            {{ element.pumpId }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef class="title">Status</th>
+          <td mat-cell *matCellDef="let element" class="table-data">
+            {{ element.status }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef class="title">Created on</th>
+          <td mat-cell *matCellDef="let element" class="table-data">
+            {{ element.createdAt | date: 'medium' }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator [length]="resultsLength" [pageSize]="50"></mat-paginator>
+    </div>
+  </section>
+</div>
+
+<!-- <ng-template *ngIf="">
+      <div class="empty-state">
+        <img src="assets/images/icons/empty_result.svg" />
+        <h6>No results matching your search were found.</h6>
+        <ul>
+          <li>Check your spelling. Are the words in your query spelled correctly?</li>
+          <li>Make your search more general,. try more general terms in place of specific ones.</li>
+          <li>Try your search in a different scope. Different scopes can have different results</li>
+        </ul>
+      </div>
+    </ng-template> -->

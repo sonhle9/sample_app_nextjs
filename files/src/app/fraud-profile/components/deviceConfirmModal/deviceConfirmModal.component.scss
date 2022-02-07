@@ -1,0 +1,16 @@
+.device {
+  text-align: center;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.remark-form {
+  mat-form-field {
+    margin-top: 10px;
+    width: 100%;
+  }
+}

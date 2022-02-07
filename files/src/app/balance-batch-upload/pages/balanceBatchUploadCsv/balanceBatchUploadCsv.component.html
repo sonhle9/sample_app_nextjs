@@ -1,0 +1,39 @@
+<ng-container *ngIf="hasPermissions()">
+  <div class="block-title">
+    <b>Grant Wallet Balance Batch Upload</b>
+  </div>
+  <form class="block-panel" [formGroup]="grantCSV">
+    <app-file-upload
+      formControlName="csvFile"
+      (fileLoad)="checkCSV()"
+      type="text/csv"
+      [progress]="progress"
+    ></app-file-upload>
+    <app-button
+      class="confirm-csv-btn"
+      css="add"
+      [disabled]="isConfirmBtnDisabled()"
+      type="button"
+      (click)="confirmModalOpen()"
+      >Upload</app-button
+    >
+    <app-loader *ngIf="loading"></app-loader>
+    <app-modal-confirm
+      title="Upload CSV file"
+      description="Are you sure you would like to upload this file?"
+      submitBtnText="Confirm"
+      cancelBtnText="Cancel"
+      [isModalShown]="getConfirmModalState()"
+      (submit)="confirmSubmit()"
+      (cancel)="confirmCancel()"
+    ></app-modal-confirm>
+  </form>
+  <app-message
+    *ngIf="messageContent"
+    [content]="messageContent"
+    [type]="messageType"
+    (close)="messageContent = ''"
+  >
+  </app-message>
+  <div class="input-gap"></div>
+</ng-container>

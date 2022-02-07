@@ -1,0 +1,25 @@
+<div class="container">
+  <header>
+    <h6>Mark as Lost</h6>
+  </header>
+
+  <mat-progress-bar *ngIf="isLoadingResults" mode="indeterminate"></mat-progress-bar>
+
+  <app-message
+    *ngIf="message"
+    [content]="message"
+    [type]="messageType"
+    (close)="message = ''"
+  ></app-message>
+
+  <mat-dialog-content>
+    <div class="message">Are you sure want to mark following fuel order as <b>lost</b>?</div>
+    <div class="order">
+      Order ID: <span>{{ this.data.orderId }}</span>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-stroked-button type="button" (click)="onClose()">cancel</button>
+    <button mat-raised-button (click)="onSubmit()" class="primary-btn">save</button>
+  </mat-dialog-actions>
+</div>

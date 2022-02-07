@@ -1,0 +1,12 @@
+@import './../../../styles/dialog';
+
+.container {
+  .mat-dialog-content {
+    .message {
+      margin-bottom: 0.3em;
+    }
+    .order {
+      font-weight: 600;
+    }
+  }
+}

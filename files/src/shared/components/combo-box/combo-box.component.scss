@@ -1,0 +1,154 @@
+@import '../../../styles/variables';
+$combobox-height: 30px;
+$arrow-height: 4px;
+$combobox-trans-height: $small-font;
+
+.combobox {
+  position: relative;
+  height: $combobox-height;
+  line-height: $combobox-height;
+  background-color: #ffffff;
+  border: solid 1px $input-border-color;
+  border-radius: 4px;
+  overflow: hidden;
+
+  &:after {
+    background: url(/assets/images/icons/search.svg) 50% no-repeat;
+    background-size: contain;
+    height: $combobox-height * 0.6;
+    width: $combobox-height * 0.6;
+    margin: $combobox-height * 0.2;
+    position: absolute;
+    line-height: inherit;
+    top: 0;
+    right: 0;
+    content: '';
+    pointer-events: none;
+  }
+}
+
+input {
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: inherit;
+  border: none;
+  padding: 0 30px 0 10px;
+  font-size: $combobox-trans-height;
+  font-family: inherit;
+  font-weight: 600;
+
+  &::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+}
+
+datalist {
+  max-height: 200px;
+}
+
+select {
+  background: transparent;
+  border: none;
+  height: inherit;
+  line-height: inherit;
+  padding: 0;
+  margin: 0;
+  appearance: none;
+  width: 100%;
+  font-weight: 600;
+  padding: 0 30px 0 10px;
+  position: absolute;
+}
+
+option {
+  line-height: 3;
+  height: 60px;
+  border: none;
+  padding: 50px;
+}
+
+label {
+  font-weight: 600;
+  font-size: $combobox-font;
+  color: $combobox-text-color;
+}
+
+.helper-text {
+  position: relative;
+  display: block;
+  font-size: $helper-font;
+  color: $helper-text-color;
+  transition: all 0.3s;
+  margin-top: 1px;
+  min-height: 18px;
+}
+
+.combobox-field {
+  &.error {
+    color: $danger-color;
+
+    .helper-text,
+    label {
+      color: inherit;
+    }
+
+    .combobox {
+      border-color: $danger-color;
+    }
+  }
+
+  &.transparent {
+    display: flex;
+    align-items: center;
+    font-size: $combobox-trans-height;
+    font-weight: 600;
+    height: $body-font;
+
+    .combobox {
+      background-color: transparent;
+      border: none;
+      height: $combobox-trans-height;
+      line-height: $combobox-trans-height;
+      flex: 1;
+
+      &:after {
+        width: 0;
+        height: 0;
+        border-left: $arrow-height solid transparent;
+        border-right: $arrow-height solid transparent;
+        border-top: $arrow-height solid $select-color;
+        position: absolute;
+        line-height: inherit;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 10px;
+        content: '';
+      }
+    }
+
+    label {
+      color: $select-label-color;
+      font-size: inherit;
+      font-weight: inherit;
+      padding-right: 2px;
+    }
+
+    select {
+      color: $select-color;
+      background-color: transparent;
+      border: none;
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
+    option {
+      background-color: #fff;
+      color: $select-label-color;
+      border: none;
+      padding: 10px 20px;
+    }
+  }
+}

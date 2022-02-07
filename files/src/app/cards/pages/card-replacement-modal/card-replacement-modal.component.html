@@ -1,0 +1,78 @@
+<div class="container">
+  <header>
+    <h6>Card Replacements</h6>
+  </header>
+  <app-loader *ngIf="loading"></app-loader>
+  <app-message
+    *ngIf="message"
+    [content]="message"
+    [type]="messageType"
+    (close)="message = ''"
+  ></app-message>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <mat-dialog-content>
+      <div class="card-replacement">
+        <mat-form-field>
+          <mat-label>Form Factor</mat-label>
+          <mat-select
+            required
+            formControlName="formFactor"
+            (selectionChange)="onFormFactorChange($event.value)"
+          >
+            <mat-option *ngFor="let item of formFactor" [value]="item.name">{{
+              item.id
+            }}</mat-option>
+          </mat-select>
+          <!-- <mat-error *ngIf="form.controls.formFactor.errors">
+            {{ form.controls.formFactor.errors.required ? 'Required type value. ' : '' }}</mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Physical card type</mat-label>
+          <mat-select formControlName="physicalType">
+            <mat-option *ngFor="let item of physicalTypes" value="{{ item }}">{{
+              item | titlecase
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div>
+          <mat-label>Fee</mat-label>
+        </div>
+        <mat-slide-toggle
+          class="btn-toggle"
+          [checked]="isCheckFee"
+          (change)="onChangeFee($event.checked)"
+        >
+          {{ isCheckFee ? 'On' : 'Off' }}</mat-slide-toggle
+        >
+        <!-- <mat-form-field>
+          <mat-label>Please select Fee</mat-label>
+          <mat-select formControlName="fee" [disabled]="!isCheckFee">
+            <mat-option *ngFor="let item of cardRanges" value="{{ item.id }}">
+              item.id
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+
+        <mat-form-field>
+          <mat-label>Reason Code</mat-label>
+          <mat-select required formControlName="reason">
+            <mat-option *ngFor="let item of reasons" [value]="item.name">{{ item.id }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Remarks</mat-label>
+          <input matInput type="text" formControlName="remark" />
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+      <button mat-stroked-button type="button" (click)="onClose()">Cancel</button>
+      <button mat-raised-button type="submit" class="primary-btn">Submit</button>
+    </mat-dialog-actions>
+  </form>
+</div>

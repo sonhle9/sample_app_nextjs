@@ -1,0 +1,88 @@
+.title-timeline {
+  margin-bottom: 10px;
+}
+
+.panel-timeline {
+  padding: 14px 0;
+}
+
+.oval {
+  width: 12px;
+  height: 12px;
+  background-color: #00b0ff;
+  border-radius: 8px;
+}
+
+.stt-created {
+  background-color: #00b0ff !important;
+}
+
+.stt-pending {
+  background-color: #f7c325 !important;
+}
+
+.stt-authorised {
+  background-color: #1aae9f !important;
+}
+
+.stt-succeeded {
+  background-color: #e8833a !important;
+}
+
+.stt-failed {
+  background-color: #d3455b !important;
+}
+
+.stt-settled {
+  background-color: #207868 !important;
+}
+
+.stt-posted {
+  background-color: #2c88d9 !important;
+}
+
+.stt-billed {
+  background-color: #d9dde0 !important;
+}
+
+.stt-paid {
+  background-color: #d9dde0 !important;
+}
+
+.mat-stepper-vertical-line::before {
+  content: '';
+  position: absolute;
+  top: -16px;
+  bottom: -16px;
+  left: 0;
+  border-left-width: 1px;
+  border-left-style: dotted !important;
+}
+
+.mat-stepper-vertical-line::before {
+  border-left-color: #a1a1a1;
+}
+
+.mat-vertical-content {
+  display: none;
+}
+
+.mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit,
+.mat-step-header .mat-step-icon {
+  background-color: unset !important;
+  color: unset !important;
+}
+.show-status {
+  height: 22px;
+  line-height: 22px;
+  font-size: 16px;
+  flex: 1;
+  color: #434f5d;
+  font-weight: normal;
+}
+.show-date {
+  color: #434f5d;
+  font-weight: normal;
+}

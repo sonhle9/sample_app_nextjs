@@ -1,0 +1,25 @@
+@import '../../../styles/variables';
+
+:host {
+  .card-status {
+    border-radius: 4px;
+    padding: 4px 8px;
+    height: 25px;
+    font-size: 0.75rem;
+    font-family: Sailec;
+    font-weight: bold;
+    letter-spacing: 1px;
+    &.card-status-cleared {
+      background-color: #d5f6e3;
+      color: #249e58;
+    }
+    &.card-status-watchlisted {
+      background-color: #ffeeb3;
+      color: #cc9e00;
+    }
+    &.card-status-blacklisted {
+      background-color: #fee8e7;
+      color: #f44336;
+    }
+  }
+}

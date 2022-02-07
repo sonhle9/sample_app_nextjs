@@ -1,0 +1,154 @@
+<div class="container">
+  <h4 class="headline">Orders</h4>
+  <div class="wrapper">
+    <div class="filter-container">
+      <div class="filter-container__dropdown">
+        <ng-container *ngIf="roles?.hasFuelOrderView">
+          <app-pagination
+            [pagination]="pagination"
+            (next)="next()"
+            (prev)="prev()"
+            [mode]="1"
+          ></app-pagination>
+          <app-dropdown
+            label="Type"
+            [(ngModel)]="selectedType"
+            [items]="types"
+            (ngModelChange)="filter()"
+          ></app-dropdown>
+          <app-dropdown
+            label="Status"
+            [(ngModel)]="selectedStatus"
+            [items]="statuses"
+            (ngModelChange)="filter()"
+          >
+          </app-dropdown>
+          <app-dropdown
+            label="Created date"
+            [(ngModel)]="selectedDate"
+            [items]="dateTypes"
+            (ngModelChange)="updatDate()"
+          >
+          </app-dropdown>
+          <app-datepicker
+            [pickerType]="'both'"
+            [enabled]="selectedDate?.value === 's'"
+            label="Start date"
+            [(ngModel)]="startDate"
+            (ngModelChange)="filter()"
+            [errorMessage]="errorMessage.endDate"
+          ></app-datepicker>
+          <app-datepicker
+            [pickerType]="'both'"
+            [enabled]="selectedDate?.value === 's'"
+            label="End date"
+            [(ngModel)]="endDate"
+            (ngModelChange)="filter()"
+            [errorMessage]="errorMessage.endDate"
+          ></app-datepicker>
+        </ng-container>
+      </div>
+      <div class="filter-container__searchbar">
+        <mat-form-field appearance="outline" class="filter-container__searchbar--input">
+          <mat-label>Search</mat-label>
+          <input
+            type="text"
+            placeholder="Station ID & Order ID"
+            matInput
+            (keyup)="onSearch($event)"
+            [formControl]="filterControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="displayFn"
+            (optionSelected)="indexOrders()"
+          >
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{ option.text }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="filter-container__tagsearchbar--input">
+          <mat-label>Search by Tag</mat-label>
+          <input type="text" placeholder="Search by Tag" (keyup)="onTagSearch($event)" matInput />
+        </mat-form-field>
+        <button
+          *ngIf="roles?.hasFuelOrderExport"
+          mat-button
+          class="filter-container__searchbar--download-btn"
+          (click)="downloadCsv()"
+        >
+          Download CSV
+        </button>
+        <a class="download-hyperlink" #downloadEl></a>
+      </div>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyResult>
+  <div class="card order-card">
+    <div class="card-header">
+      <div>Status</div>
+      <div>Customer</div>
+      <div>Created on</div>
+      <div>Station name</div>
+      <div>Pump Number</div>
+      <div class="tags">Tags</div>
+      <div class="amount">Amount</div>
+    </div>
+    <div class="card-content">
+      <ng-container *ngIf="pagination?.items.length !== 0; else emptyState">
+        <div class="card-row" *ngFor="let item of pagination?.items">
+          <a
+            class="card-column {{ item?.orderStatus | orderStatusCss }}"
+            target="_blank"
+            [routerLink]="['/retail/fuel-orders', item.orderId]"
+            [title]="item?.orderStatus | orderStatus"
+            >{{ item?.orderStatus | orderStatus }}</a
+          >
+          <a
+            class="card-column main clickable"
+            [routerLink]="['/customers', item.userId]"
+            target="_blank"
+            >{{ item?.userFullName | titlecase }}</a
+          >
+
+          <div class="card-column">{{ item?.createdAt | amDateFormat: 'DD MMM YYYY, hh:mmA' }}</div>
+          <a
+            class="card-column main clickable"
+            [routerLink]="['/stations', item.stationId, 'orders']"
+            target="_blank"
+            >{{ item?.stationName | titlecase }}</a
+          >
+          <div class="card-column pump-id">{{ item?.pumpId }}</div>
+          <div class="card-column tags">{{ item?.adminTags }}</div>
+          <div class="card-column amount">{{ item?.amount | myrCurrency | emptyDash }}</div>
+        </div>
+      </ng-container>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

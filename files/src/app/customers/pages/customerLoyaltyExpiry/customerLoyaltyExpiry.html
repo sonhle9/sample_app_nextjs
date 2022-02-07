@@ -1,0 +1,29 @@
+<b *ngIf="loyaltyCard?.pointsExpiryDates || message">Loyalty Points Expiry</b>
+<app-message
+  *ngIf="message"
+  [content]="message"
+  [type]="messageType"
+  (close)="message = ''"
+></app-message>
+<div class="card col-6 loy-exp-card" *ngIf="loyaltyCard?.pointsExpiryDates?.length > 0">
+  <div class="card-header">
+    <div>Month A bucket</div>
+    <div>Month B bucket</div>
+    <div>Month C bucket</div>
+  </div>
+  <div class="card-content">
+    <div class="card-row">
+      <div
+        class="card-column"
+        *ngFor="let expirtyDate of loyaltyCard.pointsExpiryDates; let i = index;"
+      >
+        <ng-container
+          *ngIf="expirtyDate.expiringPointsAmount && expirtyDate.expiringPointsDate && i <= 2"
+        >
+          {{ addNumbersComma(expirtyDate.expiringPointsAmount) }} pts - {{
+          convertDate(expirtyDate.expiringPointsDate) | amDateFormat: 'DD MMM YYYY' }}
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

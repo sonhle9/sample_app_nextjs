@@ -1,0 +1,42 @@
+@import './../../../../styles/variables';
+@import './../orderTransactions/orderTransactions';
+b {
+  margin: 20px 0;
+  display: block;
+}
+.loy-txn-card {
+  margin-top: 10px;
+  .card-header,
+  .card-row {
+    grid-template-columns: 25px 1fr 0.8fr 0.3fr 0.5fr 0.5fr 1fr;
+  }
+
+  .card-content {
+    min-height: 100px;
+  }
+
+  .status {
+    width: 10px;
+    height: 10px;
+    align-self: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    &.success {
+      background-color: $success-color;
+    }
+
+    &.fail {
+      background-color: $error-color;
+    }
+  }
+
+  .amount {
+    text-align: center;
+    padding-right: 0;
+  }
+}
+
+h6 {
+  margin-bottom: 10px;
+}

@@ -1,0 +1,94 @@
+<div *ngIf="!hideFilters" [formGroup]="filters" class="filters">
+  <mat-form-field>
+    <input matInput placeholder="Device ID" formControlName="deviceId" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Is Device Blocked?</mat-label>
+    <mat-select formControlName="isBlocked">
+      <mat-option [value]="''">None</mat-option>
+      <mat-option [value]="'true'">Blacklisted</mat-option>
+      <mat-option [value]="'false'">Not Blacklisted</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Created Date</mat-label>
+    <mat-select formControlName="period">
+      <mat-option *ngFor="let period of periods" [value]="period.value">
+        {{ period.text }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf="showCustomRange" class="date-picker" formGroupName="customRange">
+    <input matInput placeholder="From" type="datetime-local" formControlName="createdAtGte" />
+    <mat-error *ngIf="hasError('customRange.createdAtGte')"> Invalid Date </mat-error>
+  </mat-form-field>
+  <mat-form-field *ngIf="showCustomRange" class="date-picker" formGroupName="customRange">
+    <input matInput placeholder="To" type="datetime-local" formControlName="createdAtLte" />
+    <mat-error *ngIf="hasError('customRange.createdAtLte')"> Invalid Date </mat-error>
+  </mat-form-field>
+</div>
+<ngx-datatable
+  class="material align-center"
+  [columnMode]="'force'"
+  [rowHeight]="'auto'"
+  [headerHeight]="50"
+  [footerHeight]="56"
+  [loadingIndicator]="loading"
+  [rows]="devices?.list"
+>
+  <ngx-datatable-column name="Device ID" class="row-pointer">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      <a [routerLink]="['/risk-controls', 'account-devices', row.id]" target="_blank">
+        {{ row.deviceId }}
+      </a>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="User ID">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      {{ row.userId }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Status">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      {{ row.status }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Remark">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      {{ row.remark }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Created At">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      {{ row.createdAt }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column *ngIf="allowEditing" [width]="150" [canAutoResize]="false">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      <button mat-icon-button (click)="onUnlink(row.id)">
+        <mat-icon>link_off</mat-icon>
+      </button>
+      <button
+        [color]="row.isBlocked ? null : 'warn'"
+        mat-icon-button
+        (click)="onSwitchBlocked(row.deviceId)"
+      >
+        <mat-icon>
+          {{ row.isBlocked ? 'restore' : 'block' }}
+        </mat-icon>
+      </button>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-footer>
+    <ng-template ngx-datatable-footer-template>
+      <mat-paginator
+        [pageIndex]="page - 1"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizes"
+        [length]="devices?.total"
+        (page)="onPageChange($event)"
+      >
+      </mat-paginator>
+    </ng-template>
+  </ngx-datatable-footer>
+</ngx-datatable>

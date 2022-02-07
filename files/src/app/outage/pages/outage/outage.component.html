@@ -1,0 +1,46 @@
+<div class="container">
+  <ng-container *ngIf="showDialog">
+    <div class="modal-background"></div>
+    <div class="modal">
+      <div class="modal-content">
+        <h6>Are you sure you want to override maintenance?</h6>
+        <!-- <app-input
+          disableIcon="true"
+          class="fff"
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+        >
+        </app-input> -->
+      </div>
+      <div class="modal-action">
+        <app-button css="light" type="button" (click)="showDialog = false"> Cancel </app-button>
+        <app-button type="button" (click)="onOverrideSave()"> Override </app-button>
+      </div>
+    </div>
+  </ng-container>
+  <h4 class="headline">Outage Management</h4>
+  <app-loader *ngIf="loading" type="transparent"></app-loader>
+  <ng-container *ngIf="systemState && overrides">
+    <app-outage-annoucement
+      [systemState]="systemState"
+      (scheduled)="onAnnouncementScheduled($event)"
+      (updated)="onAnnouncementUpdated($event)"
+      (completed)="onAnnouncementCompleted($event)"
+    >
+    </app-outage-annoucement>
+    <app-outage-override
+      *ngFor="let entry of overrides | entries"
+      [show]="entry[1].isOpen"
+      [label]="entry[1].label"
+      [hasUpdatePermissions]="entry[1].hasUpdatePermissions"
+      [fields]="entry[1].fields"
+      [errorMessage]="entry[1].errorMessage"
+      (open)="onOverrideSwitch(entry[0])"
+      (close)="onOverrideSwitch(entry[0])"
+      (save)="onOverridePending(entry[0], $event)"
+    >
+    </app-outage-override>
+    <app-outage-chat-support *ngIf="environment.showBetaPages"></app-outage-chat-support>
+  </ng-container>
+</div>

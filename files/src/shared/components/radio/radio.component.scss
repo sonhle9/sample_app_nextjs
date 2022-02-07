@@ -1,0 +1,62 @@
+@import '../../../styles/variables';
+
+input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  padding: 0;
+  margin: 0;
+  -webkit-appearance: none;
+
+  &:checked + span {
+    color: $radio-checked-color;
+
+    &:after {
+      transform: translateY(-50%) scale(0.5);
+      background-color: $radio-checked-color;
+    }
+
+    &:after,
+    &:before {
+      border: 2px solid $radio-checked-color;
+    }
+  }
+}
+
+span {
+  position: relative;
+  padding-left: $radio-height;
+  cursor: pointer;
+  display: inline-block;
+  height: $radio-height;
+  line-height: $radio-height;
+  font-size: 1rem;
+  transition: 0.28s ease;
+  user-select: none;
+
+  &:before,
+  &:after {
+    border-radius: 50%;
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: $radio-input-height;
+    height: $radio-input-height;
+    z-index: 0;
+    transition: 0.28s ease;
+    border: 2px solid $radio-color;
+    transform: translateY(-50%);
+  }
+
+  &:after {
+    transform: translateY(-50%) scale(0);
+    border: 2px solid $radio-color;
+  }
+}
+
+label span {
+  color: $radio-color;
+  font-size: $radio-font;
+  font-weight: 600;
+}

@@ -1,0 +1,81 @@
+<div class="container">
+  <h4 class="headline">Payout Projection</h4>
+  <div class="wrapper">
+    <div class="filter-container" *ngIf="roles?.hasIndex">
+      <app-datepicker
+        label="Reference date"
+        [(ngModel)]="referenceDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'calendar'"
+      ></app-datepicker>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyResult>
+  <div class="card transaction-card">
+    <div class="card-content table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th *ngFor="let date of dates">
+              {{date.preText}} {{date.transactionDate | amDateFormat: 'DD-MM-YYYY'}}
+              <ng-container *ngIf="date.isReference">
+                <br />
+                <app-button (click)="openDialog()" [css]="'small'">Calculate</app-button>
+              </ng-container>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="hasResult">
+          <tr>
+            <td>Total Amount</td>
+            <td *ngFor="let date of dates">{{ date.totalAmount | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td>Total Fees</td>
+            <td *ngFor="let date of dates">{{ date.totalFees | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td>Day of Week</td>
+            <td *ngFor="let date of dates">{{ date.transactionDate | amDateFormat: 'dddd' }}</td>
+          </tr>
+          <tr>
+            <td>Weekend</td>
+            <td *ngFor="let date of dates">
+              <span *ngIf="date.isWeekend">Yes</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Holiday</td>
+            <td *ngFor="let date of dates">
+              <span *ngIf="date.isHoliday">Yes</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container *ngIf="loading.page || hasResult; then anyResult; else noResult"></ng-container>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

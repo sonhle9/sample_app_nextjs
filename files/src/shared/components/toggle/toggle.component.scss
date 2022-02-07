@@ -1,0 +1,67 @@
+@import '../../../styles/variables';
+
+.container {
+  display: flex;
+}
+
+.checkbox-container {
+  display: block;
+  font-size: 10vmin;
+  height: 20px;
+  width: 40px;
+  border-radius: 11px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  background-color: $radio-color;
+}
+
+.checkbox {
+  visibility: hidden;
+  &:checked ~ .checker {
+    transform: translate(-10%, -50%) scale(10);
+  }
+
+  &:checked ~ .dot {
+    transform: translateX(20px);
+  }
+}
+
+.checker {
+  background: $success-color;
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  border-radius: 50%;
+  transform: translate(-10%, -50%) scale(0);
+  transform-origin: center;
+  transition: transform 300ms cubic-bezier(1, 0.97, 0.97, 0.97);
+  z-index: 1;
+}
+
+.dot {
+  content: '';
+  height: 12px;
+  width: 12px;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  z-index: 2;
+  background: #fff;
+  border-radius: 50%;
+  transform: translateX(0);
+  transition: all 300ms cubic-bezier(0, 0.97, 0.97, 0.97);
+}
+
+.label {
+  color: #434f5d;
+  font-size: 0.7rem;
+  cursor: text;
+  font-weight: 600;
+  padding-left: 10px;
+  position: static;
+  line-height: 20px;
+}

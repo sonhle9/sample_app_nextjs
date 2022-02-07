@@ -1,0 +1,16 @@
+<div class="container">
+  <h4 class="headline">Prepaid Balance Summary</h4>
+  <div class="wrapper card summary-card">
+    <b>Current balance</b>
+    <div class="balance">
+      <p *ngIf="totalBalance" class="balance-value">RM{{ totalBalance }}</p>
+      <a mat-icon-button color="primary" [disabled]="!allowAddFunds" (click)="addFundFromBuffer()">
+        <mat-icon>add_circle</mat-icon>
+        Add funds from buffer
+      </a>
+    </div>
+  </div>
+  <app-prefunding-balance-daily-snapshots></app-prefunding-balance-daily-snapshots>
+  <app-prefunding-balance-alerts></app-prefunding-balance-alerts>
+  <app-prefunding-balance-util-history></app-prefunding-balance-util-history>
+</div>

@@ -1,0 +1,42 @@
+@import '../../../styles/variables';
+
+.message-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  height: 45px;
+  animation: slideDown 0.3s cubic-bezier(0.5, 0, 0.5, 1);
+  font-size: $message-font;
+
+  border: solid 1px $success-color;
+  color: $success-color;
+  background-color: rgba($success-color, 0.15);
+
+  display: flex;
+
+  .icon,
+  .close {
+    width: 25px;
+  }
+
+  .icon {
+    margin-right: 5px;
+  }
+
+  .message {
+    flex: 1;
+    align-self: center;
+  }
+
+  .close {
+    cursor: pointer;
+  }
+
+  &.error {
+    color: #fff;
+    background-color: $danger-color;
+    border: none;
+  }
+}

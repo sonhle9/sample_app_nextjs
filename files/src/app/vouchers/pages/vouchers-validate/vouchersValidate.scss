@@ -1,0 +1,82 @@
+@import './../../../../styles/variables';
+
+.container {
+  padding: 20px 5%;
+
+  .wrapper {
+    position: relative;
+    margin-top: 32px;
+
+    .voucher-info {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-column-gap: 10px;
+      grid-row-gap: 20px;
+      align-items: start;
+      background-color: #fff;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+      padding: 24px;
+    }
+
+    .rules-table {
+      margin-top: 40px;
+    }
+
+    .history-table {
+      margin-top: 40px;
+    }
+  }
+
+  .form-wrapper {
+    position: relative;
+    max-width: 700px;
+    padding: 30px 0;
+    margin-top: 32px;
+    flex-grow: 2;
+  }
+}
+
+.top-block-wrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+app-button {
+  max-width: 225px;
+  display: block;
+}
+
+.loader-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(#fff, 0.75);
+  display: flex;
+  align-items: flex-end;
+
+  app-loader {
+    display: block;
+    width: 100%;
+  }
+}
+
+b {
+  margin: 20px 0;
+  display: block;
+}
+
+.card-panel {
+  display: grid;
+  grid-template-columns: 1fr 225px;
+  grid-column-gap: 10px;
+  align-items: baseline;
+
+  .code-input {
+    margin-right: 10px;
+  }
+}

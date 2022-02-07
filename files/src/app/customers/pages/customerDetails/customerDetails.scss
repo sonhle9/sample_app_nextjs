@@ -1,0 +1,117 @@
+@import './../../../../styles/variables';
+@import '../shared/customers';
+$customer-height: 80px;
+
+app-loader {
+  display: block;
+  position: relative;
+  min-height: 500px;
+}
+
+b {
+  margin: 20px 0;
+  display: block;
+}
+
+.profile-card {
+  min-height: $customer-height;
+  background-color: $searchbar-bg;
+  border: 1px solid $searchbar-border;
+  position: relative;
+  padding: 20px 20px;
+
+  .upper {
+    display: flex;
+    width: 100%;
+  }
+
+  .bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 20px 5px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .upper {
+    margin-bottom: 20px;
+  }
+
+  .main {
+    color: $input-text-color;
+    flex: 1;
+  }
+
+  app-display-text {
+    flex: 1;
+  }
+
+  app-button {
+    display: inline-block;
+    margin-left: 15px;
+  }
+}
+
+.inline-dropdown {
+  display: flex;
+}
+
+::ng-deep .mat-ink-bar {
+  display: none;
+}
+
+::ng-deep .mat-tab-header {
+  height: 59px;
+  padding: 12px 30px 12px 30px;
+  background-color: white;
+  top: 0 !important;
+  position: sticky !important;
+}
+
+::ng-deep .mat-tab-label-container {
+  width: 556px;
+  height: 35px;
+  background-color: white;
+}
+
+::ng-deep .mat-tab-label {
+  min-width: 0px !important;
+  min-height: 0px;
+  height: 35px !important;
+  margin: 0 8px !important;
+  padding: 8px 12px !important;
+  border-radius: 4px;
+}
+
+::ng-deep .mat-tab-label-content {
+  min-height: 0px;
+  height: 19px !important;
+  font-family: Sailec;
+  font-size: 0.875rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: black;
+}
+
+::ng-deep .mat-tab-label-active {
+  background-color: rgba(179, 231, 255, 0.3);
+  .mat-tab-label-content {
+    color: #00b0ff;
+  }
+}
+
+::ng-deep .mat-tab-body {
+  display: none !important;
+  padding-top: 23px;
+  height: calc(100vh - 59px - 60px);
+  overflow-y: auto;
+}
+
+::ng-deep .mat-tab-body.mat-tab-body-active {
+  display: block !important;
+  z-index: unset !important;
+}

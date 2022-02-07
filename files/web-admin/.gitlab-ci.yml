@@ -1,0 +1,522 @@
+include:
+  - project: 'setel/infra/pipelines'
+    file: 'release/slack.gitlab-ci.yml'
+
+image: node:14
+
+# to cache both npm modules and Cypress binary we use environment variables
+# to point at the folders we can list as paths in "cache" job settings
+variables:
+  npm_config_cache: '$CI_PROJECT_DIR/.npm'
+  CYPRESS_CACHE_FOLDER: '$CI_PROJECT_DIR/cache/Cypress'
+
+# cache using branch name
+# https://gitlab.com/help/ci/caching/index.md
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm
+    - cache/Cypress
+    - node_modules
+
+stages:
+  - test:prepare
+  - test
+  - test:report
+  - build
+  - deploy
+  - notify
+
+test:setup:
+  stage: test:prepare
+  needs: []
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  script:
+    - npm ci
+    - npm run cy:verify
+    - npm run cy:info
+
+test:unit:
+  stage: test
+  needs: []
+  script:
+    - npm ci
+    - npm run format:check
+    - npm run lint
+    - npm run test:ci
+  artifacts:
+    paths:
+      - coverage/
+
+test:e2e0:
+  stage: test
+  needs: ['test:setup']
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  script:
+    - node scripts/prepare-cypress-test.js --chunk=0
+    - npm run e2e:ci
+  artifacts:
+    paths:
+      - coverage/
+
+test:e2e1:
+  stage: test
+  needs: ['test:setup']
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  script:
+    - node scripts/prepare-cypress-test.js --chunk=1
+    - npm run e2e:ci
+  artifacts:
+    paths:
+      - coverage/
+
+test:e2e2:
+  stage: test
+  needs: ['test:setup']
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  script:
+    - node scripts/prepare-cypress-test.js --chunk=2
+    - npm run e2e:ci
+  artifacts:
+    paths:
+      - coverage/
+
+test:e2e3:
+  stage: test
+  needs: ['test:setup']
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  script:
+    - node scripts/prepare-cypress-test.js --chunk=3
+    - npm run e2e:ci
+  artifacts:
+    paths:
+      - coverage/
+
+test:e2e4:
+  stage: test
+  needs: ['test:setup']
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  script:
+    - node scripts/prepare-cypress-test.js --chunk=4
+    - npm run e2e:ci
+  artifacts:
+    paths:
+      - coverage/
+
+test:e2e5:
+  stage: test
+  needs: ['test:setup']
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  script:
+    - node scripts/prepare-cypress-test.js --chunk=5
+    - npm run e2e:ci
+  artifacts:
+    paths:
+      - coverage/
+
+test:e2e6:
+  stage: test
+  needs: ['test:setup']
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  script:
+    - node scripts/prepare-cypress-test.js --chunk=6
+    - npm run e2e:ci
+  artifacts:
+    paths:
+      - coverage/
+
+test:e2e7:
+  stage: test
+  needs: ['test:setup']
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  script:
+    - node scripts/prepare-cypress-test.js --chunk=7
+    - npm run e2e:ci
+  artifacts:
+    paths:
+      - coverage/
+
+test:e2e8:
+  stage: test
+  needs: ['test:setup']
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  script:
+    - node scripts/prepare-cypress-test.js --chunk=8
+    - npm run e2e:ci
+  artifacts:
+    paths:
+      - coverage/
+
+test:e2e9:
+  stage: test
+  needs: ['test:setup']
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  script:
+    - node scripts/prepare-cypress-test.js --chunk=9
+    - npm run e2e:ci
+  artifacts:
+    paths:
+      - coverage/
+
+test:
+  stage: test:report
+  needs:
+    [
+      'test:unit',
+      'test:e2e0',
+      'test:e2e1',
+      'test:e2e2',
+      'test:e2e3',
+      'test:e2e4',
+      'test:e2e5',
+      'test:e2e6',
+      'test:e2e7',
+      'test:e2e8',
+      'test:e2e9',
+    ]
+  script:
+    - npm install # workaround to make sure patch package is applied
+    - ./generate-coverage.sh
+  coverage: '/Functions \W+: (\d+\.\d+)%.*/'
+  artifacts:
+    paths:
+      - coverage/
+    reports:
+      junit: ./junit.xml
+
+build:dev-setel:
+  stage: build
+  script:
+    - npm install --silent
+    - npm run build:dev-setel
+    - mv dist dist-setel
+  artifacts:
+    paths:
+      - dist-setel/
+  only:
+    - develop
+    - /^feature.*$/
+    - /^fix.*$/
+    - /^chore.*$/
+
+build:dev-pdb:
+  stage: build
+  script:
+    - npm install --silent
+    - npm run build:dev-pdb
+    - mv dist dist-pdb
+  artifacts:
+    paths:
+      - dist-pdb/
+  only:
+    - develop
+    - /^feature.*$/
+    - /^fix.*$/
+    - /^chore.*$/
+
+build:staging-setel:
+  stage: build
+  script:
+    - npm install --silent
+    - npm run build:staging-setel
+    - mv dist dist-setel
+  artifacts:
+    paths:
+      - dist-setel/
+  only:
+    - /^release.*$/
+
+build:staging-pdb:
+  stage: build
+  script:
+    - npm install --silent
+    - npm run build:staging-pdb
+    - mv dist dist-pdb
+  artifacts:
+    paths:
+      - dist-pdb/
+  only:
+    - /^release.*$/
+
+build:preprod-setel:
+  when: manual
+  stage: build
+  script:
+    - npm install --silent
+    - npm run build:preprod-setel
+    - mv dist dist-setel
+  artifacts:
+    paths:
+      - dist-setel/
+  only:
+    - /^release.*$/
+
+build:sandbox-setel:
+  when: manual
+  stage: build
+  script:
+    - npm install --silent
+    - npm run build:sandbox-setel
+    - mv dist dist-setel
+  artifacts:
+    paths:
+      - dist-setel/
+  only:
+    - /^release.*$/
+
+build:preprod-pdb:
+  when: manual
+  stage: build
+  script:
+    - npm install --silent
+    - npm run build:preprod-pdb
+    - mv dist dist-pdb
+  artifacts:
+    paths:
+      - dist-pdb/
+  only:
+    - /^release.*$/
+
+build:prod-setel:
+  stage: build
+  script:
+    - npm install --silent
+    - npm run build:setel
+    - mv dist dist-setel
+  artifacts:
+    paths:
+      - dist-setel/
+  only:
+    - master
+
+build:prod-pdb:
+  stage: build
+  script:
+    - npm install --silent
+    - npm run build:pdb
+    - mv dist dist-pdb
+  artifacts:
+    paths:
+      - dist-pdb/
+  only:
+    - master
+
+.deploy_template: &deploy_definition
+  stage: deploy
+  image: quay.io/coreos/awscli
+  script:
+    - !reference [.slack-notify-deploy-pre, script]
+    - echo $S3_BUCKET_NAME
+    - echo $BUILD_FOLDER
+    - |
+      aws s3 sync $BUILD_FOLDER s3://$S3_BUCKET_NAME --delete --cache-control "public, max-age=0, must-revalidate" \
+        --exclude "*" \
+        --include "*.html" \
+        --include "*.json" \
+        --include "ngsw-worker.js" \
+        --include "favicon.ico" \
+        --include "worker-basic.min.js" \
+        --include "safety-worker.js" \
+        --include "manifest.json" \
+        --include "favicon.ico"
+    - |
+      aws s3 sync $BUILD_FOLDER s3://$S3_BUCKET_NAME --delete --cache-control "public, max-age=31536000, immutable" \
+        --exclude "*.html" \
+        --exclude "*.json" \
+        --exclude "ngsw-worker.js" \
+        --exclude "favicon.ico" \
+        --exclude "worker-basic.min.js" \
+        --exclude "safety-worker.js" \
+        --exclude "manifest.json" \
+        --exclude "favicon.ico"
+    - !reference [.slack-notify-deploy-post, script]
+
+deploy:dev-setel_feature:
+  <<: *deploy_definition
+  when: manual
+  variables:
+    S3_BUCKET_NAME: $S3_DEV_BUCKET_NAME
+    CLOUDFRONT_ID: $CLOUDFRONT_DEV_ID
+    BUILD_FOLDER: 'dist-setel'
+  needs: ['build:dev-setel']
+  environment:
+    name: develop
+    url: https://dev-admin.setel.my/
+  only:
+    - /^feature.*$/
+    - /^fix.*$/
+
+deploy:dev-setel_preview:
+  when: manual
+  stage: deploy
+  variables:
+    NETLIFY_AUTH_TOKEN: $NETLIFY_AUTH_TOKEN
+    NETLIFY_SITE_ID: $NETLIFY_SITE_ID
+  needs: ['build:dev-setel']
+  script:
+    - npm install --silent
+    - npm run deploy:preview-setel
+  only:
+    - develop
+    - /^feature.*$/
+    - /^fix.*$/
+    - /^chore.*$/
+
+deploy:dev-pdb_preview:
+  when: manual
+  stage: deploy
+  variables:
+    NETLIFY_AUTH_TOKEN: $NETLIFY_AUTH_TOKEN
+    NETLIFY_SITE_ID: $NETLIFY_SITE_ID
+  needs: ['build:dev-pdb']
+  script:
+    - npm install --silent
+    - npm run deploy:preview-pdb
+  only:
+    - develop
+    - /^feature.*$/
+    - /^fix.*$/
+    - /^chore.*$/
+
+deploy:dev-setel:
+  <<: *deploy_definition
+  variables:
+    S3_BUCKET_NAME: $S3_DEV_BUCKET_NAME
+    CLOUDFRONT_ID: $CLOUDFRONT_DEV_ID
+    BUILD_FOLDER: 'dist-setel'
+  needs: ['build:dev-setel']
+  environment:
+    name: develop
+    url: https://dev-admin.setel.my/
+  only:
+    - develop
+
+deploy:dev-pdb_feature:
+  <<: *deploy_definition
+  when: manual
+  variables:
+    S3_BUCKET_NAME: $S3_PDBDEV_BUCKET_NAME
+    CLOUDFRONT_ID: $CLOUDFRONT_PDBDEV_ID
+    BUILD_FOLDER: 'dist-pdb'
+  needs: ['build:dev-pdb']
+  environment:
+    name: develop-pdb
+    url: https://dev-pdbadmin.setel.my/
+  only:
+    - /^feature.*$/
+    - /^fix.*$/
+
+deploy:dev-pdb:
+  <<: *deploy_definition
+  variables:
+    S3_BUCKET_NAME: $S3_PDBDEV_BUCKET_NAME
+    CLOUDFRONT_ID: $CLOUDFRONT_PDBDEV_ID
+    BUILD_FOLDER: 'dist-pdb'
+  needs: ['build:dev-pdb']
+  environment:
+    name: develop-pdb
+    url: https://dev-pdbadmin.setel.my/
+  only:
+    - develop
+
+deploy:staging-setel:
+  <<: *deploy_definition
+  variables:
+    S3_BUCKET_NAME: $S3_STAGING_BUCKET_NAME
+    CLOUDFRONT_ID: $CLOUDFRONT_STAGING_ID
+    BUILD_FOLDER: 'dist-setel'
+  needs: ['build:staging-setel']
+  environment:
+    name: staging
+    url: https://staging-admin.setel.my/
+  rules:
+    - if: "$CI_COMMIT_BRANCH =~ /^release.*\\.0$/"
+      when: on_success
+    - if: '$CI_COMMIT_BRANCH =~ /^release.*$/'
+      when: manual
+
+deploy:staging-pdb:
+  <<: *deploy_definition
+  variables:
+    S3_BUCKET_NAME: $S3_PDBSTAGING_BUCKET_NAME
+    CLOUDFRONT_ID: $CLOUDFRONT_PDBSTAGING_ID
+    BUILD_FOLDER: 'dist-pdb'
+  needs: ['build:staging-pdb']
+  environment:
+    name: staging-pdb
+    url: https://staging-pdbadmin.setel.my/
+  rules:
+    - if: "$CI_COMMIT_BRANCH =~ /^release.*\\.0$/"
+      when: on_success
+    - if: '$CI_COMMIT_BRANCH =~ /^release.*$/'
+      when: manual
+
+deploy:preprod-setel:
+  <<: *deploy_definition
+  when: manual
+  variables:
+    S3_BUCKET_NAME: $S3_PREPROD_BUCKET_NAME
+    CLOUDFRONT_ID: $CLOUDFRONT_PREPROD_ID
+    BUILD_FOLDER: 'dist-setel'
+  needs: ['build:preprod-setel']
+  environment:
+    name: preprod
+    url: https://pre-prod-admin.setel.my/
+  only:
+    - /^release.*$/
+
+deploy:sandbox-setel:
+  <<: *deploy_definition
+  when: manual
+  variables:
+    S3_BUCKET_NAME: $S3_SANDBOX_BUCKET_NAME
+    CLOUDFRONT_ID: $CLOUDFRONT_SANDBOX_ID
+    BUILD_FOLDER: 'dist-setel'
+  needs: ['build:sandbox-setel']
+  environment:
+    name: sandbox
+    url: https://sandbox-admin.setel.my/
+  only:
+    - /^release.*$/
+
+deploy:preprod-pdb:
+  <<: *deploy_definition
+  when: manual
+  variables:
+    S3_BUCKET_NAME: $S3_PDBPREPROD_BUCKET_NAME
+    CLOUDFRONT_ID: $CLOUDFRONT_PDBPREPROD_ID
+    BUILD_FOLDER: 'dist-pdb'
+  needs: ['build:preprod-pdb']
+  environment:
+    name: preprod-pdb
+    url: https://preprod-pdbadmin.setel.my/
+  only:
+    - /^release.*$/
+
+deploy:prod-setel:
+  <<: *deploy_definition
+  when: manual
+  variables:
+    S3_BUCKET_NAME: $S3_PROD_BUCKET_NAME
+    CLOUDFRONT_ID: $CLOUDFRONT_PROD_ID
+    BUILD_FOLDER: 'dist-setel'
+  needs: ['build:prod-setel']
+  environment:
+    name: prod
+    url: https://admin.setel.my/
+  only:
+    - master
+
+deploy:prod-pdb:
+  <<: *deploy_definition
+  when: manual
+  variables:
+    S3_BUCKET_NAME: $S3_PDBPROD_BUCKET_NAME
+    CLOUDFRONT_ID: $CLOUDFRONT_PDBPROD_ID
+    BUILD_FOLDER: 'dist-pdb'
+  needs: ['build:prod-pdb']
+  environment:
+    name: prod-pdb
+    url: https://pdbadmin.setel.my/
+  only:
+    - master

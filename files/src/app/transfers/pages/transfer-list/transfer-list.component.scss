@@ -1,0 +1,86 @@
+@import './../../../../styles/variables';
+
+.container {
+  padding: 20px 5%;
+
+  .headline {
+    margin-bottom: 20px;
+  }
+
+  .wrapper {
+    position: relative;
+    min-height: 250px;
+    padding: 30px 0;
+  }
+}
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+
+  app-pagination {
+    margin-right: 10px;
+    margin-top: 5px;
+    min-width: 145px;
+  }
+
+  app-dropdown,
+  app-datepicker {
+    min-width: 130px;
+    margin-right: 10px;
+  }
+
+  .flex-gap {
+    flex: 1;
+  }
+}
+
+.card.transaction-card {
+  .card-content {
+    min-height: 140px;
+  }
+
+  .card-header,
+  .card-row {
+    grid-template-columns: 25px 1fr 1fr 1fr 1fr 1fr 0.5fr;
+  }
+
+  .txn-status {
+    width: 10px;
+    height: 10px;
+    align-self: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: $light-button-color;
+
+    &.created {
+      background-color: $pending-color;
+    }
+
+    &.succeeded {
+      background-color: $success-color;
+    }
+
+    &.failed {
+      background-color: $danger-color;
+    }
+  }
+}
+
+.counter-container {
+  font-size: $small-font;
+  color: $table-counter;
+  padding-top: $dropdown-font;
+  padding-right: 10px;
+}
+
+.empty-state {
+  padding-top: 50px;
+}
+
+app-loader {
+  display: block;
+  min-height: 500px;
+}

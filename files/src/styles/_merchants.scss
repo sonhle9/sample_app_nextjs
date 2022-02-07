@@ -1,0 +1,58 @@
+// merchants
+.list-merchant {
+  .flex {
+    &.items-start {
+      display: none;
+    }
+  }
+
+  &.hidden-title {
+    max-height: 370px;
+    overflow: auto;
+    overflow-x: hidden;
+    border: 1px solid rgb(210, 214, 220);
+    border-radius: 0.375rem;
+
+    .table-row {
+      .uppercase {
+        display: none;
+      }
+    }
+
+    .table-cell {
+      font-weight: bold;
+      color: #000;
+    }
+  }
+}
+
+.box-merchants {
+  border: 1px solid rgb(210, 214, 220);
+  border-radius: 0.375rem;
+  position: absolute !important;
+  width: 100%;
+  left: 0;
+  top: 91%;
+  z-index: 1;
+  transition: 0.5s;
+  max-height: 260px;
+  overflow: auto;
+}
+
+.item-merchants {
+  padding: 15px;
+  width: 100%;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(1, 124, 255, 0.05);
+  }
+
+  &.active {
+    background: rgba(1, 124, 255, 0.05);
+  }
+
+  .mb-0 {
+    margin-bottom: 0 !important;
+  }
+}

@@ -1,0 +1,49 @@
+.title-card-financial {
+  margin-bottom: 10px;
+}
+
+.three-dot {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.inline {
+  display: flex;
+
+  p {
+    padding-right: 55px;
+    width: 195px;
+    font-size: 14px;
+  }
+
+  b {
+    flex: 1;
+  }
+
+  p,
+  b {
+    height: 22px;
+    line-height: 22px;
+  }
+}
+p,
+b {
+  display: block;
+}
+
+p {
+  color: #a1a1a1;
+  line-height: 17px;
+  font-size: 12px;
+}
+
+b {
+  color: #434f5d;
+  line-height: 22px;
+  font-weight: normal;
+  font-size: 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

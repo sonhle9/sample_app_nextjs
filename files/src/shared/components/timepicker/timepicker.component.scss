@@ -1,0 +1,94 @@
+@import '../../../styles/variables';
+$timepicker-height: 30px;
+$arrow-height: 4px;
+
+.timepicker {
+  position: relative;
+  height: $timepicker-height;
+  background-color: #ffffff;
+  border: solid 1px $input-border-color;
+  border-radius: 4px;
+  overflow: hidden;
+
+  &:before {
+    background: url(/assets/images/icons/calendar.svg) 50% no-repeat;
+    background-size: contain;
+    height: $timepicker-height * 0.45;
+    width: $timepicker-height * 0.45;
+    margin: $timepicker-height * 0.25;
+    position: absolute;
+    line-height: inherit;
+    top: 0;
+    right: 0;
+    content: '';
+  }
+}
+
+input {
+  background: transparent;
+  border: none;
+  height: inherit;
+  line-height: inherit;
+  margin: 0;
+  padding: 0 0 0 10px;
+  appearance: none;
+  width: 100%;
+  font-weight: 600;
+  font-family: inherit;
+  position: relative;
+
+  &::-webkit-clear-button,
+  &::-webkit-inner-spin-button {
+    display: none;
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    color: rgba(0, 0, 0, 0);
+    opacity: 0;
+    width: $timepicker-height;
+    height: $timepicker-height;
+  }
+}
+
+option {
+  line-height: 3;
+  height: 60px;
+  border: none;
+  padding: 50px;
+}
+
+label {
+  font-weight: 600;
+  font-size: $timepicker-font;
+  color: $timepicker-text-color;
+  padding-left: 10px;
+}
+
+.helper-text {
+  position: relative;
+  display: block;
+  font-size: $helper-font;
+  color: $helper-text-color;
+  transition: all 0.3s;
+  margin-top: 1px;
+  min-height: 18px;
+}
+
+.timepicker-field {
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  &.error {
+    color: $danger-color;
+
+    .helper-text,
+    label {
+      color: inherit;
+    }
+
+    .timepicker {
+      border-color: $danger-color;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+<ng-container *ngIf="hasPermissions()">
+  <div class="block-title">
+    <b>Bulk Update External Orders</b>
+  </div>
+  <form class="block-panel" [formGroup]="grantCSV">
+    <app-file-upload
+      formControlName="file"
+      (fileLoad)="fileLoad()"
+      type="text/csv"
+      [progress]="progress"
+    ></app-file-upload>
+    <app-button
+      class="confirm-csv-btn"
+      css="add"
+      [disabled]="isConfirmBtnDisabled()"
+      type="button"
+      (click)="confirmModalOpen()"
+      >Process Granting</app-button
+    >
+    <app-loader *ngIf="loading"></app-loader>
+    <app-modal-confirm
+      title="Upload CSV file"
+      description="Are you sure you would like to upload this file?"
+      submitBtnText="Confirm"
+      cancelBtnText="Cancel"
+      [isModalShown]="getConfirmModalState()"
+      (submit)="confirmSubmit()"
+      (cancel)="confirmCancel()"
+    ></app-modal-confirm>
+  </form>
+  <app-message
+    *ngIf="messageContent"
+    [content]="messageContent"
+    [type]="messageType"
+    (close)="messageContent = ''"
+  >
+  </app-message>
+
+  <section class="filter" *ngIf="isFileCheked">
+    <div class="download-csv">
+      <div class="col">
+        <button (click)="downloadCsv(value)" mat-raised-button color="primary">Download CSV</button>
+        <a class="download-hyperlink" #downloadEl></a>
+      </div>
+    </div>
+  </section>
+  <div class="input-gap"></div>
+</ng-container>

@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="header">
+    <h4 class="title">Fuel Recovery</h4>
+    <mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedVal">
+      <mat-button-toggle
+        value="pending"
+        aria-label="Text align left"
+        [routerLink]="['/retail/fuel-order-recoveries/pending']"
+      >
+        <mat-icon>sync_problem</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle
+        value="lost"
+        aria-label="Text align center"
+        [routerLink]="['/retail/fuel-order-recoveries/lost']"
+      >
+        <mat-icon>highlight_off</mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div class="nav-tabs"></div>
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

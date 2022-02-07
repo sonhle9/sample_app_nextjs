@@ -1,0 +1,53 @@
+{
+  "root": true,
+  "ignorePatterns": ["projects/**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "extends": ["plugin:@angular-eslint/ng-cli-compat", "plugin:@angular-eslint/ng-cli-compat--formatting-add-on", "plugin:@angular-eslint/template/process-inline-templates", "prettier"],
+      "rules": {
+        "@typescript-eslint/consistent-type-definitions": "off",
+        "@typescript-eslint/dot-notation": "off",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "off",
+          {
+            "accessibility": "explicit"
+          }
+        ],
+        "arrow-parens": ["error", "always"],
+        "brace-style": ["error", "1tbs"],
+        "id-blacklist": "off",
+        "id-match": "off",
+        "arrow-body-style": "off",
+        "import/no-deprecated": "error",
+        "no-underscore-dangle": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": "error",
+        "prefer-arrow/prefer-arrow-functions": "off",
+        "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/no-empty-interface": "off"
+      }
+    },
+    {
+      "files": ["*.test.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": ["tsconfig.json"]
+      },
+      "plugins": ["@typescript-eslint"],
+      "rules": {
+        "@typescript-eslint/await-thenable": "error"
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {}
+    }
+  ]
+}

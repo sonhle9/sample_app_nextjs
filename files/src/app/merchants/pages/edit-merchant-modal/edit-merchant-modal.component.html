@@ -1,0 +1,231 @@
+<div class="container">
+  <header><h6>Add Merchant</h6></header>
+  <app-loader *ngIf="loading"></app-loader>
+  <app-message
+    *ngIf="message"
+    [content]="message"
+    [type]="messageType"
+    (close)="message = ''"
+  ></app-message>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <mat-dialog-content>
+      <div class="merchant-info">
+        <div class="merchant-id">
+          <p>{{ merchantId }}</p>
+        </div>
+        <h6>Merchant Information</h6>
+        <mat-form-field *ngIf="hasMerchantIdInput()">
+          <input
+            matInput
+            placeholder="Merchant ID"
+            type="text"
+            [readonly]="disableMerchantId"
+            formControlName="merchantId"
+          />
+          <mat-error *ngIf="errorMessages.merchantId">{{ errorMessages.merchantId }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Merchant Name" type="text" required formControlName="name" />
+          <mat-error *ngIf="errorMessages.name">{{ errorMessages.name }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Legal Name"
+            type="text"
+            required
+            formControlName="legalName"
+          />
+          <mat-error *ngIf="errorMessages.legalName">{{ errorMessages.legalName }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Type</mat-label>
+          <mat-select formControlName="type" (ngModelChange)="onMerchantTypeChange()">
+            <mat-option>
+              <ngx-mat-select-search
+                formControlName="typeFilterCtrl"
+                [(ngModel)]="typeFilterModel"
+                [placeholderLabel]="'Search...'"
+                [noEntriesFoundLabel]="'Not found'"
+              ></ngx-mat-select-search>
+            </mat-option>
+            <mat-option
+              *ngFor="let item of typeList | stringFilterBy: typeFilterModel:'name'"
+              [value]="item.id"
+            >
+              {{ item.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="errorMessages.type">{{ errorMessages.type }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Merchant Category Code</mat-label>
+          <mat-select required formControlName="merchantCategoryCode">
+            <mat-option>
+              <ngx-mat-select-search
+                formControlName="mccFilterCtrl"
+                [(ngModel)]="mccFilterModel"
+                [placeholderLabel]="'Search...'"
+                [noEntriesFoundLabel]="'Not found'"
+              ></ngx-mat-select-search>
+            </mat-option>
+            <mat-option
+              *ngFor="let item of merchantCategoryCodes | stringFilterBy: mccFilterModel:'combined'"
+              [value]="item.code"
+              >{{ item.combined }}</mat-option
+            >
+          </mat-select>
+          <mat-error *ngIf="errorMessages.merchantCategoryCode">{{
+            errorMessages.merchantCategoryCode
+          }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Country</mat-label>
+          <mat-select required formControlName="countryCode">
+            <mat-option>
+              <ngx-mat-select-search
+                formControlName="countryFilterCtrl"
+                [(ngModel)]="countryFilterModel"
+                [placeholderLabel]="'Search...'"
+                [noEntriesFoundLabel]="'Not found'"
+              ></ngx-mat-select-search>
+            </mat-option>
+            <mat-option
+              *ngFor="let item of countryList | stringFilterBy: countryFilterModel:'name'"
+              [value]="item.id"
+              >{{ item.name }}</mat-option
+            >
+          </mat-select>
+          <mat-error *ngIf="errorMessages.countryCode">{{ errorMessages.countryCode }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Timezone</mat-label>
+          <mat-select required formControlName="timezone">
+            <mat-option>
+              <ngx-mat-select-search
+                formControlName="timezoneFilterCtrl"
+                [(ngModel)]="timezoneFilterModel"
+                [placeholderLabel]="'Search...'"
+                [noEntriesFoundLabel]="'Not found'"
+              ></ngx-mat-select-search>
+            </mat-option>
+            <mat-option
+              *ngFor="let item of timezoneList | stringFilterBy: timezoneFilterModel:'name'"
+              [value]="item.name"
+              >({{ item.utcOffsetStr }}) {{ item.name }}</mat-option
+            >
+          </mat-select>
+          <mat-error *ngIf="errorMessages.timezone">{{ errorMessages.timezone }}</mat-error>
+        </mat-form-field>
+        <div class="slider-group mat-form-field-wrapper">
+          <mat-slide-toggle formControlName="paymentsEnabled"> Enable Payment </mat-slide-toggle>
+          <div class="flex-gap"></div>
+          <mat-slide-toggle formControlName="settlementsEnabled">
+            Enable Settlement
+          </mat-slide-toggle>
+        </div>
+        <div class="slider-group mat-form-field-wrapper">
+          <mat-slide-toggle formControlName="payoutEnabled"> Enable Payout </mat-slide-toggle>
+        </div>
+        <div class="divider" *ngIf="showAdvancedOptions"></div>
+        <h6 *ngIf="showAdvancedOptions">Settlement Schedule Settings</h6>
+        <mat-form-field *ngIf="showAdvancedOptions">
+          <input
+            matInput
+            placeholder="Delay Day(s)"
+            type="number"
+            min="0"
+            max="1000"
+            step="1"
+            required
+            formControlName="delayDays"
+            [readonly]="true"
+          />
+          <mat-error *ngIf="errorMessages.delayDays">{{ errorMessages.delayDays }}</mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="showAdvancedOptions">
+          <mat-label>Delay Day Type</mat-label>
+          <mat-select required formControlName="delayDayType" disabled="true">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let delayDayType of delayDayTypeList" [value]="delayDayType">{{
+              delayDayType
+            }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="errorMessages.delayDayType">{{ errorMessages.delayDayType }}</mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="showAdvancedOptions">
+          <mat-label>Interval</mat-label>
+          <mat-select required formControlName="interval" disabled="true">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let interval of intervalList" [value]="interval">{{
+              interval
+            }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="errorMessages.interval">{{ errorMessages.interval }}</mat-error>
+        </mat-form-field>
+        <div *ngFor="let field of customFieldList">
+          <mat-form-field *ngIf="field.fieldValueType === 'checkboxList'" style="width: 100%">
+            <mat-label>{{ field.fieldLabel }}</mat-label>
+            <mat-select
+              multiple
+              (selectionChange)="
+                onCustomFieldChange({
+                  name: field.fieldName,
+                  value: $event.value
+                })
+              "
+            >
+              <mat-option *ngFor="let option of field.valueOptions" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="field.fieldValueType === 'textbox'" style="width: 100%">
+            <input
+              matInput
+              placeholder="{{ field.fieldLabel }}"
+              type="text"
+              (keyup)="
+                onCustomFieldChange({
+                  name: field.fieldName,
+                  value: $event.target.value
+                })
+              "
+            />
+            <mat-hint *ngIf="isFieldError(field.fieldName)">
+              <span style="color: red">{{
+                field.validations &&
+                field.validations.length > 0 &&
+                field.validations.includes('only_numeric')
+                  ? 'Allow only numeric'
+                  : 'Allow only alphanumeric'
+              }}</span>
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="field.fieldValueType === 'dropdown'" style="width: 100%">
+            <mat-label>{{ field.fieldLabel }}</mat-label>
+            <mat-select
+              [(value)]="field.fieldValueDefault"
+              (selectionChange)="
+                onCustomFieldChange({
+                  name: field.fieldName,
+                  value: $event.value
+                })
+              "
+            >
+              <mat-option *ngFor="let option of field.valueOptions" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-stroked-button type="button" (click)="onClose()">Cancel</button>
+      <button mat-raised-button type="submit" class="primary-btn">Save</button>
+    </mat-dialog-actions>
+  </form>
+</div>

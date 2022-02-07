@@ -1,0 +1,121 @@
+@import './../../../../styles/variables';
+
+.station-details {
+  display: flex;
+  flex-direction: column;
+  .primary-btn {
+    min-width: 10em;
+    background: $primary-color;
+    color: #fff;
+    align-self: flex-end;
+    margin-bottom: 1rem;
+  }
+  .mat-card {
+    margin-bottom: 1.5em;
+    .mat-card-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .station-id {
+        color: rgba(0, 0, 0, 0.38);
+        font-style: italic;
+        font-size: 0.8em;
+      }
+      .header-json {
+        margin-right: 1.5em;
+        cursor: pointer;
+      }
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-right: 1em;
+      margin-left: 1em;
+      margin-bottom: 1.5em;
+      margin-top: 1.5em;
+
+      .col {
+        flex-basis: 0;
+        flex-grow: 1;
+        max-width: 100%;
+        margin-right: 2em;
+        .mat-input-element {
+          text-transform: capitalize;
+        }
+      }
+      .status-col {
+        margin-right: 2em;
+        .status {
+          text-transform: capitalize;
+          font-size: 1em;
+          font-weight: 600;
+          &.active {
+            color: $status-active;
+          }
+          &.inactive {
+            color: $status-inactive;
+          }
+        }
+        small {
+          color: grey;
+          font-style: italic;
+        }
+      }
+      .col-pump {
+        width: calc(25% - 10px);
+        margin-bottom: 1em;
+        .pump-number {
+          font-size: 1em;
+          color: rgba(0, 0, 0, 0.42);
+          width: 5em;
+          display: inline-block;
+          font-weight: 600;
+        }
+        .pump-status {
+          font-weight: 600;
+          font-size: 1em;
+        }
+        .active {
+          color: $active-color;
+        }
+        .inactive {
+          color: $inactive-color;
+        }
+      }
+      .col-features {
+        width: calc(33.33% - 10px);
+        .sub-header {
+          margin-bottom: 1em;
+        }
+        .features-list {
+          margin-bottom: 0.5em;
+        }
+      }
+    }
+    .sub-title {
+      margin-bottom: 1em;
+    }
+  }
+}
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+.align-left {
+  margin-left: 25px;
+  text-align: left;
+}
+.field-label {
+  color: grey;
+  font-size: 12px;
+}
+.operating-days-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.day-item {
+  margin-bottom: 10px;
+}
+.mat-icon {
+  margin-right: 2px;
+}

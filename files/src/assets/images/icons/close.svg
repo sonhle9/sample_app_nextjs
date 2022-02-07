@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="baseline-close-24px" viewBox="0 0 40 40">
+    <defs>
+        <style>
+            .cls-1{fill:#fff}.cls-2{fill:none}
+        </style>
+    </defs>
+    <path id="Path_5" d="M28.333 7.35L25.983 5l-9.317 9.317L7.35 5 5 7.35l9.317 9.317L5 25.983l2.35 2.35 9.317-9.317 9.317 9.317 2.35-2.35-9.317-9.317z" class="cls-1" data-name="Path 5" transform="translate(3.333 3.333)"/>
+    <path id="Path_6" d="M0 0h40v40H0z" class="cls-2" data-name="Path 6"/>
+</svg>

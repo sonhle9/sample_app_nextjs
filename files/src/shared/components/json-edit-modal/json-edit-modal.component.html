@@ -1,0 +1,36 @@
+<div class="container">
+  <header>
+    <h6>Variables</h6>
+  </header>
+  <div class="flex-container">
+    <div class="right-margin half-width">
+      <div>
+        <mat-label>Edit</mat-label>
+      </div>
+      <textarea
+        [ngClass]="{'red-border': !validJson}"
+        class="full-height-width top-margin"
+        #textArea
+        [(ngModel)]="json"
+      ></textarea>
+    </div>
+    <div class="half-width">
+      <div>
+        <mat-label>Preview</mat-label>
+      </div>
+      <ngx-json-viewer class="top-margin" [json]="data"></ngx-json-viewer>
+    </div>
+  </div>
+  <mat-dialog-actions align="centre" class="large-top-margin">
+    <button
+      mat-raised-button
+      [disabled]="!validJson"
+      type="button"
+      class="primary-btn"
+      (click)="onUpdate()"
+    >
+      Update
+    </button>
+    <button mat-raised-button type="submit" (click)="onCancel()">Cancel</button>
+  </mat-dialog-actions>
+</div>

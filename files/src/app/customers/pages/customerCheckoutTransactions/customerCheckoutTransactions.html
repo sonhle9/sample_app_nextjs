@@ -1,0 +1,129 @@
+<b>Checkout Transactions</b>
+<div class="container">
+  <div class="wrapper">
+    <div class="filter-container" *ngIf="roles?.hasView">
+      <app-pagination
+        [pagination]="pagination"
+        (next)="next()"
+        (prev)="prev()"
+        [mode]="1"
+      ></app-pagination>
+      <app-dropdown
+        label="Payment Status"
+        [(ngModel)]="selectedPaymentStatus"
+        [items]="statuses"
+        (ngModelChange)="filter()"
+      >
+      </app-dropdown>
+      <app-dropdown
+        label="Created date"
+        [(ngModel)]="selectedDate"
+        [items]="dateTypes"
+        (ngModelChange)="updateDate()"
+      >
+      </app-dropdown>
+      <app-dropdown
+        label="Payment method"
+        [(ngModel)]="paymentMixMethod"
+        [items]="paymentMixMethods"
+        (ngModelChange)="updatePaymentMethod()"
+      >
+      </app-dropdown>
+      <app-datepicker
+        [enabled]="selectedDate?.value === 's'"
+        label="Start date"
+        [(ngModel)]="startDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-datepicker
+        [enabled]="selectedDate?.value === 's'"
+        label="End date"
+        [(ngModel)]="endDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <div class="flex-gap"></div>
+    </div>
+
+    <div class="search-container">
+      <app-searchbar
+        class="input-search"
+        placeholder="Transaction ID, Order ID, Merchant name, Sub Merchant name"
+        [(ngModel)]="searchValue"
+        (search$)="search()"
+      >
+      </app-searchbar>
+    </div>
+
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyResult>
+  <div class="card transaction-card">
+    <div class="card-header">
+      <div></div>
+      <div>Checkout Transaction ID</div>
+      <div>Merchant</div>
+      <div>Payment Method</div>
+      <div>Created On</div>
+      <div>Amount</div>
+      <div>Error Message</div>
+    </div>
+    <div class="card-content">
+      <ng-container *ngIf="pagination?.items.length !== 0;">
+        <div class="card-row" *ngFor="let item of pagination?.items">
+          <div class="card-column middle">
+            <div
+              class="txn-status {{ item?.status | lowercase }}"
+              [attr.title]="item?.status"
+            ></div>
+          </div>
+          <a
+            class="card-column main clickable"
+            [routerLink]="['/checkout/sessions', item?.id]"
+            target="_blank"
+            >{{ item?.id }}</a
+          >
+          <a
+            class="card-column main clickable"
+            href="{{ webDashboardUrl }}/settings?merchantId={{ item?.merchantId }}&redirect-from=admin"
+            target="_blank"
+          >
+            {{ item?.merchantName | titlecase }}
+          </a>
+          <div class="card-column">{{ item?.paymentMethod | checkoutTransactionPaymentMethod}}</div>
+          <div class="card-column">{{ item?.createdAt | amDateFormat: 'DD MMM YYYY, hh:mmA' }}</div>
+          <div class="card-column">{{ item?.amount | myrCurrency | emptyDash }}</div>
+          <div class="card-column" [attr.title]="item?.error?.message">
+            {{ item?.error?.message }}
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

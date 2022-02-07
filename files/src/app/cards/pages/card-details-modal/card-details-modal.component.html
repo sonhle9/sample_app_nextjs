@@ -1,0 +1,118 @@
+<div class="container">
+  <header>
+    <h6>Edit card details</h6>
+  </header>
+  <app-loader *ngIf="loading"></app-loader>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <mat-dialog-content>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Status</mat-label>
+          <mat-select
+            formControlName="status"
+            class="mat-select-status-{{ form.controls.status.value }}"
+            (selectionChange)="selectStatus($event.value)"
+          >
+            <mat-option
+              *ngFor="let item of statuses"
+              value="{{ item.value }}"
+              hidden="true"
+              class="op-select"
+            >
+              <span *ngIf="item.value === 'active'" class="txt-active">{{ item.text }}</span>
+              <span *ngIf="item.value === 'pending'" class="txt-pending">{{ item.text }}</span>
+              <span *ngIf="item.value === 'frozen'" class="txt-frozen">{{ item.text }}</span>
+              <span *ngIf="item.value === 'closed'" class="txt-closed">{{ item.text }}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Reason</mat-label>
+          <mat-select formControlName="reason">
+            <mat-option value="none" *ngIf="form.controls.status.value === 'active'"
+              >None</mat-option
+            >
+            <mat-option *ngFor="let item of reasons" value="{{ item.name }}">
+              {{ item.id }}</mat-option
+            >
+          </mat-select>
+          <mat-error *ngIf="form.controls.reason.errors">
+            {{ form.controls.reason.errors.required ? 'Required reason value. ' : '' }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <input matInput placeholder="Remark" type="text" formControlName="remark" />
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Type</mat-label>
+          <mat-select formControlName="type" required disabled="true">
+            <mat-option *ngFor="let item of types" value="{{ item.name }}">{{
+              item.id
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Form factor</mat-label>
+          <mat-select formControlName="formFactor" disabled="true">
+            <mat-option *ngFor="let item of formFactors" value="{{ item.name }}">{{
+              item.id
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Physical card type</mat-label>
+          <mat-select formControlName="physicalType" disabled="true">
+            <mat-option *ngFor="let item of physicalTypes" value="{{ item.name }}">{{
+              item.id
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Subtype</mat-label>
+          <mat-select formControlName="subtype" disabled="true">
+            <mat-option *ngFor="let item of subtypes" value="{{ item.name }}">{{
+              item.id
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field class="width-100">
+          <mat-label>Card groups (list by Type)</mat-label>
+          <mat-select formControlName="cardGroup" required>
+            <mat-option *ngFor="let item of cardGroups" value="{{ item.id }}">{{
+              item.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <div fxLayout="row" fxLayoutGap="10px">
+        <button mat-stroked-button type="button" (click)="onClose()">Cancel</button>
+        <button mat-stroked-button type="submit" color="primary">Save</button>
+      </div>
+    </mat-dialog-actions>
+  </form>
+</div>

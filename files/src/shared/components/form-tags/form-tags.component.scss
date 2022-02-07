@@ -1,0 +1,45 @@
+@import './../../../styles/variables';
+
+form {
+  button {
+    margin-left: -32px;
+    margin-top: 6px;
+  }
+
+  mat-form-field.example-full-width {
+    width: 100%;
+  }
+
+  .tag {
+    height: inherit;
+  }
+
+  mat-chip-list {
+    display: block;
+    margin-top: 15px;
+  }
+
+  &.error {
+    .error-text {
+      color: $danger-color;
+    }
+  }
+
+  .error-text {
+    position: absolute;
+    font-size: $helper-font;
+    transition: all 0.3s;
+    margin-top: 1px;
+    min-height: 18px;
+    bottom: -26px;
+    left: 0px;
+
+    &.error {
+      color: $danger-color;
+    }
+  }
+
+  .control-field {
+    display: flex;
+  }
+}

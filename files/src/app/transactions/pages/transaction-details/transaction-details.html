@@ -1,0 +1,61 @@
+<div class="container" [appBreadcrumbs]="breadcrumbs">
+  <h6 class="headline">Payment transaction detail</h6>
+  <app-button (click)="showVoidTransactionModal()" *ngIf="isShowVoidButton" type="button"
+    >Reverse</app-button
+  >
+  <app-button
+    (click)="showCancelAuthorizedTransactionModal()"
+    *ngIf="isShowCancelAuthorizedButton"
+    type="button"
+    >Cancel</app-button
+  >
+  <div class="card-panel">
+    <ngx-json-viewer [json]="transaction"></ngx-json-viewer>
+  </div>
+  <app-button
+    class="left"
+    (click)="gotoWalletTxDetailPage()"
+    [disabled]="!walletTx"
+    *ngIf="isShowWalletTxDetailBtn"
+    type="button"
+  >
+    {{walletTx ? "Go to" : "Not found"}} {{walletTxDetailPageName}}
+  </app-button>
+</div>
+<app-modal-confirm
+  title="Void transaction"
+  description="Are you sure you want to void this Grant Wallet Balance transaction?"
+  submitBtnText="Confirm"
+  cancelBtnText="Cancel"
+  [isModalShown]="isShowVoidModal"
+  (submit)="voidTransaction()"
+  (cancel)="hideVoidTransactionModal()"
+></app-modal-confirm>
+<app-modal-confirm
+  title="Void transaction"
+  [description]="voidResponseModalContent"
+  submitBtnText="Close"
+  hideCancelButton="true"
+  alignTextCenter="true"
+  [isModalShown]="isShowVoidResponseModal"
+  (submit)="hideVoidTransactionResponseModal()"
+></app-modal-confirm>
+
+<app-modal-confirm
+  title="Cancel authorized transaction"
+  description="Are you sure you want to cancel this authorized transaction?"
+  submitBtnText="Confirm"
+  cancelBtnText="Cancel"
+  [isModalShown]="isShowCancelAuthorizedModal"
+  (submit)="cancelAuthorizedTransaction()"
+  (cancel)="hideCancelAuthorizedTransactionModal()"
+></app-modal-confirm>
+<app-modal-confirm
+  title="Cancel authorized transaction"
+  [description]="cancelAuthorizedResponseModalContent"
+  submitBtnText="Close"
+  hideCancelButton="true"
+  alignTextCenter="true"
+  [isModalShown]="isShowCancelAuthorizedResponseModal"
+  (submit)="hideCancelAuthorizedTransactionResponseModal()"
+></app-modal-confirm>

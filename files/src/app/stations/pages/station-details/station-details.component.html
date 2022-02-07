@@ -1,0 +1,325 @@
+<app-message
+  *ngIf="message"
+  [hasClose]="false"
+  [content]="message"
+  [type]="messageType"
+></app-message>
+<div class="station-details">
+  <button mat-raised-button class="primary-btn" (click)="routeEdit()">Edit</button>
+  <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-title>
+        {{ station?.name }} <span class="station-id">({{ station?.id }})</span>
+      </div>
+      <div class="header-json" (click)="openJsonViewerModal(station)">
+        <mat-icon>code</mat-icon>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <form>
+        <div class="row">
+          <mat-form-field class="col">
+            <mat-label>Station name</mat-label>
+            <input matInput placeholder="Placeholder" value="{{ station?.name }}" disabled />
+          </mat-form-field>
+          <mat-form-field class="col">
+            <mat-label>Vendor Type</mat-label>
+            <input matInput placeholder="Placeholder" value="{{ station?.vendorType }}" disabled />
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <mat-label>Trading company name</mat-label>
+            <input
+              matInput
+              placeholder="Placeholder"
+              value="{{ station?.merchant?.tradingCompanyName }}"
+              disabled
+            />
+          </mat-form-field>
+          <mat-form-field class="col">
+            <mat-label>GST number</mat-label>
+            <input matInput placeholder="Placeholder" value="{{ station?.name }}" disabled />
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <textarea
+              matInput
+              placeholder="Station address"
+              value="{{ station?.address | emptyDash }}"
+              disabled
+            ></textarea>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <mat-label>Latitude</mat-label>
+            <input matInput placeholder="Placeholder" value="{{ station?.latitude }}" disabled />
+          </mat-form-field>
+          <mat-form-field class="col">
+            <mat-label>Longitude</mat-label>
+            <input matInput placeholder="Placeholder" value="{{ station?.longitude }}" disabled />
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <mat-label>Geofence Latitude</mat-label>
+            <input
+              matInput
+              placeholder="Placeholder"
+              value="{{ station?.geofenceLatitude }}"
+              disabled
+            />
+          </mat-form-field>
+          <mat-form-field class="col">
+            <mat-label>Geofence Longitude</mat-label>
+            <input
+              matInput
+              placeholder="Placeholder"
+              value="{{ station?.geofenceLongitude }}"
+              disabled
+            />
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <mat-label>Geofence Radius</mat-label>
+            <input
+              matInput
+              placeholder="Placeholder"
+              value="{{ station?.geofenceRadius }}"
+              disabled
+            />
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <mat-label>Phone number</mat-label>
+            <input
+              matInput
+              placeholder="Placeholder"
+              value="{{ station?.merchant?.phoneNumber }}"
+              disabled
+            />
+          </mat-form-field>
+          <mat-form-field class="col">
+            <mat-label>Petrol pumps</mat-label>
+            <input matInput placeholder="Placeholder" value="{{ station?.allPumps }}" disabled />
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <mat-label>Merchant ID</mat-label>
+            <input
+              matInput
+              placeholder="Placeholder"
+              value="{{ station?.kipleMerchantId }}"
+              disabled
+            />
+          </mat-form-field>
+          <mat-form-field class="col">
+            <mat-label>LMS Merchant ID</mat-label>
+            <input
+              matInput
+              placeholder="Placeholder"
+              value="{{ station?.loyaltyVendorMerchantId || 'None' }}"
+              disabled
+            />
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col">
+            <mat-label>Fuel Merchant</mat-label>
+            <input
+              matInput
+              placeholder="Placeholder"
+              value="{{ fuelMerchantName || 'None' }}"
+              disabled
+            />
+          </mat-form-field>
+          <mat-form-field class="col">
+            <mat-label>Store Merchant</mat-label>
+            <input
+              matInput
+              placeholder="Placeholder"
+              value="{{ storeMerchantName || 'None' }}"
+              disabled
+            />
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Status</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="status-col">
+          <div>Station status</div>
+          <div
+            [ngClass]="{
+              active: station?.status === 'active',
+              inactive: station?.status !== 'active'
+            }"
+            class="status"
+          >
+            {{ station?.status }}
+          </div>
+          <small>{{ station?.updatedAt | dateAgo }}</small>
+        </div>
+        <div class="status-col">
+          <div>Vendor status</div>
+          <div
+            [ngClass]="{
+              active: station?.healthCheck?.status === 'active',
+              inactive: station?.healthCheck?.status !== 'active'
+            }"
+            class="status"
+          >
+            {{ station?.healthCheck?.status }}
+          </div>
+          <small>{{ station?.healthCheck?.updatedAt | dateAgo }}</small>
+        </div>
+        <div class="status-col">
+          <div>Store status</div>
+          <div
+            [ngClass]="{
+              active: station?.storeStatus === 'active',
+              inactive: station?.storeStatus !== 'active'
+            }"
+            class="status"
+          >
+            {{ station?.storeStatus }}
+          </div>
+          <small>{{ station?.updatedAt | dateAgo }}</small>
+        </div>
+        <div class="status-col">
+          <div>Fuel in-car status</div>
+          <div
+            [ngClass]="{
+              active: station?.fuelInCarStatus === 'active',
+              inactive: station?.fuelInCarStatus !== 'active'
+            }"
+            class="status"
+          >
+            {{ station?.fuelInCarStatus }}
+          </div>
+          <small>{{ station?.updatedAt | dateAgo }}</small>
+        </div>
+        <div class="status-col">
+          <div>Concierge status</div>
+          <div
+            [ngClass]="{
+              active: station?.conciergeStatus === 'active',
+              inactive: station?.conciergeStatus !== 'active'
+            }"
+            class="status"
+          >
+            {{ station?.conciergeStatus }}
+          </div>
+          <small>{{ station?.updatedAt | dateAgo }}</small>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Station Operating Hours</mat-card-title>
+    </mat-card-header>
+    <div style="margin-left: 17px">
+      <mat-slide-toggle
+        disabled="true"
+        checked="{{ station?.isOperating24Hours }}"
+      ></mat-slide-toggle>
+      <label style="padding-left: 5px">24 hours</label>
+    </div>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item class="day-item row" *ngFor="let day of operatingHours; let i = index">
+          <div class="operating-days-container">
+            <span class="mat-icon">
+              <mat-icon>check_circle</mat-icon>
+            </span>
+            {{ days[operatingHours[i].day] }}
+            <div class="break"></div>
+            <div *ngFor="let slot of operatingHoursTimeSlots[i].slots">
+              <input
+                class="align-left"
+                [min]="minTime"
+                [max]="maxTime"
+                [readonly]="true"
+                [value]="station?.isOperating24Hours ? '12.00 am - 11.59 pm' : slot"
+              />
+            </div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Fuel In-Car Operating Hours</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item
+          class="day-item row"
+          *ngFor="let day of fuelInCarOperatingHours; let i = index"
+        >
+          <div class="operating-days-container">
+            <span class="mat-icon">
+              <mat-icon>check_circle</mat-icon>
+            </span>
+            {{ days[fuelInCarOperatingHours[i].day] }}
+            <div class="break"></div>
+            <div *ngFor="let slot of fuelInCarTimeSlots[i].slots">
+              <input
+                class="align-left"
+                [min]="minTime"
+                [max]="maxTime"
+                [readonly]="true"
+                [value]="slot"
+              />
+            </div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Pumps</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div *ngFor="let pump of station?.pumps" class="col-pump">
+          <span class="pump-number">Pump #{{ pump?.pumpId }}</span>
+          <span class="{{ pump?.status === 'active' ? 'active' : 'inactive' }} pump-status">{{
+            pump?.status | stationStatus
+          }}</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Features</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div *ngFor="let feature of station?.features" class="col-features">
+          <div class="sub-header">
+            <h6>{{ getFeatureTypeName(feature.typeId) }}</h6>
+          </div>
+          <div *ngFor="let item of feature?.featureItems" class="features-list">
+            {{ getFeatureTypeItemName(feature.typeId, item) }}
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

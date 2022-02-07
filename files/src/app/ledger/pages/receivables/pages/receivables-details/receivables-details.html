@@ -1,0 +1,43 @@
+<div class="container">
+  <h4 class="headline">Receivable Details</h4>
+  <h6 class="headline">Receivable Details JSON</h6>
+  <div class="card-panel">
+    <ngx-json-viewer [json]="receivable" [expanded]="false"></ngx-json-viewer>
+    <div class="adjust-button" *ngIf="showAdjust">
+      <app-button (click)="openAdjustModal()">Record Adjustment</app-button>
+    </div>
+  </div>
+  <ng-container *ngIf="feeSummary?.length; then feeDailySummary;"></ng-container>
+  <app-receivables-exceptions [receivableId]="receivableId"></app-receivables-exceptions>
+  <app-receivables-reconciliations [receivableId]="receivableId"></app-receivables-reconciliations>
+</div>
+
+<ng-template #feeDailySummary>
+  <div class="fee-summary">
+    <h6 class="headline">Fee Summary</h6>
+    <div class="card fee-summary-card">
+      <div class="card-header">
+        <div>Transaction type</div>
+        <div># of transactions</div>
+        <div>Payment Option</div>
+        <div>Card scheme</div>
+        <div class="amount">Expected fee</div>
+        <div class="amount">Actual fee</div>
+      </div>
+      <div class="card-content">
+        <div class="card-row" *ngFor="let summary of feeSummary">
+          <div class="card-column main">
+            {{ summary.transactionType | replace: '_':' ' | titlecase }}
+          </div>
+          <div class="card-column">{{summary.count}}</div>
+          <div class="card-column">{{ summary.paymentOption | replace: '_':' ' | titlecase }}</div>
+          <div class="card-column">
+            {{ summary.cardScheme | emptyDash | replace: '_':' ' | titlecase }}
+          </div>
+          <div class="card-column amount">{{ summary.feeAmount | myrCurrency }}</div>
+          <div class="card-column amount">{{ summary.paymentGatewayFeeAmount | myrCurrency }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

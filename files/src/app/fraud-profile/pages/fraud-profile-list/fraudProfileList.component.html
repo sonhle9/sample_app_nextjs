@@ -1,0 +1,136 @@
+<div class="container" [appBreadcrumbs]="breadcrumbs">
+  <h1 class="headline">Fraud profiles</h1>
+  <mat-expansion-panel
+    *ngIf="roles?.hasAdminSearch"
+    [expanded]="true"
+    class="fraud-profile-filtering"
+  >
+    <app-message
+      *ngIf="message"
+      [content]="message"
+      [type]="messageType"
+      (close)="message = ''"
+    ></app-message>
+    <div class="filter-container">
+      <app-dropdown
+        label="Status"
+        [(ngModel)]="selectedStatus"
+        [items]="statuses"
+        (ngModelChange)="filter()"
+      >
+      </app-dropdown>
+      <app-dropdown
+        label="Created date"
+        [(ngModel)]="selectedDateFilter"
+        [items]="dateFilters"
+        (ngModelChange)="updateDateFilter()"
+      >
+      </app-dropdown>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="Start date"
+        [(ngModel)]="startDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="End date"
+        [(ngModel)]="endDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+    </div>
+    <div class="search-container">
+      <app-searchbar
+        label="Search"
+        placeholder="Search by name"
+        [(ngModel)]="searchValue"
+        (search$)="search()"
+        formClass="border-curve"
+        buttonClass="blue"
+      ></app-searchbar>
+    </div>
+  </mat-expansion-panel>
+  <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+    <app-loader class="big-loader" type="transparent"></app-loader>
+  </ng-container>
+</div>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #anyResult>
+  <app-pagination
+    [pagination]="pagination"
+    (next)="next()"
+    (prev)="prev()"
+    [mode]="1"
+  ></app-pagination>
+  <div class="card fraud-profile-card">
+    <div class="card-header">
+      <div>TYPE</div>
+      <div>NAME</div>
+      <div>STATUS</div>
+      <div>CREATED ON</div>
+      <div>UPDATED ON</div>
+      <div class="action" *ngIf="roles?.hasAdminUpdate"></div>
+    </div>
+    <div class="card-content">
+      <div class="card-row" *ngFor="let item of pagination?.items">
+        <a
+          class="card-column clickable"
+          [routerLink]="['/risk-controls/fraud-profiles', item.id]"
+          target="_blank"
+        >
+          {{ item.targetType | fraudProfilesTargetType }}
+        </a>
+        <a
+          class="card-column clickable"
+          [routerLink]="['/accounts', item.targetId]"
+          target="_blank"
+        >
+          {{ item.targetName }}
+        </a>
+        <div class="card-column">
+          <app-profile-card-status status="{{ item.status }}">
+            {{ item.status | fraudProfilesStatus | uppercase }}
+          </app-profile-card-status>
+        </div>
+        <div class="card-column">
+          <div>{{ item.createdAt | amDateFormat: 'DD MMM YYYY, hh:mmA' }}</div>
+        </div>
+        <div class="card-column">
+          <div>{{ item.updatedAt | amDateFormat: 'DD MMM YYYY, hh:mmA' }}</div>
+        </div>
+        <div class="card-column action" *ngIf="roles?.hasAdminUpdate">
+          <a
+            class="card-column main clickable"
+            [routerLink]="['/risk-controls/fraud-profiles', item.id]"
+            target="_blank"
+          >
+            <mat-icon>more_horiz</mat-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

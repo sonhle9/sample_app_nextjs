@@ -1,0 +1,9 @@
+<b>Expiring Wallet Balance</b>
+<div class="card expiring-balance-card">
+  <div class="card-content">
+    <p class="balance">
+      <b>{{getExpiringWalletBalance() | myrCurrency}}</b>
+    </p>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</div>

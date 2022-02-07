@@ -1,0 +1,129 @@
+@import '../../../../styles/variables';
+$header-height: 60px;
+$logo-height: 30px;
+$header-padding: 20px;
+$nav-left-menu: 320px;
+nav.horizontal {
+  background-color: $header-bg;
+  border-bottom: 1px solid $header-line;
+  width: 100%;
+  height: $header-height;
+  display: flex;
+  position: relative;
+  .profile {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu {
+    img {
+      display: inline-block;
+      height: $logo-height;
+      width: $logo-height;
+    }
+  }
+
+  .profile {
+    position: absolute;
+    right: $header-padding;
+    top: 0;
+    bottom: 0;
+    text-align: right;
+    line-height: 1;
+    .desc {
+      color: $header-desc;
+      font-size: 0.85em;
+    }
+    img {
+      height: 36px;
+      margin: 0 10px;
+    }
+    .arrow {
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid $header-arrow;
+    }
+    .profile-menu {
+      text-align: left;
+      position: absolute;
+      top: $header-height * 0.8;
+      background-color: #fff;
+      list-style: none;
+      margin: 0;
+      box-shadow: $card-shadow;
+      animation: slideDown 0.3s cubic-bezier(0.5, 0, 0.5, 1);
+      z-index: 9;
+    }
+  }
+}
+
+ul.menu-container {
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: $nav-left-menu;
+  padding-top: $header-height + $header-padding;
+  padding-left: $header-padding + 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  animation: slideLeft 0.3s ease-in-out;
+
+  .menu-content {
+    min-height: $logo-height * 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: $header-padding;
+    background-color: inherit;
+    overflow: hidden;
+
+    .menu-text {
+      flex: 1;
+      color: initial;
+
+      &.has-link:hover {
+        color: $link-color;
+      }
+    }
+  }
+
+  .sub-menu {
+    padding-left: $header-padding;
+    padding-right: $header-padding * 2;
+    animation: slideDown 0.3s ease-in-out;
+    overflow: hidden;
+
+    .menu-text {
+      font-weight: 300;
+    }
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,22 @@
+<h6 class="subtitle">Grant Mesra points - by Reward</h6>
+<form class="card-panel" (ngSubmit)="openGrantPointsModal()" [formGroup]="form">
+  <app-input
+    class="fff"
+    label="Points"
+    formControlName="amount"
+    [errorMessage]="errorMessage.amount"
+  >
+  </app-input>
+  <app-button css="add" type="submit">Grant Mesra points</app-button>
+  <div class="loader-container" *ngIf="loading">
+    <app-loader type="progress"></app-loader>
+  </div>
+</form>
+<div class="input-gap"></div>
+<app-message
+  *ngIf="messageContent"
+  [content]="messageContent"
+  [type]="messageType"
+  (close)="messageContent = ''"
+>
+</app-message>

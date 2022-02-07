@@ -1,0 +1,101 @@
+<div class="container">
+  <div class="wrapper">
+    <div class="block-title">
+      <b>E-pay Recon Report</b>
+    </div>
+    <div class="filter-container">
+      <app-pagination
+        [pagination]="pagination"
+        (next)="next()"
+        (prev)="prev()"
+        [mode]="1"
+      ></app-pagination>
+      <mat-form-field class="filter">
+        <mat-label>Match</mat-label>
+        <mat-select #type (selectionChange)="onMatchChange($event)">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let match of matchTypes" [value]="match.value">
+            {{ match.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="filter-combine-dates">
+        <mat-form-field class="filter-date">
+          <mat-label>Date (from)</mat-label>
+          <input
+            (dateChange)="onAnyDateChange()"
+            matInput
+            [matDatepicker]="dateFromId"
+            [(ngModel)]="dateFrom"
+            [max]="dateTo"
+            disabled
+          />
+          <mat-datepicker-toggle matSuffix [for]="dateFromId"></mat-datepicker-toggle>
+          <mat-datepicker #dateFromId disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="filter-date">
+          <mat-label>Date (to)</mat-label>
+          <input
+            (dateChange)="onAnyDateChange()"
+            matInput
+            [matDatepicker]="dateToId"
+            [(ngModel)]="dateTo"
+            [min]="dateFrom"
+            disabled
+          />
+          <mat-datepicker-toggle matSuffix [for]="dateToId"></mat-datepicker-toggle>
+          <mat-datepicker #dateToId disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="header-buttons">
+        <a class="download-hyperlink" #downloadEl></a>
+        <app-button [disabled]="isCsvLoading" (click)="downloadCsv()">Download CSV</app-button>
+      </div>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+
+  <ng-template #anyResult>
+    <ngx-datatable
+      class="material"
+      [rows]="getData()"
+      [columns]="getColumns()"
+      [columnMode]="'flex'"
+      [headerHeight]="50"
+      [footerHeight]="0"
+      [rowHeight]="'auto'"
+      [loadingIndicator]="loading.page"
+    >
+    </ngx-datatable>
+  </ng-template>
+
+  <ng-template #matchColumnTpl let-row="row" let-value="value" style="padding: 0">
+    <p class="match-common" [ngClass]="{'match-true': value, 'match-false': !value}">
+      {{value ? 'Yes' : 'No'}}
+    </p>
+  </ng-template>
+
+  <ng-template #datesColumnTpl let-row="row" let-value="value">
+    {{ value | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+  </ng-template>
+
+  <ng-template #anyOrEmptyResult>
+    <ng-container
+      *ngIf="loading.page || getData()?.length !== 0; then anyResult; else noResult"
+    ></ng-container>
+  </ng-template>
+
+  <ng-template #noResult>
+    <div class="empty-state">
+      <img src="assets/images/icons/empty_result.svg" />
+      <h6>No results matching your search were found.</h6>
+      <ul>
+        <li>Check your spelling. Are the words in your query spelled correctly?</li>
+        <li>Make your search more general,. try more general terms in place of specific ones.</li>
+        <li>Try your search in a different scope. Different scopes can have different results</li>
+      </ul>
+    </div>
+  </ng-template>
+</div>

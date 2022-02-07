@@ -1,0 +1,26 @@
+@import './../../../styles/dialog';
+
+.container {
+  .mat-progress-bar {
+    margin: 0px -1.5em;
+    width: auto;
+  }
+  form {
+    .mat-form-field {
+      width: 100%;
+    }
+    .charges-type {
+      margin-bottom: 0.5em;
+
+      .label {
+        margin-bottom: 0.5em;
+        color: rgba(0, 0, 0, 0.54);
+      }
+      ::ng-deep .mat-radio-button {
+        &:nth-child(1) {
+          margin-right: 1em;
+        }
+      }
+    }
+  }
+}

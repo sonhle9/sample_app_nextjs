@@ -1,0 +1,43 @@
+@import './../../../../styles/variables';
+
+.wrapper {
+  position: relative;
+  min-height: 250px;
+  padding: 30px 0;
+  margin-top: 32px;
+}
+
+.search {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.table-limit-warning {
+  padding: 10px 20px;
+  background-color: $read-only-input;
+  text-align: center;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+}
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  ::ng-deep app-dropdown {
+    .dropdown {
+      height: 30px;
+      margin-right: 4px;
+    }
+  }
+
+  .pagination {
+    margin-top: 5px;
+    margin-right: 10px;
+    min-width: 64px;
+  }
+
+  app-button-download {
+    margin-left: auto;
+  }
+}

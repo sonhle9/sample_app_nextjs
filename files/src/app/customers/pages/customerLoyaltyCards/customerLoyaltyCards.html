@@ -1,0 +1,118 @@
+<b>Loyalty Card</b>
+<app-message
+  *ngIf="message"
+  [content]="message"
+  [type]="messageType"
+  (close)="message = '';"
+></app-message>
+<div class="card col-6">
+  <div class="card-header">
+    <div>Card details</div>
+    <div>Status</div>
+    <div>Created on</div>
+    <div>Point Balance</div>
+    <div>Redemption Cap</div>
+    <div>Actions</div>
+  </div>
+  <div class="card-content" *ngIf="loyaltyCard; else noContent">
+    <div class="card-row">
+      <a
+        [routerLink]="loyaltyCard?.provider === 'SETEL' ? ['/loyalty/members', loyaltyCard.id] : ['/accounts', 'loyalty-cards', loyaltyCard.id]"
+        target="_blank"
+        class="card-column main"
+        >Mesra - {{loyaltyCard?.cardNumber | lastchar:4 }}</a
+      >
+      <div class="card-column">{{ loyaltyCard?.status | loyaltyCardStatus }}</div>
+      <div class="card-column">
+        {{ loyaltyCard?.createdAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+      </div>
+      <div class="card-column">{{ loyaltyCard?.pointTotalBalance }}</div>
+      <div class="card-column">{{ addNumbersComma(loyaltyCard?.redeemedPoints) }}/15,000pts</div>
+      <div class="card-column middle left">
+        <app-button-icon class="update" (click)="updateCard()"></app-button-icon>
+        <app-button-icon class="unlink" (click)="unlinkCard()"></app-button-icon>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="hasUnlinkModal">
+  <div class="modal-background"></div>
+  <div class="modal">
+    <app-loader *ngIf="modalLoading"></app-loader>
+    <div class="modal-content">
+      <h6>Unlink loyalty card</h6>
+      <p>Are you sure you want to unlink the following loyalty card from {{ customerName }}?</p>
+      <h4>{{ loyaltyCard?.cardNumber }}</h4>
+    </div>
+    <div class="modal-action">
+      <app-button css="light" (click)="cancelUnlinkCard()">Cancel</app-button>
+      <app-button (click)="submit()">Unlink loyalty card</app-button>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="hasAddModal">
+  <div class="modal-background"></div>
+  <form class="modal" (ngSubmit)="submitAdd()" [formGroup]="form">
+    <app-loader *ngIf="modalLoading"></app-loader>
+    <div class="modal-content">
+      <h6>Adding loyalty card</h6>
+      <app-input
+        class="fff"
+        type="tel"
+        formControlName="cardNumber"
+        [errorMessage]="errorMessage.cardNumber"
+        maxlength="17"
+      >
+      </app-input>
+    </div>
+    <div class="modal-action">
+      <app-button type="button" css="light" (click)="cancelAddCard()">Cancel</app-button>
+      <app-button type="submit">Add loyalty card</app-button>
+    </div>
+  </form>
+</ng-container>
+
+<ng-container *ngIf="hasUpdateModal">
+  <div class="modal-background"></div>
+  <form class="modal" (ngSubmit)="submitUpdate()" [formGroup]="updateForm">
+    <app-loader *ngIf="modalLoading"></app-loader>
+    <div class="modal-content">
+      <h6>Update loyalty card</h6>
+      <app-input
+        class="fff"
+        formControlName="cardNumber"
+        [errorMessage]="updateErrorMessage.cardNumber"
+        readonly="readonly"
+      ></app-input>
+      <div class="select-container">
+        <app-dropdown
+          label="Status"
+          type="large"
+          [items]="cardStatuses"
+          formControlName="cardStatus"
+        ></app-dropdown>
+        <app-dropdown
+          *ngIf="haFreezeReason"
+          label="Freeze reason"
+          type="large"
+          [items]="freezeReasons"
+          formControlName="freezeReason"
+        >
+        </app-dropdown>
+      </div>
+    </div>
+    <div class="modal-action">
+      <app-button type="button" css="light" (click)="cancelUpdateCard()">Cancel</app-button>
+      <app-button type="submit">Update loyalty card</app-button>
+    </div>
+  </form>
+</ng-container>
+
+<ng-template #noContent>
+  <p class="empty-text" *ngIf="loading">Loading...</p>
+  <app-button class="btn-add-card" css="add" *ngIf="!loading" (click)="addCard()"
+    >Add Loyalty Card</app-button
+  >
+</ng-template>

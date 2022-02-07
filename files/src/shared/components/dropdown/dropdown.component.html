@@ -1,0 +1,12 @@
+<div class="dropdown-field {{ type }}" [ngClass]="hasError ? 'error' : ''">
+  <label *ngIf="label" [for]="id">{{ label }}</label>
+  <div class="dropdown">
+    <select [id]="id" [(ngModel)]="value" (blur)="_onTouchedCallback($event)">
+      <option *ngIf="placeholder" disabled selected value="">{{ placeholder }}</option>
+      <option *ngFor="let item of items" [ngValue]="pluckValue ? item.value : item">
+        {{ item.text }}
+      </option>
+    </select>
+  </div>
+  <span class="helper-text">{{ errorMessage || helper }}</span>
+</div>

@@ -1,0 +1,46 @@
+@import './../../../../styles/variables';
+.order-wrapper {
+  section {
+    .mat-table {
+      width: 100%;
+      .mat-row {
+        &:hover {
+          background: #0000000a;
+        }
+        .table-data {
+          vertical-align: middle;
+          &:nth-child(1) {
+            cursor: pointer;
+          }
+        }
+        .mat-column-receiptNumber {
+          width: 15%;
+          text-align: center;
+        }
+        .mat-column-receiptNumber {
+          width: 15%;
+          text-align: center;
+        }
+        .danger300 {
+          color: $danger-color;
+        }
+      }
+      .title {
+        vertical-align: middle;
+      }
+      .action {
+        text-align: center;
+      }
+    }
+    thead {
+      tr {
+        width: 20%;
+      }
+    }
+    th,
+    td {
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+}

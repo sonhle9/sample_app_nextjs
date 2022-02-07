@@ -1,0 +1,25 @@
+<h6 class="headline">Customer Funnel</h6>
+<form class="filter-container" [formGroup]="form">
+  <app-datepicker
+    [pickerType]="'calendar'"
+    label="Customer registered from"
+    formControlName="createdUsersFrom"
+    [errorMessage]="errorMessage?.createdUsersFrom"
+    helper="* Required field"
+  ></app-datepicker>
+  <app-datepicker
+    [pickerType]="'calendar'"
+    label="Customer registered to"
+    formControlName="createdUsersTo"
+    [errorMessage]="errorMessage?.createdUsersTo"
+    helper="* Required field"
+  ></app-datepicker>
+  <app-button-download
+    type="button"
+    (click)="formDownloadCsv()"
+    [download]="downloadCsv"
+    [isLoading]="isLoading"
+    fileName="customer-funnel-"
+    >Download CSV</app-button-download
+  >
+</form>

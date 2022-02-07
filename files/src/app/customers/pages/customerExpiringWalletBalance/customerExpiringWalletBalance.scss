@@ -1,0 +1,28 @@
+@import './../../../../styles/variables';
+
+b {
+  display: block;
+  margin: 20px 0;
+}
+
+.loader-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.card.expiring-balance-card {
+  max-width: 250px;
+
+  .card-content {
+    text-align: center;
+    padding-bottom: 0px;
+    padding: 15px, 0px;
+
+    .balance {
+      font-size: 30px;
+    }
+  }
+}

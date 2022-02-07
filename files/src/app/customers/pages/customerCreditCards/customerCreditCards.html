@@ -1,0 +1,55 @@
+<b class="title">Credit/debit cards</b>
+<b class="subtitle">Setel</b>
+<app-message *ngIf="message" [content]="message" [type]="messageType" (close)="message = '';">
+</app-message>
+<div class="card col-3">
+  <div class="card-header">
+    <div>Card details</div>
+    <div>Primary</div>
+    <div class="right">Action</div>
+  </div>
+  <div class="card-content" *ngIf="setelCreditCards.length !== 0; else emptySetelCreditCards">
+    <div class="card-row" *ngFor="let creditCard of setelCreditCards">
+      <a
+        class="card-column main clickable"
+        [routerLink]="['cards/' + creditCard.id]"
+        [queryParams]="{walletEnv: 'setel'}"
+        target="_blank"
+      >
+        {{creditCard.cardSchema | titlecase }} - {{creditCard.lastFourDigits}}
+      </a>
+      <div class="card-column">{{ creditCard.isDefault | yesno }}</div>
+      <div class="card-column last-column text-unlink">
+        <span class="clickable" (click)="unlinkCard(creditCard)">UNLINK</span>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #emptySetelCreditCards>
+  <p class="empty-text" *ngIf="loadingSetel">Loading...</p>
+  <p class="empty-text" *ngIf="!loadingSetel">Customer has not added a payment card.</p>
+</ng-template>
+<ng-container *ngIf="showModalUnlinkCard">
+  <div class="modal-background"></div>
+  <div class="modal">
+    <div>
+      <h6 class="text-left modal-title">Are you sure to unlink this card?</h6>
+      <p class="text-left modal-content mt-2">
+        You are about to unlink
+        <strong class="text-capitalize">
+          {{cardChosen.cardSchema}}
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          {{cardChosen.lastFourDigits}}
+        </strong>
+        card and this action cannot be undone and you will not be able to recover any data.
+      </p>
+    </div>
+    <div class="modal-action">
+      <button class="btn btn-info" (click)="cancelUnlinkCard()">CANCEL</button>
+      <button class="btn btn-danger" (click)="submit()">CONFIRM</button>
+    </div>
+  </div>
+</ng-container>

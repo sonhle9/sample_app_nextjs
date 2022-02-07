@@ -1,0 +1,28 @@
+<svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient y2="99.83%" y1="22.16%" x2="76.883%" x1="20.224%" id="sc2mcr28za">
+   <stop stop-color="#04A4F4" offset="0%"/>
+   <stop stop-color="#07AAED" offset="5%"/>
+   <stop stop-color="#11C1D0" offset="29%"/>
+   <stop stop-color="#19D1BC" offset="53%"/>
+   <stop stop-color="#1CDBAF" offset="77%"/>
+   <stop stop-color="#1FDEAB" offset="100%"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="32" width="32" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1" fill-rule="evenodd" fill="none">
+   <path id="svg_2" d="m29.172,14.89c0,7.948 -6.258,14.39 -13.979,14.39c-7.719,0 -13.979,-6.441 -13.979,-14.39c0,-7.947 6.259,-14.39 13.98,-14.39c7.72,0 13.978,6.443 13.978,14.39" fill="#FFF"/>
+   <g id="svg_3">
+    <path id="svg_4" transform="translate(5.573999881744385,5.73799991607666) matrix(1,0,0,-1,0,22.77) " d="m4.327,5.449l8.8,1.813l3.52,5.435l-5.281,3.624l-7.039,-10.872z" fill-rule="nonzero" fill="#04A4F4"/>
+    <path id="svg_5" transform="translate(5.573999881744385,5.73799991607666) matrix(1,0,0,-1,0,11.9) " d="m14.886,10.886l-8.8,-1.813l-3.52,-5.435l5.281,-3.624l7.039,10.872z"/>
+    <path id="svg_6" transform="translate(5.573999881744385,5.73799991607666) matrix(1,0,0,-1,0,11.9) " d="m14.886,10.886l-8.8,-1.813l-3.52,-5.435l5.281,-3.624l7.039,10.872z" fill-rule="nonzero" fill="url(#sc2mcr28za)"/>
+    <path id="svg_7" transform="translate(5.573999881744385,5.73799991607666) matrix(1,0,0,-1,0,17.335) " d="m7.847,5.449l3.521,5.437l5.279,-3.624l-8.8,-1.813z" fill-rule="nonzero" fill="#2F49EF"/>
+   </g>
+  </g>
+ </g>
+</svg>

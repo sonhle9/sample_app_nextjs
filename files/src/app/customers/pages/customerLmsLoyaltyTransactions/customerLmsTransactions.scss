@@ -1,0 +1,25 @@
+@import './../../../../styles/variables';
+b {
+  margin: 20px 0;
+  display: block;
+}
+.loy-txn-card {
+  margin-top: 10px;
+  .card-header,
+  .card-row {
+    grid-template-columns: 0.2fr 1fr 1fr 1fr 0.2fr;
+  }
+
+  .card-content {
+    min-height: 100px;
+  }
+
+  .amount {
+    text-align: center;
+    padding-right: 0;
+  }
+}
+
+h6 {
+  margin-bottom: 10px;
+}

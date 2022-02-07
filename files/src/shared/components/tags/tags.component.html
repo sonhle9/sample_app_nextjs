@@ -1,0 +1,32 @@
+<form [formGroup]="tagForm" (ngSubmit)="onSubmitTag()">
+  <mat-form-field class="example-full-width">
+    <input matInput formControlName="tag" placeholder="Add Tag" />
+    <mat-error *ngIf="tagForm.controls.tag.errors?.tagError">
+      Tag must contain only a-z, 0-9, -, _
+    </mat-error>
+    <mat-error *ngIf="tagForm.controls.tag.errors?.duplicateError"> Tag already exists </mat-error>
+    <mat-error *ngIf="tagForm.controls.tag.errors?.lengthError">
+      Tag length must be less or equal 25 characters
+    </mat-error>
+  </mat-form-field>
+  <button
+    mat-icon-button
+    color="primary"
+    type="submit"
+    [disabled]="tagForm.invalid || !tagForm.value.tag"
+  >
+    <mat-icon>add_circle</mat-icon>
+  </button>
+</form>
+<mat-chip-list>
+  <mat-chip
+    *ngFor="let tag of getTags()"
+    class="tag"
+    [disableRipple]="true"
+    [removable]="true"
+    (removed)="onRemoveTag(tag)"
+  >
+    {{ tag }}
+    <mat-icon matChipRemove>cancel</mat-icon>
+  </mat-chip>
+</mat-chip-list>

@@ -1,0 +1,27 @@
+<div class="container cardholder-details" [appBreadcrumbs]="breadcrumbs">
+  <h4 class="headline">Cardholder Details</h4>
+  <h6 class="headline section-heading">
+    {{cardholder?.name ? cardholder.displayName + ' ('+cardholder.name+')' :
+    cardholder.displayName}}
+    <button class="toggle-btn" (click)="toggleDisplay()" mat-stroked-button>
+      <mat-icon aria-hidden>{{ showCode ? 'format_list_bulleted' : 'code' }}</mat-icon>
+      {{ showCode ? 'List' : 'Code' }}
+    </button>
+  </h6>
+  <div *ngIf="showCode; else tableView" class="card-panel">
+    <ngx-json-viewer [json]="cardholder" [expanded]="false"></ngx-json-viewer>
+  </div>
+  <app-button
+    class="btn-cardholder-details-left"
+    (click)="gotoCardholderdetailsDB()"
+    [disabled]="cardholder?.id ? false : true"
+  >
+    {{cardholder?.id ? "Go to" : "Not found"}} Cardholder Details Dashboard
+  </app-button>
+</div>
+
+<ng-template #tableView>
+  <div class="card-panel">
+    <app-json-viewer [json]="cardholder"></app-json-viewer>
+  </div>
+</ng-template>

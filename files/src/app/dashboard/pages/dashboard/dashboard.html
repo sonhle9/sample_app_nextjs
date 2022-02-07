@@ -1,0 +1,189 @@
+<div class="container">
+  <div class="wrapper">
+    <h4 class="headline">Fuel Error Dashboard</h4>
+    <ng-container *ngIf="orderDashboard?.fuelStatistics as statistic">
+      <h6 class="subtitle">Fuel Statistics (60 mins)</h6>
+      <div class="dashboard-container">
+        <div class="card-panel">
+          <b class="title">Fuel attempts</b>
+          <h1 class="value">{{ statistic?.attempts | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Fuel successful</b>
+          <h1 class="value">{{ statistic?.success | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Fuel failed</b>
+          <h1 class="value">{{ statistic?.failed | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Fuel cancelled</b>
+          <h1 class="value">{{ statistic?.cancelled | notAvailable }}</h1>
+        </div>
+      </div>
+      <div class="input-gap"></div>
+    </ng-container>
+
+    <ng-container *ngIf="orderDashboard?.fuelProcessErrorStatistics as statistic">
+      <h6 class="subtitle">Fuel process errors (60 mins)</h6>
+      <div class="dashboard-container">
+        <div class="card-panel">
+          <b class="title">Create order</b>
+          <h1 class="value">{{ statistic?.createOrder | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Pump reserve</b>
+          <h1 class="value">{{ statistic?.reservePump | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Payment authorize</b>
+          <h1 class="value">{{ statistic?.paymentAuth | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Fuel Ready</b>
+          <h1 class="value">{{ statistic?.fuelReady | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Fuel Complete</b>
+          <h1 class="value">{{ statistic?.fuelComplete | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Payment charged</b>
+          <h1 class="value">{{ statistic?.paymentCharged | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Order confirm</b>
+          <h1 class="value">{{ statistic?.orderConfirm | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Issue Points</b>
+          <h1 class="value">{{ statistic?.issuePoints | notAvailable }}</h1>
+        </div>
+      </div>
+      <div class="input-gap"></div>
+    </ng-container>
+
+    <h6 class="subtitle">Latest 20 failed orders</h6>
+    <div class="card order-card">
+      <div class="card-header">
+        <div>Name</div>
+        <div>Station</div>
+        <div>Error</div>
+        <div>Time</div>
+      </div>
+      <div class="card-content">
+        <a
+          class="card-row clickable {{ hasLatestCssClass(order?.createdAt) }}"
+          [routerLink]="['/retail/fuel-orders', order.orderId]"
+          target="_blank"
+          *ngFor="let order of failOrders"
+        >
+          <div class="card-column">{{ order?.userFullName }}</div>
+          <div class="card-column">{{ order?.stationName + ' / ' + order?.stationId }}</div>
+          <div class="card-column">{{ order?.orderStatus | dashboardOrderStatus }}</div>
+          <div class="card-column">{{ order?.createdAt | amCalendar }}</div>
+        </a>
+      </div>
+      <app-loader *ngIf="dashboards.topfailedOrders.isLoading" type="progress"></app-loader>
+    </div>
+    <div class="input-gap"></div>
+
+    <ng-container *ngIf="orderDashboard?.topupStatistics as statistic">
+      <h6 class="subtitle">Top-up Statistics (60 mins)</h6>
+      <div class="dashboard-container">
+        <div class="card-panel">
+          <b class="title">Top-up attempts</b>
+          <h1 class="value">{{ statistic?.attempts | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Top-up successful</b>
+          <h1 class="value">{{ statistic?.success | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Top-up pending</b>
+          <h1 class="value">{{ statistic?.pending | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Top-up failed</b>
+          <h1 class="value">{{ statistic?.failed | notAvailable }}</h1>
+        </div>
+      </div>
+      <div class="input-gap"></div>
+    </ng-container>
+
+    <ng-container *ngIf="orderDashboard?.topupPendingStatus as statistic">
+      <h6 class="subtitle">Top-up pending status</h6>
+      <div class="dashboard-container col-2">
+        <div class="card-panel">
+          <b class="title">Total pending top-ups</b>
+          <h1 class="value">{{ statistic.total | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Average pending time</b>
+          <h1 class="value {{ hasMoreThanMinutes(statistic.avg)}}">
+            {{ statistic.avg | notAvailable }} mins
+          </h1>
+        </div>
+      </div>
+      <div class="input-gap"></div>
+    </ng-container>
+
+    <h6 class="subtitle">Latest 20 failed top-ups</h6>
+    <div class="card txn-card">
+      <div class="card-header">
+        <div>Name</div>
+        <div>Type</div>
+        <div>Time</div>
+      </div>
+      <div class="card-content">
+        <a
+          class="card-row clickable {{ hasLatestCssClass(topup?.createdAt) }}"
+          [routerLink]="['/payments/transactions', topup.id]"
+          target="_blank"
+          *ngFor="let topup of failTopups"
+        >
+          <div class="card-column">{{ topup?.fullName }}</div>
+          <div class="card-column">{{ topup?.subtype | dashboardTxnStatus }}</div>
+          <div class="card-column">
+            {{ topup?.createdAt | amCalendar:{sameElse:'DD MMM YYYY [at] h:mm A'} }}
+          </div>
+        </a>
+      </div>
+      <app-loader *ngIf="dashboards.topfailedTopups.isLoading" type="progress"></app-loader>
+    </div>
+  </div>
+
+  <div class="wrapper">
+    <h4 class="headline">Store Dashboard</h4>
+    <ng-container *ngIf="storeOrderDashboard?.storeOrdersStatistics as storeStats">
+      <h6 class="subtitle">Store Statistics</h6>
+      <div class="dashboard-container">
+        <div class="card-panel">
+          <b class="title">Created</b>
+          <h1 class="value">{{ storeOrderDashboard.totalCount | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Successful</b>
+          <h1 class="value">{{ storeStats?.confirmed | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Payment Failed</b>
+          <h1 class="value">{{ storeStats?.chargeError | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Loyalty Failed</b>
+          <h1 class="value">{{ storeStats?.pointIssuanceError | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Successful Void</b>
+          <h1 class="value">{{ storeStats?.voidSuccessful | notAvailable }}</h1>
+        </div>
+        <div class="card-panel">
+          <b class="title">Failed Void</b>
+          <h1 class="value">{{ storeStats?.voidError | notAvailable }}</h1>
+        </div>
+      </div>
+      <div class="input-gap"></div>
+    </ng-container>
+  </div>
+</div>

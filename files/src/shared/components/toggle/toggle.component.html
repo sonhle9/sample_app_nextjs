@@ -1,0 +1,16 @@
+<div class="container">
+  <label class="checkbox-container">
+    <input
+      class="checkbox"
+      type="checkbox"
+      [checked]="checked"
+      [value]="value"
+      [name]="name"
+      (change)="change($event)"
+      [disabled]="disabled"
+    />
+    <div class="checker"></div>
+    <div class="dot"></div>
+  </label>
+  <label *ngIf="label" class="label">{{ label }}</label>
+</div>

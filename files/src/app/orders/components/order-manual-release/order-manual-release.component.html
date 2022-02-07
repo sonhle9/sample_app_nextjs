@@ -1,0 +1,11 @@
+<button
+  mat-stroked-button
+  color="warn"
+  matTooltip="Perform manual release for the order"
+  matTooltipClass="tooltip-red"
+  matTooltipPosition="right"
+  (click)="openDialog()"
+  [disabled]="isLoading"
+>
+  Manual release
+</button>

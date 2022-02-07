@@ -20,3 +20,15 @@ module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
 }
+
+// cypress/plugins/index.js
+
+// const { clearDatabase } = require('../../server/db')
+
+// module.exports = (on, config) => {
+//   on('task', {
+//     'clear:db': () => {
+//       return clearDatabase()
+//     }
+//   })
+// }

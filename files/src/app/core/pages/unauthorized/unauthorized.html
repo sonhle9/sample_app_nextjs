@@ -1,0 +1,11 @@
+<div class="unauthorized-container">
+  <app-message
+    *ngIf="messageContent"
+    [content]="messageContent"
+    type="error"
+    (click)="messageContent = ''"
+  ></app-message>
+  <h1>Unauthorized</h1>
+  <app-button (click)="routeHome()">Back Home Page</app-button>
+  <app-button css="light" (click)="logOut()">Log Out</app-button>
+</div>

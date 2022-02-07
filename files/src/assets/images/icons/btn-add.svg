@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
+    <defs>
+        <style>
+            .cls-1{fill:none}.cls-2{fill:#fff}
+        </style>
+    </defs>
+    <g id="Icon_-_Add" data-name="Icon - Add" transform="translate(-703 -193)">
+        <g id="baseline-add_circle-24px" transform="translate(703 193)">
+            <path id="Path_3" d="M0 0h26v26H0z" class="cls-1" data-name="Path 3"/>
+            <path id="Path_4" d="M12.833 2a10.833 10.833 0 1 0 10.834 10.833A10.837 10.837 0 0 0 12.833 2zm5.417 11.917h-4.333v4.333H11.75v-4.333H7.417V11.75h4.333V7.417h2.167v4.333h4.333z" class="cls-2" data-name="Path 4" transform="translate(.167 .167)"/>
+        </g>
+    </g>
+</svg>

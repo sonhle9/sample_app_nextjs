@@ -1,0 +1,44 @@
+@import '../../../../styles/dialog';
+
+app-message {
+  margin: 0 -24px;
+  white-space: pre-line;
+}
+
+.mat-dialog-actions {
+  &[align='end'] {
+    justify-content: flex-end;
+  }
+
+  &[align='center'] {
+    justify-content: center;
+  }
+}
+
+.mat-dialog-content {
+  .merchant-info {
+    display: flex;
+    flex-direction: column;
+    h6 {
+      margin: 1rem 0 1rem 0;
+    }
+    .merchant-id {
+      display: flex;
+      justify-content: flex-end;
+      color: #0000006b;
+    }
+    .slider-group {
+      display: flex;
+      flex-direction: row;
+      .flex-gap {
+        flex: 1;
+      }
+    }
+  }
+}
+
+.mat-form-field {
+  &.half-width {
+    width: 50%;
+  }
+}

@@ -1,0 +1,90 @@
+<div>
+  <h6 class="subtitle">Loyalty transactions</h6>
+</div>
+
+<!-- REMOVING THIS BECAUSE NEW VERSION IS IMPLEMENTED
+        TODO: To be removed the code as keeping for safer side
+      -->
+<!-- <div *ngIf="roles?.hasIssueLoyaltyPoints">
+  <p class="subject">Manual issue points</p>
+  <mat-card class="card-manual-row">
+    <div class="type">
+      <mat-form-field class="type" appearance="outline">
+        <mat-label>Select Action</mat-label>
+        <mat-select #type (selectionChange)="onChange($event)">
+          <mat-option *ngFor="let type of loyaltyType" [value]="type.value">
+            {{ type.text }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="amount">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ type.value == 'issuePointByAmount' ? 'RM' : 'Points' }}</mat-label>
+        <input [(ngModel)]="points" matInput [disabled]="!type.value || isInputDisabled" />
+      </mat-form-field>
+    </div>
+    <div class="submit">
+      <button
+        mat-raised-button
+        class="btn-submit"
+        [disabled]="!type.value || (type.value === 'issuePointByAmount' && !points) || points == 0"
+        (click)="openDialog(type)"
+      >
+        Submit
+      </button>
+    </div>
+  </mat-card>
+</div> -->
+
+<app-message
+  *ngIf="message"
+  [content]="message"
+  [type]="messageType"
+  (close)="message = ''"
+></app-message>
+
+<app-pagination
+  [pagination]="pagination"
+  (next)="next()"
+  (prev)="prev()"
+  [mode]="1"
+></app-pagination>
+<div class="card loy-txn-card" *ngIf="roles?.hasFuelOrderUpdate">
+  <div class="card-header">
+    <div></div>
+    <div>Title</div>
+    <div>Created on</div>
+    <div>Points</div>
+    <div>Issued by</div>
+    <div>Points balance</div>
+    <div>Error Message</div>
+  </div>
+  <div class="card-content">
+    <ng-container *ngIf="pagination?.items.length !== 0; else emptyState">
+      <div class="card-row" *ngFor="let txn of pagination?.items">
+        <div class="card-column middle">
+          <div class="status {{ txn?.status | loyaltyTxnStatusCss }}"></div>
+        </div>
+        <a
+          [routerLink]="['/loyalty/members/transaction', txn?.id]"
+          target="_blank"
+          class="card-column main"
+          >{{ txn?.title }}</a
+        >
+        <div class="card-column">{{ txn?.createdAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}</div>
+        <div class="card-column">{{ txn?.amount | emptyDash }}</div>
+        <div class="card-column">{{ txn?.issuedBy | loyaltyTxnIssuedBy }}</div>
+        <div class="card-column">{{ txn?.receiverBalance | emptyDash }}</div>
+        <div class="card-column">
+          {{ errorFilter(txn?.failureReason, txn?.vendorFailureReason) }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <app-loader *ngIf="loading.page" type="progress"></app-loader>
+</div>
+
+<ng-template #emptyState>
+  <p class="empty-text" *ngIf="!loading.page">{{ errorMessage }}</p>
+</ng-template>

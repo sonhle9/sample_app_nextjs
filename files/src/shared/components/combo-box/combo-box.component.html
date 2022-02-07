@@ -1,0 +1,16 @@
+<div class="combobox-field {{ type }}" [ngClass]="hasError ? 'error' : ''">
+  <label>{{ label }}</label>
+  <div class="combobox">
+    <input
+      type="text"
+      [attr.list]="id"
+      [(ngModel)]="value"
+      (focus)="clearInput()"
+      (focusout)="undoInput()"
+    />
+    <datalist [id]="id">
+      <option *ngFor="let item of items" [ngValue]="item">{{ item.text }}</option>
+    </datalist>
+  </div>
+  <span class="helper-text">{{ errorMessage || helper }}</span>
+</div>

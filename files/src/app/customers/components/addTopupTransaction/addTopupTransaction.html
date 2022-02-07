@@ -1,0 +1,47 @@
+<b>Record external top-up</b>
+<form class="card-panel" (ngSubmit)="saveTransaction()" [formGroup]="form">
+  <app-dropdown
+    type="large"
+    label=" "
+    placeholder="Select type"
+    [items]="transactionTypes"
+    formControlName="type"
+    [errorMessage]="errorMessage.type"
+  ></app-dropdown>
+  <app-input
+    class="fff"
+    label="Amount"
+    prefix="RM"
+    formControlName="amount"
+    [errorMessage]="errorMessage.amount"
+  >
+  </app-input>
+  <app-input
+    class="fff"
+    label="Custom descriptor"
+    formControlName="message"
+    [errorMessage]="errorMessage.message"
+  >
+  </app-input>
+  <app-button css="add" type="submit">Record external top-up</app-button>
+  <div class="bottom-content">
+    <p>If type is external top-up with no custom descriptor set, user sees: Balance Top-up</p>
+    <p>If type is external refund with no custom descriptor set, user sees: Balance Refunded</p>
+    <p>
+      If type is external refund and custom descriptor specified, user sees: Refunded to
+      Maybank-1234
+    </p>
+  </div>
+  <div class="loader-container" *ngIf="loading">
+    <app-loader type="progress"></app-loader>
+  </div>
+</form>
+<div class="input-gap"></div>
+<div class="input-gap"></div>
+<app-message
+  *ngIf="messageContent"
+  [content]="messageContent"
+  [type]="messageType"
+  (close)="messageContent = ''"
+>
+</app-message>

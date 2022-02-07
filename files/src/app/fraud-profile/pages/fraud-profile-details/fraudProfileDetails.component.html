@@ -1,0 +1,81 @@
+<div class="container">
+  <h1 class="headline">Fraud Profile</h1>
+  <app-message
+    *ngIf="message"
+    [content]="message"
+    [type]="messageType"
+    (close)="message = ''"
+  ></app-message>
+  <ng-container *ngIf="loading; else anyOrEmptyResult">
+    <app-loader class="big-loader" type="transparent"></app-loader>
+  </ng-container>
+</div>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container *ngIf="details; then anyResult; else noResult"></ng-container>
+</ng-template>
+
+<ng-template #anyResult>
+  <mat-accordion multi>
+    <mat-expansion-panel
+      [expanded]="true"
+      class="fraud-profile-detail-card"
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Current fraud profile details </mat-panel-title>
+        <mat-panel-description>
+          <button
+            *ngIf="roles?.hasAdminUpdate"
+            mat-stroked-button
+            color="primary"
+            class="panel-action-button"
+            (click)="openModal($event)"
+          >
+            <mat-icon>edit</mat-icon> EDIT
+          </button>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="profile-detail-card-column">
+        <app-display-text label="Customer name" class="profile-detail-card inline">
+          <a [routerLink]="['/customers', details.targetId]" target="_blank">{{
+            details.targetName
+          }}</a>
+        </app-display-text>
+        <app-display-text label="Status" class="profile-detail-card inline">
+          <app-profile-card-status status="{{ details.status }}">
+            {{ details.status | fraudProfilesStatus | uppercase }}
+          </app-profile-card-status>
+        </app-display-text>
+        <app-display-text label="Restrictions" class="profile-detail-card inline line-break">
+          <span *ngIf="details.restrictions.length === 0">--</span>
+          <span *ngFor="let item of details.restrictions">{{ item.type }}<br /></span>
+        </app-display-text>
+        <app-display-text label="Remarks" class="profile-detail-card inline">
+          {{ details.remarks }}
+        </app-display-text>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      [expanded]="true"
+      class="fraud-profile-detail-card"
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> JSON </mat-panel-title>
+        <mat-panel-description> </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-json-formatter-viewer [json]="details"></app-json-formatter-viewer>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching id were found.</h6>
+  </div>
+</ng-template>

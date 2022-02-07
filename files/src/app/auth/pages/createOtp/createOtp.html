@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="background"></div>
+  <div class="wrapper">
+    <div class="logo">
+      <img src="assets/images/app-logo.svg" />
+    </div>
+    <h3 class="headline">Reset password</h3>
+    <div class="card-wrapper">
+      <form (ngSubmit)="createOtp()" [formGroup]="form" class="login-card">
+        <app-message [content]="serverErrors" type="error"></app-message>
+        <app-loader *ngIf="loading"></app-loader>
+        <app-input
+          type="tel"
+          label="Phone"
+          formControlName="phone"
+          [errorMessage]="errorMessage.phone"
+          maxlength="12"
+        ></app-input>
+        <div class="button-gap"></div>
+        <app-button css="gradient large" type="submit">Reset</app-button>
+      </form>
+      <div class="divider"></div>
+      <div class="card-footer">
+        <a class="nav-link" routerLink="/login">Proceed Login?</a>
+      </div>
+    </div>
+  </div>
+</div>

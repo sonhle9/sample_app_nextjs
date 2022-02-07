@@ -1,0 +1,25 @@
+@import '../../../../../../styles/dialog';
+
+app-message {
+  margin: 0 -24px;
+  white-space: pre-line;
+}
+
+.mat-dialog-actions {
+  &[align='end'] {
+    justify-content: flex-end;
+  }
+
+  &[align='center'] {
+    justify-content: center;
+  }
+}
+
+.mat-form-field {
+  &.half-width {
+    width: 50%;
+  }
+  &.full-width {
+    width: 100%;
+  }
+}

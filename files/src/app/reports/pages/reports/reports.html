@@ -1,0 +1,19 @@
+<div class="container">
+  <h4 class="headline">Reports</h4>
+  <div class="dropdown-container">
+    <app-dropdown
+      label="Reports list"
+      [(ngModel)]="selectedReport"
+      [items]="reports"
+    ></app-dropdown>
+  </div>
+  <ng-container *ngIf="selectedReport?.value === '1'">
+    <app-week-metric></app-week-metric>
+  </ng-container>
+  <ng-container *ngIf="selectedReport?.value === '2'">
+    <app-week-metric-customers></app-week-metric-customers>
+  </ng-container>
+  <ng-container *ngIf="selectedReport?.value === '3'">
+    <app-customer-funnel></app-customer-funnel>
+  </ng-container>
+</div>

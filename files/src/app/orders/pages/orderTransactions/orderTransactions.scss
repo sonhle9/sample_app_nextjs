@@ -1,0 +1,89 @@
+@import './../../../../styles/variables';
+@import '../../../../styles/modal';
+
+b {
+  margin: 20px 0;
+  display: block;
+}
+.subtitle {
+  color: #000;
+}
+.subject {
+  color: $display-text-color;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.txn-card {
+  margin-top: 10px;
+  .card-header,
+  .card-row {
+    grid-template-columns: 25px 250px 200px 110px 110px 290px 210px;
+  }
+
+  .card-content {
+    min-height: 100px;
+  }
+
+  .status {
+    width: 10px;
+    height: 10px;
+    align-self: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    &.success {
+      background-color: $success-color;
+    }
+
+    &.error {
+      background-color: $error-color;
+    }
+  }
+
+  .amount {
+    text-align: center;
+    padding-right: 0;
+  }
+}
+
+.card-manual-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2em;
+  & div {
+    &.type {
+      ::ng-deep {
+        .dropdown {
+          height: 2.58em;
+          &:after {
+            top: 1.2em;
+          }
+        }
+      }
+    }
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+    &.amount {
+      width: 100%;
+      .mat-form-field {
+        width: inherit;
+      }
+    }
+    &.submit {
+      .btn-submit {
+        min-width: 14em;
+        height: 4em;
+      }
+    }
+    ::ng-deep .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+  }
+}
+
+h6 {
+  color: $display-text-color;
+  margin-bottom: 10px;
+}

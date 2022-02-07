@@ -1,0 +1,25 @@
+<ng-container *ngIf="unlinkedCards && unlinkedCards.length !== 0">
+  <b>Loyalty Card Unlink History</b>
+  <div class="card col-6 loy-exp-card">
+    <div class="card-header">
+      <div>Card number</div>
+      <div>Updated on</div>
+      <div>Point balance</div>
+    </div>
+    <div class="card-content">
+      <ng-container>
+        <div class="card-row" *ngFor="let card of unlinkedCards">
+          <a
+            [routerLink]="['/accounts', 'loyalty-cards', card.id]"
+            target="_blank"
+            class="card-column main"
+            >Mesra - {{ card.cardNumber | lastchar:4 }}</a
+          >
+          <div class="card-column">{{ card.updatedAt | amDateFormat: 'DD MMM YYYY' }}</div>
+          <div class="card-column">{{ card.pointRedeemableBalance }}</div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+<div class="input-gap"></div>

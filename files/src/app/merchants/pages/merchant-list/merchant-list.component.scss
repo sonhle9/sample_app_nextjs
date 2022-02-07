@@ -1,0 +1,66 @@
+@import './../../../../styles/variables';
+
+.container {
+  .wrapper {
+    position: relative;
+    min-height: 250px;
+    padding: 30px 0;
+  }
+}
+
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  app-searchbar {
+    margin: auto;
+    display: block;
+    width: 73%;
+  }
+
+  select {
+    border: #dce2ed 1px solid;
+    width: 25%;
+  }
+}
+
+.add-container {
+  display: flex;
+  margin-bottom: 30px;
+
+  app-button {
+    width: 180px;
+    display: block;
+  }
+}
+
+.card.stt-card {
+  margin-top: 10px;
+  .card-content {
+    min-height: 140px;
+  }
+
+  .card-header,
+  .card-row {
+    grid-template-columns: 3.25fr 2fr 2fr 2fr 1fr 1fr;
+    .action {
+      text-align: center;
+    }
+  }
+
+  .card-row {
+    height: auto;
+  }
+
+  .card-column {
+    line-height: initial;
+    white-space: normal;
+    padding: 15px 15px 15px 0;
+
+    &.action {
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+}

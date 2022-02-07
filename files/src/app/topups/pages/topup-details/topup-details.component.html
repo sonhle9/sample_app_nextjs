@@ -1,0 +1,28 @@
+<div class="container" [appBreadcrumbs]="breadcrumbs">
+  <h6 class="headline">Top-up Transaction Detail</h6>
+  <app-message
+    *ngIf="message"
+    [content]="message"
+    [type]="messageType"
+    (close)="message = ''"
+  ></app-message>
+  <div class="card-panel">
+    <ngx-json-viewer [json]="transaction"></ngx-json-viewer>
+  </div>
+  <div class="action-area">
+    <app-button *ngIf="isTransactionRefundable" css="undo" (click)="openConfirmRefundDialog()"
+      >Refund</app-button
+    >
+  </div>
+  <app-modal-confirm
+    title="Confirm Top-up Refund"
+    description="Are you sure want to refund this top-up transaction?"
+    submitBtnText="Yes"
+    cancelBtnText="No"
+    [isModalShown]="isConfirmRefundDialogShown"
+    [showLoader]="isConfirmRefundDialogLoading"
+    [hideCancelButton]=""
+    (submit)="onConfirmRefundDialogSubmit()"
+    (cancel)="onConfirmRefundDialogCancel()"
+  ></app-modal-confirm>
+</div>

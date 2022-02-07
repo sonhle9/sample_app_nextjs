@@ -1,0 +1,80 @@
+.title-timeline {
+  margin-bottom: 10px;
+}
+
+.panel-timeline {
+  padding: 14px 0;
+}
+
+.oval {
+  width: 12px;
+  height: 12px;
+  background-color: #00b0ff;
+  border-radius: 8px;
+}
+
+.created {
+  background-color: #00b0ff !important;
+}
+
+.pending {
+  background-color: #ffb53b !important;
+}
+
+.approved {
+  background-color: #2f48fa !important;
+}
+
+.in-printing {
+  background-color: #6e2feb !important;
+}
+
+.active {
+  background-color: #2ecc71 !important;
+}
+
+.status-frozen {
+  background-color: #f44336 !important;
+}
+
+.status-closed {
+  background-color: #525b65 !important;
+}
+
+.mat-stepper-vertical-line::before {
+  content: '';
+  position: absolute;
+  top: -16px;
+  bottom: -16px;
+  left: 0;
+  border-left-width: 1px;
+  border-left-style: dotted !important;
+}
+
+.mat-stepper-vertical-line::before {
+  border-left-color: #a1a1a1;
+}
+
+.mat-vertical-content {
+  display: none;
+}
+
+.mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit,
+.mat-step-header .mat-step-icon {
+  background-color: unset !important;
+  color: unset !important;
+}
+.show-status {
+  height: 22px;
+  line-height: 22px;
+  font-size: 16px;
+  flex: 1;
+  color: #434f5d;
+  font-weight: normal;
+}
+.show-date {
+  color: #434f5d;
+  font-weight: normal;
+}

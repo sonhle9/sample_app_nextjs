@@ -1,0 +1,181 @@
+<div class="container">
+  <div class="wrapper">
+    <ng-container>
+      <div class="cashflows-container">
+        <h4 class="account">Collection Account</h4>
+        <div class="cashflows-container col-2">
+          <div class="card-panel">
+            <div class="title">
+              Pending Balance
+              <button
+                class="small-icon-button"
+                mat-icon-button
+                color="primary"
+                matTooltip="Adjust collection pending balance"
+                [matTooltipPosition]="'after'"
+                [disabled]="!roles?.hasAdjust"
+                (click)="adjustPlatformAccount('collection', 'pendingBalance')"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+            <h1 class="value">
+              {{
+                platformAccounts?.collection?.pendingBalance?.amount
+                  | currency: platformAccounts?.collection?.currency:'symbol-narrow':'0.2-2'
+              }}
+            </h1>
+          </div>
+          <div class="card-panel">
+            <div class="title">
+              Available Balance
+              <button
+                class="small-icon-button"
+                mat-icon-button
+                color="primary"
+                matTooltip="Adjust collection available balance"
+                [matTooltipPosition]="'after'"
+                [disabled]="!roles?.hasAdjust"
+                (click)="adjustPlatformAccount('collection', 'availableBalance')"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+            <h1 class="value">
+              {{
+                platformAccounts?.collection?.availableBalance?.amount
+                  | currency: platformAccounts?.collection?.currency:'symbol-narrow':'0.2-2'
+              }}
+            </h1>
+          </div>
+        </div>
+        <h4 class="account">Trust Account</h4>
+        <p class="title">Trust 1 Account</p>
+        <div class="card-panel three-quarter">
+          <div class="title">Available Balance</div>
+          <div class="cashflows-container three-one">
+            <h1 class="value">
+              {{
+                platformAccounts?.trust1?.availableBalance?.amount
+                  | currency: platformAccounts?.trust1?.currency:'symbol-narrow':'0.2-2'
+              }}
+            </h1>
+            <div class="operating-transfer">
+              <a
+                mat-icon-button
+                color="primary"
+                [disabled]="!roles?.hasTransfer"
+                (click)="transferToOperating()"
+              >
+                <mat-icon>add_circle</mat-icon>
+                Transfer to operating account
+              </a>
+            </div>
+          </div>
+          <div class="aggregates">
+            <div class="item" *ngFor="let item of aggregatesAccounts" [ngSwitch]="item.balanceType">
+              <div class="description" *ngIf="item.editable === true; else default">
+                {{ item?.label
+                }}<button
+                  class="small-icon-button"
+                  mat-icon-button
+                  matTooltip="Adjust {{ item.label }}"
+                  [matTooltipPosition]="'after'"
+                  color="primary"
+                  [disabled]="!roles?.hasAdjust"
+                  (click)="adjustAggregatesAccount(item.label, item.balanceType)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+              <ng-template #default>
+                <div class="description">
+                  {{ item?.label }}
+                </div>
+              </ng-template>
+              <div class="total" *ngSwitchCase="'prepaidBalance'">
+                {{ item?.account?.prepaidBalance?.amount | currency: '':'':'0.2-2' }}
+              </div>
+              <div class="total" *ngSwitchDefault>
+                {{ item?.account?.availableBalance?.amount | currency: '':'':'0.2-2' }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <h4 class="account">Daily Merchant Payout</h4>
+        <div class="card-panel half">
+          <div class="title">Total Amount to be paid on {{ todayDate }}</div>
+          <h1 class="value">
+            {{
+              todaySummary?.totalAmount
+                | currency: platformAccounts?.operating?.currency:'symbol-narrow':'0.2-2'
+            }}
+          </h1>
+          <div class="title">Setel Wallet Amount</div>
+          <h1 class="value">
+            {{
+              todaySummary?.amountBreakdown.WALLET_SETEL.amount
+                | currency: platformAccounts?.operating?.currency:'symbol-narrow':'0.2-2'
+            }}
+          </h1>
+          <div class="title">Pass-through Fuel Amount</div>
+          <h1 class="value">
+            {{
+              todaySummary?.amountBreakdown.PASSTHROUGH_FUEL.amount
+                | currency: platformAccounts?.operating?.currency:'symbol-narrow':'0.2-2'
+            }}
+          </h1>
+
+          <div class="title">Pass-through Store Amount</div>
+          <h1 class="value">
+            {{
+              todaySummary?.amountBreakdown.PASSTHROUGH_STORE.amount
+                | currency: platformAccounts?.operating?.currency:'symbol-narrow':'0.2-2'
+            }}
+          </h1>
+          <div class="title">Boost Amount</div>
+          <h1 class="value">
+            {{
+              todaySummary?.amountBreakdown.BOOST.amount
+                | currency: platformAccounts?.operating?.currency:'symbol-narrow':'0.2-2'
+            }}
+          </h1>
+        </div>
+        <h4 class="account">Operating Account</h4>
+        <div class="card-panel three-quarter">
+          <div class="title">
+            Available Balance
+            <button
+              class="small-icon-button"
+              mat-icon-button
+              color="primary"
+              matTooltip="Adjust operating balance"
+              [matTooltipPosition]="'after'"
+              [disabled]="!roles?.hasAdjust"
+              (click)="adjustPlatformAccount('operating', 'availableBalance')"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+          <h1 class="value">
+            {{
+              platformAccounts?.operating?.availableBalance?.amount
+                | currency: platformAccounts?.operating?.currency:'symbol-narrow':'0.2-2'
+            }}
+          </h1>
+          <div class="aggregates">
+            <div class="item" *ngFor="let item of operatingCollectionAggregatesAccounts">
+              <div class="description">
+                {{ item?.label }}
+              </div>
+              <div class="total">
+                {{ item?.details?.availableBalance?.amount | currency: '':'':'0.2-2' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="input-gap"></div>
+    </ng-container>
+  </div>
+</div>

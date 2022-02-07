@@ -1,0 +1,107 @@
+<mat-sidenav-container [hasBackdrop]="false">
+  <mat-sidenav #sidenav mode="over" position="end" [opened]="isShowing">
+    <div class="headers">
+      <h6>Location Details</h6>
+    </div>
+    <mat-form-field>
+      <input matInput placeholder="Station ID" value="{{ station?.id }}" disabled />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Station Name" value="{{ station?.name }}" disabled />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Latitude" [(ngModel)]="formValue.latitude" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Longitude" [(ngModel)]="formValue.longitude" />
+    </mat-form-field>
+
+    <div class="headers">
+      <h6>Geofence Details</h6>
+    </div>
+    <mat-form-field>
+      <input matInput placeholder="Latitude" [(ngModel)]="formValue.geofenceLatitude" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Longitude" [(ngModel)]="formValue.geofenceLongitude" />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Radius"
+        (input)="changeRadius($event.target.value)"
+        [(ngModel)]="formValue.geofenceRadius"
+      />
+    </mat-form-field>
+    <div class="actions">
+      <button mat-stroked-button (click)="onCancel()">Reset</button>
+      <button mat-raised-button class="btn-save" (click)="updateStationLocation()">Save</button>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-message
+      *ngIf="messageContent"
+      [content]="messageContent"
+      [type]="messageType"
+      (close)="messageContent = ''"
+    ></app-message>
+
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+    <agm-map
+      (tilesLoaded)="tilesLoaded()"
+      [styles]="styles"
+      [latitude]="formValue.latitude"
+      [longitude]="formValue.longitude"
+      [zoom]="zoom"
+      *ngIf="station"
+    >
+      <agm-marker-cluster
+        imagePath="https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclustererplus/images/m"
+      >
+        <agm-marker
+          *ngFor="let marker of markers; let i = index"
+          [latitude]="marker.latitude"
+          [longitude]="marker.longitude"
+          [iconUrl]="icon"
+          [animation]="'DROP'"
+          [markerDraggable]="true"
+          (dragEnd)="markerDragEnd($event)"
+          (drag)="markerDrag($event)"
+        >
+          <agm-info-window class="agm-label">
+            <a class="name" [routerLink]="['/stations', marker.id, 'details']">{{ marker.name }}</a>
+            <ul class="croods">
+              <li>Lat: {{ marker.latitude }}</li>
+              <li>Lng: {{ marker.longitude }}</li>
+            </ul>
+          </agm-info-window>
+        </agm-marker>
+      </agm-marker-cluster>
+      <agm-marker
+        [latitude]="formValue.geofenceLatitude"
+        [longitude]="formValue.geofenceLongitude"
+        [iconUrl]="geofenceIcon"
+        [animation]="'DROP'"
+        [markerDraggable]="true"
+        (dragEnd)="geofenceMarkerDragEnd($event)"
+        (drag)="geofenceMarkerDrag($event)"
+      >
+        <agm-info-window class="agm-label">
+          <a class="name" [routerLink]="['/stations', station.id, 'details']">{{ station.name }}</a>
+          <ul class="croods">
+            <li>Geofence Lat: {{ formValue.geofenceLatitude }}</li>
+            <li>Geofence Lng: {{ formValue.geofenceLongitude }}</li>
+          </ul>
+        </agm-info-window>
+        <agm-circle
+          [latitude]="formValue.geofenceLatitude"
+          [longitude]="formValue.geofenceLongitude"
+          [radius]="formValue.geofenceRadius"
+          [fillColor]="'#f7eb02'"
+        >
+        </agm-circle>
+      </agm-marker>
+    </agm-map>
+  </mat-sidenav-content>
+</mat-sidenav-container>

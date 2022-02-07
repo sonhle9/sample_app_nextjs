@@ -1,0 +1,5 @@
+<div class="message-container {{ type }}" *ngIf="content">
+  <img *ngIf="icon" class="icon left" [src]="icon" />
+  <div class="message">{{ content }}</div>
+  <img *ngIf="hasClose" class="close" src="assets/images/icons/close.svg" (click)="_close()" />
+</div>

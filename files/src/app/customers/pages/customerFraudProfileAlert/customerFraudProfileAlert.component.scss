@@ -1,0 +1,30 @@
+.alert-danger {
+  background-color: rgb(255, 235, 230);
+}
+
+.alert-warning {
+  background-color: rgb(255, 250, 230);
+}
+
+.alert {
+  position: relative;
+  padding: 0.75rem 1rem 0.55rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.icon-danger {
+  color: rgb(222, 53, 11);
+  fill: rgb(255, 255, 255);
+}
+
+.icon-warning {
+  color: rgb(255, 153, 31);
+  fill: rgb(255, 255, 255);
+}
+
+.icon {
+  display: inline;
+  vertical-align: top;
+}

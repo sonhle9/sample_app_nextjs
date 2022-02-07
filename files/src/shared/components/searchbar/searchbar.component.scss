@@ -1,0 +1,80 @@
+@import '../../../styles/variables';
+
+.searchbar-container {
+  height: $searchbar-height;
+  background-color: $searchbar-bg;
+  border: 1px solid $searchbar-border;
+  position: relative;
+  &.border-curve {
+    border-radius: $searchbar-border-radius;
+  }
+  input {
+    width: 100%;
+    font-size: 1rem;
+    padding-left: $searchbar-height * 0.4;
+    height: inherit;
+    background-color: transparent;
+    border: none;
+    font-family: inherit;
+
+    &::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+    }
+
+    &::-ms-clear {
+      display: none;
+    }
+
+    &::placeholder {
+      color: $searchbar-placeholder;
+      font-size: $small-font;
+    }
+
+    &:-ms-input-placeholder {
+      color: $searchbar-placeholder;
+      font-size: $small-font;
+    }
+
+    &::-ms-input-placeholder {
+      color: $searchbar-placeholder;
+      font-size: $small-font;
+    }
+  }
+
+  button {
+    position: absolute;
+    width: $searchbar-height * 0.5;
+    height: $searchbar-height * 0.5;
+    top: $searchbar-height * 0.25;
+    right: $searchbar-height * 0.4;
+    background-image: url(/assets/images/icons/search.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  button.blue {
+    width: $searchbar-height - 2; // Minus border width
+    height: $searchbar-height - 2;
+    top: 0;
+    right: 0;
+    border-radius: 0px $searchbar-border-radius $searchbar-border-radius 0px;
+    background-image: url(/assets/images/icons/search-white.svg);
+    background-size: 24px;
+    background-position: center center;
+    background-color: #00b0ff;
+  }
+}
+
+label {
+  font-size: 0.7rem;
+  cursor: text;
+  font-weight: 600;
+  min-height: 15px;
+}
+
+input:-webkit-autofill {
+  animation-name: autofill;
+  animation-fill-mode: both;
+}

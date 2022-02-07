@@ -1,0 +1,32 @@
+<div>
+  <h6 class="title-timeline">Timeline</h6>
+</div>
+<div class="card-panel panel-timeline">
+  <section *ngIf="dataTimelines?.length; else templateNothingTimeLine" class="com-show-step">
+    <mat-vertical-stepper class="com-vertical-step" [linear]="false" fxFill>
+      <div *ngFor="let vertical of dataTimelines; let i = index;">
+        <ng-template [matStepperIcon]="vertical.status">
+          <div [class]="'oval stt-'+ vertical.status"></div>
+        </ng-template>
+
+        <!-- Stepper steps go here -->
+        <mat-step [completed]="false" [editable]="false" [state]="vertical.status">
+          <ng-template matStepLabel>
+            <div class="show-stt">{{fnChangeShowName(vertical.status)}}</div>
+            <div class="show-date">
+              {{vertical.updatedAt | amDateFormat: 'DD MMM YYYY, hh:mm A'}}
+            </div>
+          </ng-template>
+        </mat-step>
+      </div>
+    </mat-vertical-stepper>
+  </section>
+</div>
+
+<ng-template #templateNothingTimeLine>
+  <div fxFill fxLayout="column" fxFlexAlign="center">
+    <div class="card-body">
+      <p>Oops! Nothing to see here ...!</p>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,154 @@
+<div class="container" [appBreadcrumbs]="breadcrumbs">
+  <h4 class="headline">Top-up</h4>
+  <div class="wrapper">
+    <div class="filter-container">
+      <app-dropdown
+        label="Status"
+        [(ngModel)]="selectedStatus"
+        [items]="statuses"
+        (ngModelChange)="filter()"
+      >
+      </app-dropdown>
+      <app-dropdown
+        label="Card Brand"
+        [(ngModel)]="selectedCardBrand"
+        [items]="cardBrands"
+        (ngModelChange)="filter()"
+      >
+      </app-dropdown>
+      <app-dropdown
+        label="Payment Type"
+        [(ngModel)]="selectedPaymentType"
+        [items]="paymentTypes"
+        (ngModelChange)="filter()"
+      >
+      </app-dropdown>
+      <app-dropdown
+        label="Created date"
+        [(ngModel)]="selectedDateFilter"
+        [items]="dateFilters"
+        (ngModelChange)="updateDateFilter()"
+      >
+      </app-dropdown>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="Start date"
+        [(ngModel)]="startDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="End date"
+        [(ngModel)]="endDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyResult>
+  <ngx-datatable
+    class="material align-center"
+    columnMode="force"
+    rowHeight="auto"
+    [headerHeight]="50"
+    [footerHeight]="56"
+    [loadingIndicator]="false"
+    [rows]="dataTopups"
+  >
+    <ngx-datatable-column prop="status" [width]="25">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        <div class="txn-status {{ value | lowercase }}" [title]="value | titlecase"></div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="200" prop="transactionUid" name="Transaction ID">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        <a
+          class="ngx-datatable-link clickable"
+          [routerLink]="['/wallet/topups', value]"
+          target="_blank"
+        >
+          {{ value }}
+        </a>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="150" prop="fullName" name="Customer">
+      <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+        <a
+          class="ngx-datatable-link clickable"
+          [routerLink]="['/customers', row.userId]"
+          target="_blank"
+        >
+          {{ value | titlecase }}
+        </a>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="150" prop="subType" name="Topup Type">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        {{ getTopUpTypeLabel(value) }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="100" prop="amount" name="Amount">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        {{ value | myrCurrency | emptyDash }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [width]="100" prop="creditCardInfo" name="Card Brand">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        {{ value.cardBrand }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="100" prop="creditCardInfo" name="Payment Type">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        {{ value.paymentType }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="150" prop="creditCardInfo" name="Card Number">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        {{ getCardNumber(value) }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [width]="200" prop="transactionDate" name="Created on">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        {{ value | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-footer>
+      <ng-template ngx-datatable-footer-template>
+        <mat-paginator
+          [pageIndex]="pagination.page"
+          [pageSize]="pagination.perPage"
+          [length]="total"
+          [pageSizeOptions]="pageSizes"
+          (page)="onPageChange($event)"
+        >
+        </mat-paginator>
+      </ng-template>
+    </ngx-datatable-footer>
+  </ngx-datatable>
+</ng-template>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container *ngIf="dataTopups?.length !== 0; then anyResult; else noResult"></ng-container>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

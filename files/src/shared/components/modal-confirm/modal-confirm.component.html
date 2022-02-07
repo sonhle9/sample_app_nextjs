@@ -1,0 +1,16 @@
+<ng-container *ngIf="isModalShow()">
+  <div class="modal-background"></div>
+  <div class="modal">
+    <div class="modal-content">
+      <app-loader *ngIf="showLoader"></app-loader>
+      <h6 class="content-title">{{ getTitle() }}</h6>
+      <p class="content-description" [class.center]="alignTextCenter">{{ getDescription() }}</p>
+    </div>
+    <div class="modal-action" [class.single]="hideCancelButton">
+      <app-button *ngIf="!hideCancelButton" css="light" (click)="cancelMethod()">{{
+        getCancelBtnText()
+      }}</app-button>
+      <app-button (click)="submitMethod()">{{ getSubmitBtnText() }}</app-button>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,19 @@
+<ng-container *ngIf="isShowModal">
+  <div class="modal-background"></div>
+  <div class="modal">
+    <div class="modal-content">
+      <h6 class="content-title">Void Voucher</h6>
+      <div class="modal-form">
+        <div class="modal-input-wrapper">
+          <label class="modal-input-label" for="code">Code</label>
+          <input class="modal-input" id="code" type="text" name="code" (keyup)="setCode($event)" />
+          <p *ngIf="codeError" class="modal-input-error">{{ codeError }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-action">
+      <app-button css="light" (click)="cancelMethod()">Cancel</app-button>
+      <app-button (click)="submitMethod()">Void</app-button>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,22 @@
+@import '../shared/customers';
+@import '../../../../styles/modal';
+
+b {
+  margin: 20px 0;
+  display: block;
+}
+
+.loy-exp-card {
+  margin-top: 10px;
+  .card-header,
+  .card-row {
+    grid-template-columns: 1.5fr 1.5fr 1.5fr;
+  }
+}
+
+.select-container {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}

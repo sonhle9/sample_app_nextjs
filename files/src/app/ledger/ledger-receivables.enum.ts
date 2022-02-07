@@ -1,0 +1,15 @@
+export enum ReceivablesStatuses {
+  PENDING = 'PENDING',
+  PROCESSED = 'PROCESSED',
+  ERRORED = 'Needs Attention',
+  ADJUSTED = 'ADJUSTED',
+  RECONCILED = 'RECONCILED',
+}
+
+export enum ReceivableTypes {
+  WALLET_SETEL = 'WALLET_SETEL',
+  PASSTHROUGH_FUEL = 'PASSTHROUGH_FUEL',
+  PASSTHROUGH_STORE = 'PASSTHROUGH_STORE',
+  BOOST = 'BOOST',
+  BOOST_TOPUP = 'BOOST_TOPUP',
+}

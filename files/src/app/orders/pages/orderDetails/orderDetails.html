@@ -1,0 +1,140 @@
+<div class="container">
+  <h4 class="headline">Viewing order</h4>
+  <div class="wrapper" *ngIf="!loading.full; else loaderState">
+    <div class="card order-card">
+      <app-display-text label="Order ID" class="inline main">{{ order?.orderId }}</app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Type" class="inline main"
+        >{{ order?.orderType | orderType }}</app-display-text
+      >
+      <div class="input-gap"></div>
+
+      <div class="divider"></div>
+      <div class="input-gap"></div>
+
+      <a [routerLink]="['/customers', order?.userId]" target="_blank">
+        <app-display-text label="Customer name" class="inline main clickable"
+          >{{ order?.userFullName }}
+        </app-display-text>
+      </a>
+      <div class="input-gap"></div>
+      <app-display-text label="Customer email" class="inline main"
+        >{{ customer?.email }}</app-display-text
+      >
+      <div class="input-gap"></div>
+      <app-display-text label="Phone number" class="inline main"
+        >{{ customer?.phone }}</app-display-text
+      >
+      <div class="input-gap"></div>
+
+      <div class="divider"></div>
+      <div class="input-gap"></div>
+
+      <app-display-text label="Created at" class="inline"
+        >{{ order?.createdAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+      </app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Status" class="inline"
+        >{{ order?.orderStatus | orderStatus:true }}
+        <app-order-manual-release
+          *ngIf="manualReleaseStatus"
+          [orderId]="orderId"
+        ></app-order-manual-release>
+      </app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Total amount" class="inline"
+        >{{ order?.amount | myrCurrency | emptyDash }}
+      </app-display-text>
+      <div class="input-gap"></div>
+      <ng-container *ngIf="order?.invoice?.invoice?.fuel as fuel">
+        <app-display-text label="Filled petrol volume" class="inline"
+          >{{ fuel?.order?.completedVolume }}
+        </app-display-text>
+        <div class="input-gap"></div>
+        <app-display-text label="Unit price" class="inline"
+          >{{ fuel?.order?.pricePerUnit | myrCurrency | emptyDash }}</app-display-text
+        >
+        <div class="input-gap"></div>
+        <app-display-text label="Fuel grade" class="inline">{{ fuel?.fuelGrade }}</app-display-text>
+        <div class="input-gap"></div>
+        <app-display-text label="Full tank" class="inline"
+          >{{ fuel?.order?.isFullTank | yesno }}</app-display-text
+        >
+        <div class="input-gap"></div>
+        <app-display-text label="Pump number" class="inline">{{ fuel?.pumpId }}</app-display-text>
+        <div class="input-gap"></div>
+      </ng-container>
+
+      <a [routerLink]="['/stations', order?.stationId]" target="_blank">
+        <app-display-text label="Petrol station" class="inline clickable"
+          >{{ order?.stationName | titlecase }}
+        </app-display-text>
+      </a>
+
+      <div class="input-gap"></div>
+      <ng-container *ngIf="order?.invoice?.invoice as invoice">
+        <app-display-text label="Tax invoice number" class="inline"
+          >{{ invoice?.id | prefix:'#' | emptyDash }}
+        </app-display-text>
+        <div class="input-gap"></div>
+      </ng-container>
+
+      <ng-container *ngIf="order?.voucherUsed as voucher">
+        <app-display-text label="Voucher Used" class="inline"
+          >{{ voucher?.voucherCode | uppercase }}
+        </app-display-text>
+        <div class="input-gap"></div>
+        <app-display-text label="Voucher Amount" class="inline"
+          >{{ voucher?.voucherAmount | myrCurrency | emptyDash }}
+        </app-display-text>
+      </ng-container>
+
+      <ng-container *ngIf="order?.loyaltyTransaction | emptyObject as loyalty">
+        <div class="divider"></div>
+        <div class="input-gap"></div>
+
+        <app-display-text label="Loyalty Card number" class="inline"
+          >{{ cardNumber | prefix:'#' | emptyDash }}
+        </app-display-text>
+        <div class="input-gap"></div>
+        <app-display-text label="Mesra points earned" class="inline"
+          >{{ sumMesraCardPoints(loyalty) | plural:'point' | emptyDash }}</app-display-text
+        >
+        <div class="input-gap"></div>
+        <app-display-text label="Mesra balance after purchase" class="inline"
+          >{{ getBalanceAfterPurchase(loyalty) | plural:'point' | emptyDash }}</app-display-text
+        >
+
+        <div class="input-gap"></div>
+      </ng-container>
+
+      <ng-container *ngIf="orderId">
+        <app-order-tags [orderId]="orderId"></app-order-tags>
+      </ng-container>
+    </div>
+
+    <div class="input-gap"></div>
+    <app-order-transactions
+      [orderId]="order?.orderId"
+      [userId]="order?.userId"
+      [targetService]="targetService"
+    ></app-order-transactions>
+
+    <div class="input-gap"></div>
+    <app-order-loyalty-transactions
+      [orderId]="order?.orderId"
+      (cardNumber$)="setCardNumber($event)"
+    >
+    </app-order-loyalty-transactions>
+
+    <div class="input-gap"></div>
+    <h6>Order JSON</h6>
+    <div class="card-panel">
+      <ngx-json-viewer [json]="order"></ngx-json-viewer>
+    </div>
+  </div>
+</div>
+
+<ng-template #loaderState>
+  <app-loader class="big-loader" type="transparent"></app-loader>
+</ng-template>

@@ -1,0 +1,128 @@
+@import '../../../styles/variables';
+
+$pad: 25px;
+$transparent-black: rgba(18, 18, 18, 0.3);
+$modal-shadow: rgba(0, 0, 0, 0.15);
+
+.container {
+  padding: 20px 0;
+  max-width: 660px;
+  margin: auto;
+}
+
+.headline {
+  margin-bottom: 10px;
+}
+
+.sub-headline {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.wrapper {
+  position: relative;
+  min-height: 250px;
+  padding: 30px 0;
+}
+
+.detail-flex {
+  display: flex;
+  margin-bottom: 10px;
+
+  &.column {
+    flex-direction: column;
+  }
+
+  label {
+    padding-right: 55px;
+    width: 350px;
+    color: $display-label-color;
+  }
+
+  .item {
+    color: $display-text-color;
+  }
+}
+
+.stt-status {
+  height: 30px;
+  line-height: 30px;
+  text-transform: uppercase;
+  border-radius: 30px;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 0 15px;
+  color: #fff;
+  background-color: $inactive-color;
+
+  &.active {
+    background-color: $success-color;
+  }
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  app-button {
+    width: 200px;
+    display: block;
+    margin: 0 5px;
+  }
+}
+
+b {
+  margin: 20px 0;
+  display: block;
+}
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $transparent-black;
+  z-index: $modal-z-index + 1;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: #fff;
+  padding: $pad;
+  box-shadow: 0 2px 4px 0 $modal-shadow;
+  border: 1px solid $input-border-color;
+  width: $modal-max-width;
+  z-index: $modal-z-index + 2;
+
+  &-content {
+    border-bottom: 1px solid $input-border-color;
+    padding-bottom: $pad;
+
+    h6 {
+      text-align: center;
+      padding-bottom: $pad;
+    }
+
+    p {
+      padding: $pad 0;
+    }
+  }
+
+  &-action {
+    padding-top: $pad;
+
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
+  }
+}

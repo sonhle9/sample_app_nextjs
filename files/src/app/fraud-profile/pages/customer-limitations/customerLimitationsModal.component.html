@@ -1,0 +1,52 @@
+<div class="container">
+  <header>
+    <h6>Edit Customer Limitation</h6>
+  </header>
+
+  <app-loader *ngIf="loading"></app-loader>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <mat-dialog-content>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field *ngIf="this.data.chargeLimit !== undefined" class="width-100">
+          <mat-label>Charge Limit Per Day</mat-label>
+          <input
+            type="number"
+            step=".01"
+            placeholder="Limit charge accumulation per day value"
+            matInput
+            formControlName="chargeLimit"
+          />
+        </mat-form-field>
+
+        <mat-form-field *ngIf="this.data.numberTransactionLimit !== undefined" class="width-100">
+          <mat-label>Max value of number of transaction per day</mat-label>
+          <input
+            type="number"
+            placeholder="Max value of number of transaction per day"
+            matInput
+            formControlName="numberTransactionLimit"
+          />
+        </mat-form-field>
+
+        <mat-form-field *ngIf="this.data.maxTransactionAmount !== undefined" class="width-100">
+          <mat-label>Max value of payment transaction amount</mat-label>
+          <input
+            type="number"
+            step=".01"
+            placeholder="Max value of payment transaction amount"
+            matInput
+            formControlName="maxTransactionAmount"
+          />
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <div fxLayout="row" fxLayoutGap="10px">
+        <button mat-stroked-button type="button" (click)="onClose()">Cancel</button>
+        <button mat-stroked-button type="submit" color="primary">Submit</button>
+      </div>
+    </mat-dialog-actions>
+  </form>
+</div>

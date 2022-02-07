@@ -1,0 +1,143 @@
+@use 'sass:math';
+
+@import '../../../styles/variables';
+$dropdown-trans-height: $small-font;
+
+.dropdown {
+  position: relative;
+  height: inherit;
+  line-height: $dropdown-height;
+  background-color: #ffffff;
+  border: solid 1px $input-border-color;
+  border-radius: 4px;
+  overflow: hidden;
+
+  &:after {
+    width: 0;
+    height: 0;
+    border-left: $arrow-height solid transparent;
+    border-right: $arrow-height solid transparent;
+    border-top: $arrow-height solid $select-arrow-color;
+    position: absolute;
+    line-height: inherit;
+    top: math.div($dropdown-height - $arrow-height, 2);
+    right: 10px;
+    content: '';
+  }
+}
+
+select {
+  background: transparent;
+  border: none;
+  height: inherit;
+  line-height: inherit;
+  padding: 0;
+  margin: 0;
+  appearance: none;
+  width: 100%;
+  font-weight: 600;
+  padding: 0 30px 0 10px;
+}
+
+option {
+  line-height: 3;
+  height: 60px;
+  border: none;
+  padding: 50px;
+}
+
+label {
+  font-size: $dropdown-font;
+  cursor: text;
+  font-weight: 600;
+  min-height: 15px;
+  display: inline-block;
+}
+
+.helper-text {
+  position: relative;
+  display: block;
+  font-size: $helper-font;
+  color: $helper-text-color;
+  transition: all 0.3s;
+  margin-top: 1px;
+  min-height: 18px;
+}
+
+.dropdown-field {
+  &.error {
+    color: $danger-color;
+
+    .helper-text,
+    label {
+      color: inherit;
+    }
+
+    .dropdown {
+      border-color: $danger-color;
+    }
+  }
+
+  &.transparent {
+    display: flex;
+    align-items: center;
+    font-size: $dropdown-trans-height;
+    font-weight: 600;
+    height: $body-font;
+
+    .dropdown {
+      background-color: transparent;
+      border: none;
+      height: $dropdown-trans-height;
+      line-height: $dropdown-trans-height;
+      flex: 1;
+
+      &:after {
+        width: 0;
+        height: 0;
+        border-left: $arrow-height solid transparent;
+        border-right: $arrow-height solid transparent;
+        border-top: $arrow-height solid $select-color;
+        position: absolute;
+        line-height: inherit;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 10px;
+        content: '';
+      }
+    }
+
+    label {
+      color: $select-label-color;
+      font-size: inherit;
+      font-weight: inherit;
+      padding-right: 2px;
+    }
+
+    select {
+      color: $select-color;
+      background-color: transparent;
+      border: none;
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
+    option {
+      background-color: #fff;
+      color: $select-label-color;
+      border: none;
+      padding: 10px 20px;
+    }
+  }
+
+  &.large {
+    .dropdown {
+      height: $dropdown-large-height;
+      line-height: $dropdown-large-height;
+
+      &:after {
+        top: math.div($dropdown-large-height - $arrow-height, 2);
+      }
+    }
+  }
+}

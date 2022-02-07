@@ -1,0 +1,88 @@
+<div class="container">
+  <h4 class="headline">Viewing order</h4>
+  <div class="wrapper" *ngIf="!loading.full; else loaderState">
+    <div class="card order-card">
+      <app-display-text label="Order ID" class="inline main">{{ order?.id }}</app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Type" class="inline main">External Order</app-display-text>
+      <div class="input-gap"></div>
+
+      <div class="divider"></div>
+      <div class="input-gap"></div>
+
+      <a [routerLink]="['/customers', order?.userId]" target="_blank">
+        <app-display-text label="Customer name" class="inline main clickable"
+          >{{ customer?.name }}
+        </app-display-text>
+      </a>
+      <div class="input-gap"></div>
+      <app-display-text label="Customer email" class="inline main">{{
+        customer?.email
+      }}</app-display-text>
+      <div class="input-gap"></div>
+      <app-display-text label="Phone number" class="inline main">{{
+        customer?.phone
+      }}</app-display-text>
+      <div class="input-gap"></div>
+
+      <div class="divider"></div>
+      <div class="input-gap"></div>
+
+      <app-display-text label="Transaction Date" class="inline"
+        >{{ order?.transactionDate | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+      </app-display-text>
+      <div class="input-gap"></div>
+
+      <app-display-text label="Created At" class="inline"
+        >{{ order?.createdAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+      </app-display-text>
+      <div class="input-gap"></div>
+
+      <app-display-text label="Status" class="inline">{{ order?.status }}</app-display-text>
+      <div class="input-gap"></div>
+
+      <app-display-text label="Order Type" class="inline">{{ order?.orderType }}</app-display-text>
+      <div class="input-gap"></div>
+
+      <app-display-text label="Total amount" class="inline"
+        >{{ order?.totalAmount | myrCurrency | emptyDash }}
+      </app-display-text>
+      <div class="input-gap"></div>
+
+      <app-display-text label="Points Granted" class="inline"
+        >{{ order?.grantedBasePoints | emptyDash }}
+      </app-display-text>
+      <div class="input-gap"></div>
+
+      <app-display-text label="Petrol station" class="inline"
+        >{{ order?.stationName | titlecase }}
+      </app-display-text>
+    </div>
+
+    <div class="input-gap" *ngIf="order.receiptImageUrl"></div>
+
+    <h6 *ngIf="order.receiptImageUrl">Receipt Image</h6>
+    <div class="card-panel" *ngIf="order.receiptImageUrl">
+      <a href="{{ order?.receiptImageUrl }}" target="_blank">
+        <img src="{{ order?.receiptImageUrl }}" width="400" />
+      </a>
+    </div>
+
+    <div class="input-gap" *ngIf="order.zendeskUrl"></div>
+
+    <h6 *ngIf="order.zendeskUrl">Zendesk Support</h6>
+    <div class="card-panel" *ngIf="order.zendeskUrl">
+      <a href="{{ order?.zendeskUrl }}" target="_blank">{{ order?.zendeskUrl }}</a>
+    </div>
+
+    <div class="input-gap"></div>
+    <h6>Order JSON</h6>
+    <div class="card-panel">
+      <ngx-json-viewer [json]="order"></ngx-json-viewer>
+    </div>
+  </div>
+</div>
+
+<ng-template #loaderState>
+  <app-loader class="big-loader" type="transparent"></app-loader>
+</ng-template>

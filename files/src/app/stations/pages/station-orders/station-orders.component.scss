@@ -1,0 +1,41 @@
+@import './../../../../styles/variables';
+
+.station-orders {
+  .spinner {
+    display: flex;
+    justify-content: center;
+  }
+  .station-orders-section {
+    .custom-header {
+      vertical-align: middle;
+    }
+    .custom-table-data {
+      vertical-align: middle;
+    }
+    .amount {
+      text-align: center;
+    }
+    .status {
+      text-transform: capitalize;
+      font-weight: 600;
+      color: $status-warning;
+      cursor: pointer;
+      &.confirmed {
+        color: $status-confirmed;
+      }
+      &.canceled {
+        color: $status-canceled;
+      }
+      &.error {
+        color: $status-error;
+      }
+    }
+    .name {
+      cursor: pointer;
+      color: #000;
+    }
+    .mat-column-pump {
+      text-align: center;
+    }
+  }
+}

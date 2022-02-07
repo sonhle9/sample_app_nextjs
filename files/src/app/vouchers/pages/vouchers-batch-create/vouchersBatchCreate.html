@@ -1,0 +1,204 @@
+<div class="container">
+  <div class="wrapper">
+    <div class="block-title">
+      <b>Vouchers Batch Create</b>
+    </div>
+    <div class="form-wrapper">
+      <form *ngIf="loaded" [formGroup]="form" class="batch-form" (ngSubmit)="saveBatch()">
+        <div class="options-wrapper">
+          <div class="main-options-section">
+            <app-input
+              class="fff input-field"
+              label="Name"
+              formControlName="name"
+              [errorMessage]="errorMessage.name"
+            >
+            </app-input>
+            <app-dropdown
+              (change)="changedGenType($event)"
+              type="large"
+              label="Generation type"
+              placeholder="Select type"
+              [items]="generationTypesEnum"
+              formControlName="generationType"
+              [errorMessage]="errorMessage.generationType"
+            ></app-dropdown>
+            <app-input
+              *ngIf="isVouchersCountVisible()"
+              class="fff input-field"
+              type="number"
+              label="Vouchers quantity"
+              formControlName="vouchersCount"
+              [errorMessage]="errorMessage.vouchersCount"
+            >
+            </app-input>
+            <div class="codes-file-input" *ngIf="isUploadVisible()">
+              <input accept=".csv" #fileUpload type="file" (change)="uploadCodes($event)" />
+              <span *ngIf="errorMessage.codes" class="helper-text">{{errorMessage.codes}}</span>
+              <button
+                *ngIf="form.get('codes')?.value.length"
+                type="button"
+                (click)="clearCodesFileInput()"
+                mat-icon-button
+                color="warn"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <app-datepicker
+              [pickerType]="'both'"
+              label="Start date"
+              formControlName="startDate"
+              [errorMessage]="errorMessage.startDate"
+            ></app-datepicker>
+            <app-toggle
+              class="batch-expiry-type-toggle"
+              (change)="changeLinkingBatchExpiryType()"
+              [value]="true"
+              label="Linking expiry"
+              [(ngModel)]="batchLinkingExpiryType"
+              [ngModelOptions]="{standalone: true}"
+            ></app-toggle>
+            <app-datepicker
+              *ngIf="batchLinkingExpiryType.length > 0"
+              [pickerType]="'both'"
+              label="Date"
+              formControlName="expiryDate"
+              [errorMessage]="errorMessage.expiryDate"
+            ></app-datepicker>
+            <app-input
+              *ngIf="batchLinkingExpiryType.length === 0"
+              class="fff input-field"
+              label="Duration (days)"
+              type="number"
+              formControlName="daysToExpire"
+              [errorMessage]="errorMessage.daysToExpire"
+            >
+            </app-input>
+
+            <section formGroupName="redeemExpiry">
+              <app-toggle
+                class="batch-expiry-type-toggle"
+                (change)="changeVoucherExpiryType()"
+                [value]="true"
+                label="Redeem expiry"
+                [(ngModel)]="voucherRedeemExpiryType"
+                [ngModelOptions]="{standalone: true}"
+              ></app-toggle>
+              <app-datepicker
+                *ngIf="voucherRedeemExpiryType.length > 0"
+                [pickerType]="'both'"
+                label="Date"
+                formControlName="date"
+                [errorMessage]="errorMessage.date"
+              ></app-datepicker>
+              <app-input
+                *ngIf="voucherRedeemExpiryType.length === 0"
+                class="fff input-field"
+                label="Duration (days)"
+                type="number"
+                formControlName="days"
+                [errorMessage]="errorMessage.days"
+              >
+              </app-input>
+            </section>
+
+            <app-dropdown
+              type="large"
+              label="Redeem type"
+              (change)="changedRedeemType($event)"
+              placeholder="Select type"
+              [items]="redeemTypesEnum"
+              formControlName="redeemType"
+              [errorMessage]="errorMessage.redeemType"
+            ></app-dropdown>
+            <app-input
+              *ngIf="!isUploadVisible()"
+              class="fff input-field"
+              label="Vouchers code prefix"
+              formControlName="prefix"
+              [errorMessage]="errorMessage.prefix"
+            >
+            </app-input>
+            <app-input
+              *ngIf="!isUploadVisible()"
+              class="fff input-field"
+              label="Vouchers code postfix"
+              formControlName="postfix"
+              [errorMessage]="errorMessage.postfix"
+            >
+            </app-input>
+          </div>
+          <div class="secondary-options-section">
+            <app-input
+              class="fff input-field"
+              label="Terms & condition URL"
+              formControlName="termsUrl"
+              [errorMessage]="errorMessage.termsUrl"
+            >
+            </app-input>
+            <app-input
+              class="fff input-field"
+              label="Banner Image URL"
+              formControlName="bannerUrl"
+              [errorMessage]="errorMessage.bannerUrl"
+            >
+            </app-input>
+            <app-input
+              class="fff input-field"
+              label="Icon Image URL"
+              formControlName="iconUrl"
+              [errorMessage]="errorMessage.iconUrl"
+            >
+            </app-input>
+            <app-input
+              class="fff input-field"
+              type="textarea"
+              label="Description"
+              formControlName="description"
+              [errorMessage]="errorMessage.description"
+            >
+            </app-input>
+            <app-input
+              class="fff input-field"
+              type="textarea"
+              label="Terms & condition content"
+              formControlName="termContent"
+              [errorMessage]="errorMessage.termContent"
+            >
+            </app-input>
+            <app-dropdown
+              type="large"
+              label="Display As"
+              placeholder="Select Display As"
+              [items]="displayAsOpts"
+              formControlName="displayAs"
+            ></app-dropdown>
+          </div>
+        </div>
+        <div *ngIf="form.get('rules')" class="rules-section" formArrayName="rules">
+          <app-button class="add-rule-btn" css="add" (click)="addRule()">Add Rule</app-button>
+          <div
+            class="rule-wrapper"
+            *ngFor="let control of form.controls['rules'].controls; let i = index"
+          >
+            <app-vouchers-batch-rules
+              (removeRule)="removeRule($event)"
+              [rulesCount]="rulesCount"
+              [index]="i"
+              [rulesForm]="form.controls.rules.controls[i]"
+            ></app-vouchers-batch-rules>
+          </div>
+        </div>
+        <div class="control-btns">
+          <app-button css="reset" style="flex-grow: 1; max-width: 300px" (click)="resetForm()"
+            >Reset</app-button
+          >
+          <app-button css="add" style="flex-grow: 2; max-width: 300px" type="submit"
+            >Save</app-button
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

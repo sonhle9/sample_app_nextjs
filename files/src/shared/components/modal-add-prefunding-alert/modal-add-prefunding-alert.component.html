@@ -1,0 +1,35 @@
+<ng-container *ngIf="isShowModal">
+  <div class="modal-background"></div>
+  <div class="modal">
+    <div class="modal-content">
+      <h6 class="content-title">Add prefunding balance alert</h6>
+
+      <div class="modal-form">
+        <app-dropdown label="Type" [(ngModel)]="type" [items]="typeOptions"></app-dropdown>
+        <div class="modal-input-wrapper">
+          <label class="modal-input-label" for="text">Message</label>
+          <input class="modal-input" id="text" type="text" name="text" (keyup)="setText($event)" />
+          <p *ngIf="textError" class="modal-input-error">{{ textError }}</p>
+        </div>
+        <div class="modal-input-wrapper">
+          <label class="modal-input-label" for="limit">Limit</label>
+          <input
+            class="modal-input"
+            id="limit"
+            type="number"
+            min="0"
+            step="1"
+            oninput="validity.valid||(value='');"
+            name="limit"
+            (keyup)="setLimit($event)"
+          />
+          <p *ngIf="limitError" class="modal-input-error">{{ limitError }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-action">
+      <app-button css="light" (click)="cancelMethod()">Cancel</app-button>
+      <app-button (click)="submitMethod()">Add</app-button>
+    </div>
+  </div>
+</ng-container>

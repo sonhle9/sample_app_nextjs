@@ -1,0 +1,35 @@
+<b>Grant wallet balance</b>
+<form class="card-panel" (ngSubmit)="grantBalance()" [formGroup]="form">
+  <mat-form-field>
+    <input matInput placeholder="Amount" formControlName="amount" />
+    <mat-error *ngIf="errorMessage.amount">{{errorMessage.amount}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Description" formControlName="message" />
+    <mat-error *ngIf="errorMessage.message">{{errorMessage.message}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      placeholder="Expiry date"
+      formControlName="expiryDate"
+    />
+    <mat-error *ngIf="errorMessage.expiryDate">{{errorMessage.expiryDate}}</mat-error>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <app-tags [tagsContainer]="tags"></app-tags>
+  <app-button css="add" type="submit">Grant wallet balance</app-button>
+  <div class="loader-container" *ngIf="loading">
+    <app-loader type="progress"></app-loader>
+  </div>
+</form>
+<app-message
+  *ngIf="messageContent"
+  [content]="messageContent"
+  [type]="messageType"
+  (close)="messageContent = ''"
+>
+</app-message>
+<div class="input-gap"></div>

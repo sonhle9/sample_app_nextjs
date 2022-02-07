@@ -1,0 +1,140 @@
+<div class="container" [appBreadcrumbs]="breadcrumbs">
+  <h4 class="headline">Card ranges</h4>
+  <div class="add-container">
+    <app-button css="add" (click)="openAddDialog()" *ngIf="roles?.hasCreate"
+      >Add Card Range</app-button
+    >
+  </div>
+  <div class="wrapper">
+    <div class="filter-container" *ngIf="roles?.hasView">
+      <app-pagination
+        [pagination]="pagination"
+        (next)="next()"
+        (prev)="prev()"
+        [mode]="1"
+      ></app-pagination>
+
+      <app-dropdown
+        label="Type"
+        [(ngModel)]="selectedTypeFilter"
+        [items]="typeFilters"
+        (ngModelChange)="updateTypeFilter()"
+      >
+      </app-dropdown>
+
+      <div class="input-search">
+        <app-searchbar
+          class="search-name"
+          placeholder="Search card range name"
+          [(ngModel)]="searchName"
+          (search$)="searchValueName()"
+        >
+        </app-searchbar>
+        <app-searchbar
+          class="search-start-number"
+          placeholder="Search start number"
+          [(ngModel)]="searchStartNumber"
+          (search$)="searchValueStartNumber()"
+        >
+        </app-searchbar>
+      </div>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #anyResult>
+  <div class="card terminal-card">
+    <div class="card-header">
+      <div>Type</div>
+
+      <div>Card range name</div>
+
+      <div>Start number</div>
+
+      <div>Current number</div>
+
+      <div>Total number</div>
+
+      <div>End number</div>
+
+      <div class="action">Action</div>
+    </div>
+    <div class="card-content">
+      <div class="card-row" *ngFor="let item of pagination?.items">
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/card-ranges', item.id]"
+          target="_blank"
+        >
+          <div>{{ fnChangeShowName(item.type) }}</div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/card-ranges', item.id]"
+          target="_blank"
+        >
+          <div>{{ item.name }}</div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/card-ranges', item.id]"
+          target="_blank"
+        >
+          <div>{{ item.startNumber }}</div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/card-ranges', item.id]"
+          target="_blank"
+        >
+          <div>{{ item.currentNumber }}</div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/card-ranges', item.id]"
+          target="_blank"
+        >
+          <div>{{ item.endNumber - item.startNumber }}</div>
+        </a>
+
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/card-issuing/card-ranges', item.id]"
+          target="_blank"
+        >
+          <div>{{ item.endNumber }}</div>
+        </a>
+
+        <div class="card-column action">
+          <mat-icon (click)="openEditDialog(item)" *ngIf="roles?.hasUpdate">settings</mat-icon>
+        </div>
+      </div>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

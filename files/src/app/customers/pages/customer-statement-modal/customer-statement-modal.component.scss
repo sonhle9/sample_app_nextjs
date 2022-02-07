@@ -1,0 +1,14 @@
+@import './../../../../styles/dialog';
+
+section {
+  display: flex;
+  .dp-statement {
+    width: 100%;
+  }
+  mat-form-field:first-child {
+    margin-right: 1em;
+  }
+  small {
+    font-style: italic;
+  }
+}

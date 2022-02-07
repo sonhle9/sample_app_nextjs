@@ -1,0 +1,71 @@
+.container {
+  background-image: url(/assets/images/background.png), linear-gradient(to top, #00b0ff, #1de9b6);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-content: center;
+  .wrapper {
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    margin: auto;
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      background-color: #fff;
+      margin: auto;
+      img {
+        width: 45%;
+      }
+    }
+    .headline {
+      line-height: 32px;
+      margin: 20px 0;
+      color: #fff;
+      text-align: center;
+    }
+    .login-card {
+      background-color: #fff;
+      padding: 60px 25px 25px;
+      margin: auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .button-gap {
+      height: 24px;
+    }
+    .card-wrapper {
+      max-width: 450px;
+      width: 100%;
+      margin: auto;
+    }
+    .card-footer {
+      margin: auto;
+      background-color: #fbfbfb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 72px;
+      a {
+        display: block;
+        text-align: center;
+      }
+    }
+  }
+}
+
+app-message {
+  position: absolute;
+  margin-top: 0;
+  top: 0;
+  width: 100%;
+  left: 0;
+}

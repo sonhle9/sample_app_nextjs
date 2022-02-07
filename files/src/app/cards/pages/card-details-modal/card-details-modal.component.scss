@@ -1,0 +1,55 @@
+@import '../../../../styles/dialog';
+.width-100 {
+  width: 100%;
+}
+
+mat-dialog-content {
+  overflow-x: hidden;
+}
+
+mat-card {
+  padding: 10px;
+  margin: 10px 0px;
+  background-color: lavender;
+}
+
+.op-select {
+  .txt-active {
+    color: #2ecc71;
+  }
+  .txt-frozen {
+    color: #f44336;
+  }
+  .txt-pending {
+    color: #ffb53b;
+  }
+  .txt-closed {
+    color: #525b65;
+  }
+}
+.txt-active {
+  color: #2ecc71;
+}
+
+.mat-select-status {
+  &-active {
+    .mat-select-value-text {
+      color: #2ecc71;
+    }
+  }
+  &-pending {
+    .mat-select-value-text {
+      color: #ffb53b;
+    }
+  }
+  &-closed {
+    .mat-select-value-text {
+      color: #525b65;
+    }
+  }
+  &-frozen {
+    .mat-select-value-text {
+      color: #f44336;
+    }
+  }
+}

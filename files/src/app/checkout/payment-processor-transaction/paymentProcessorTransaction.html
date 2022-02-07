@@ -1,0 +1,45 @@
+<h6 class="subtitle">Payment Processor Transactions</h6>
+<app-pagination
+  [pagination]="pagination"
+  (next)="next()"
+  (prev)="prev()"
+  [mode]="1"
+></app-pagination>
+
+<div class="card txn-card">
+  <div class="card-header">
+    <div></div>
+    <div>Transaction ID</div>
+    <div>Created on</div>
+    <div>Type</div>
+    <div class="amount">Amount</div>
+    <div>Error message</div>
+    <div>Remark</div>
+  </div>
+  <div class="card-content">
+    <ng-container *ngIf="pagination?.items.length !== 0; else emptyState">
+      <div class="card-row" *ngFor="let txn of pagination?.items">
+        <div class="card-column middle">
+          <div class="status {{ txn?.status | txnStatusCss }}"></div>
+        </div>
+        <a
+          [routerLink]="['/payments/transactions/', txn?.id]"
+          [queryParams]="{'target-service': targetService}"
+          target="_blank"
+          class="card-column"
+        >
+          <div class="card-column main">{{ txn?.id }}</div>
+        </a>
+        <div class="card-column">{{ txn?.createdAt | amDateFormat: 'DD MMM YYYY, hh:mmA' }}</div>
+        <div class="card-column">{{ txn?.type | titlecase }}</div>
+        <div class="card-column amount">{{ txn?.amount | myrCurrency | emptyDash }}</div>
+        <div class="card-column">{{ (txn?.error | txnErrorMessage) || '-' }}</div>
+        <div class="card-column">{{ txn?.remark || 'None' }}</div>
+      </div>
+    </ng-container>
+  </div>
+  <app-loader *ngIf="loading.page" type="progress"></app-loader>
+</div>
+<ng-template #emptyState>
+  <p class="empty-text" *ngIf="!loading.page">Does not have any payment processor transactions.</p>
+</ng-template>

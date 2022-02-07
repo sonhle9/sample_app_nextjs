@@ -1,0 +1,28 @@
+@import '../../../styles/variables';
+
+:host {
+  display: block;
+  cursor: pointer;
+  border: none;
+  width: $icon-button-height;
+  height: $icon-button-height;
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+
+  &.unlink {
+    background-image: url(/assets/images/icons/unlink.svg);
+
+    &:hover {
+      background-image: url(/assets/images/icons/unlink_a.svg);
+    }
+  }
+
+  &.update {
+    background-image: url(/assets/images/icons/update.svg);
+
+    &:hover {
+      background-image: url(/assets/images/icons/update_a.svg);
+    }
+  }
+}

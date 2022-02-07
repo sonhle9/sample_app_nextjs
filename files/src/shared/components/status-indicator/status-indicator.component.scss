@@ -1,0 +1,25 @@
+@import '../../../styles/variables';
+
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  padding: 4px;
+}
+
+.success {
+  background-color: $success-color;
+}
+.error {
+  background-color: $error-color;
+}
+.danger {
+  background-color: $danger-color;
+}
+.inactive {
+  background-color: $inactive-color;
+}
+.pending {
+  background-color: $pending-color;
+}

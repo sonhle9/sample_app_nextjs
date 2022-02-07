@@ -1,0 +1,72 @@
+<div [formGroup]="rulesForm" class="rule-block">
+  <app-input
+    style="flex-grow: 1.2"
+    class="fff input-field"
+    label="Rule name"
+    formControlName="name"
+    [errorMessage]="errorMessage.name"
+  >
+  </app-input>
+  <app-input
+    class="fff input-field"
+    style="flex-grow: 0"
+    label="Amount"
+    type="number"
+    formControlName="amount"
+    [errorMessage]="errorMessage.amount"
+  >
+  </app-input>
+  <div class="expiry-date-picker">
+    <app-toggle
+      class="expiry-type-toggle"
+      (change)="changeExpiryType()"
+      [value]="true"
+      [(ngModel)]="expiryType"
+      [ngModelOptions]="{standalone: true}"
+    >
+    </app-toggle>
+    <app-datepicker
+      *ngIf="expiryType.length > 0"
+      style="flex-grow: 0.9; flex-shrink: 1"
+      [pickerType]="'both'"
+      label="Expiry date"
+      class="input-field"
+      formControlName="expiryDate"
+      [errorMessage]="errorMessage.expiryDate"
+      [allowClearing]="true"
+    ></app-datepicker>
+    <app-input
+      *ngIf="expiryType.length === 0"
+      class="fff input-field"
+      style="flex-grow: 0.9; flex-shrink: 1"
+      label="Duration (days)"
+      type="number"
+      formControlName="daysToExpire"
+      [errorMessage]="errorMessage.daysToExpire"
+    >
+    </app-input>
+  </div>
+  <app-form-tags
+    style="flex-grow: 1"
+    class="fff input-field tags"
+    formControlName="tag"
+    [errorMessage]="errorMessage.tag"
+  >
+  </app-form-tags>
+  <app-dropdown
+    style="flex-grow: 1"
+    type="large"
+    label="Rule type"
+    placeholder="Select type"
+    [items]="ruleTypesEnum"
+    formControlName="type"
+    [errorMessage]="errorMessage.type"
+    class="input-field"
+  ></app-dropdown>
+  <app-button
+    *ngIf="isRemoveBtnVisible()"
+    css="light-blue remove"
+    class="remove-rule-btn"
+    (click)="removeRuleEntity()"
+  ></app-button>
+</div>

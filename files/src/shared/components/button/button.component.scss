@@ -1,0 +1,128 @@
+@import '../../../styles/variables';
+
+button {
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  height: $btn-height;
+  line-height: 1.5;
+  background-color: $button-color;
+  border-radius: 4px;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  font-family: inherit;
+  font-size: $button-font;
+  white-space: nowrap;
+  padding: 0 12px;
+  text-transform: uppercase;
+
+  &:disabled {
+    background: $disabled-button-color;
+    background-color: $disabled-button-color !important;
+    color: #fff !important;
+    border: none !important;
+    cursor: default;
+  }
+
+  &.large {
+    font-size: $large-button-font;
+    font-weight: 700;
+    height: 55px;
+    line-height: 32px;
+  }
+
+  &.small {
+    height: 30px;
+    line-height: 30px;
+    font-size: $mini-button-font;
+    padding: 0 15px;
+  }
+
+  &.mini {
+    height: 20px;
+    line-height: 20px;
+    font-size: $mini-button-font;
+    padding: 0 8px;
+  }
+
+  &.gradient {
+    background-image: linear-gradient(261deg, #00b0ff, #1de9b6);
+    background-color: transparent;
+    border-radius: 50px;
+    object-fit: contain;
+  }
+
+  &.light {
+    background-color: transparent;
+    border: 1px solid $button-color;
+    color: $button-color;
+  }
+
+  &.light-1 {
+    background-color: transparent;
+    border: 1px solid $light-button-color;
+    color: $light-button-color;
+  }
+
+  &.light-blue {
+    background-color: $light-button-color;
+  }
+
+  &.add {
+    background-image: url(/assets/images/icons/btn-add.svg);
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 26px;
+    padding: 0px 10px 0px 40px;
+    font-size: $button-font + 0.05rem;
+  }
+
+  &.download {
+    background-image: url(/assets/images/icons/btn-download.svg);
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    padding: 0px 15px 0px 40px;
+  }
+
+  &.loading {
+    background-image: url(/assets/images/icons/loader.svg);
+    opacity: 0.75;
+  }
+
+  &.refresh {
+    background-image: url(/assets/images/icons/refresh.svg);
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    padding: 0px 15px 0px 40px;
+  }
+
+  &.reset {
+    background-image: url(/assets/images/icons/refresh.svg);
+    background-color: $disabled-button-color;
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    padding: 0px 15px 0px 40px;
+  }
+
+  &.remove {
+    background-image: url(/assets/images/icons/close.svg);
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 26px;
+    padding: 0px 10px 0px 40px;
+    font-size: $button-font + 0.05rem;
+  }
+
+  &.undo {
+    background-image: url(/assets/images/icons/undo.svg);
+    background-position: 15px center;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    padding: 0px 10px 0px 40px;
+    font-size: $button-font + 0.05rem;
+  }
+}

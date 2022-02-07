@@ -1,0 +1,57 @@
+<div class="container">
+  <header>
+    <h6>Custom Statement</h6>
+  </header>
+
+  <app-message
+    *ngIf="message"
+    [content]="message"
+    [type]="messageType"
+    (close)="message = ''"
+  ></app-message>
+
+  <form #customStatement="ngForm" name="form" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <section>
+        <mat-form-field class="dp-statement">
+          <input
+            matInput
+            [matDatepicker]="dp1"
+            name="from"
+            [max]="todayDate"
+            [(ngModel)]="startDate"
+            placeholder="From"
+            disabled
+          />
+          <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+          <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="dp-statement">
+          <input
+            matInput
+            [matDatepicker]="dp2"
+            name="to"
+            [max]="todayDate"
+            [(ngModel)]="endDate"
+            placeholder="To"
+            disabled
+          />
+          <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+          <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </section>
+
+      <section>
+        <small>
+          Generate a custom statement for all purchases across the designated date range and have it
+          sent to the customer via email
+        </small>
+      </section>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+      <button mat-stroked-button type="button" (click)="onClose()">cancel</button>
+      <button mat-raised-button type="submit" class="primary-btn">Send</button>
+    </mat-dialog-actions>
+  </form>
+</div>

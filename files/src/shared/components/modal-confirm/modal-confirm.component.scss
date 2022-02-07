@@ -1,0 +1,66 @@
+@import '../../../styles/variables';
+
+$pad: 25px;
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(18, 18, 18, 0.3);
+  z-index: $modal-z-index + 1;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: #fff;
+  padding: $pad;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border: 1px solid $input-border-color;
+  width: $modal-max-width;
+  z-index: $modal-z-index + 2;
+
+  &-content {
+    .content-title {
+      text-align: center;
+      padding-bottom: $pad;
+    }
+
+    .content-description {
+      padding: $pad 0;
+
+      &.center {
+        text-align: center;
+      }
+    }
+
+    border-bottom: 1px solid $input-border-color;
+    padding-bottom: $pad;
+  }
+
+  &-action {
+    padding-top: $pad;
+
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 10px;
+
+    &.single {
+      display: block;
+
+      app-button {
+        max-width: 180px;
+        display: block;
+        margin: auto;
+      }
+    }
+  }
+}

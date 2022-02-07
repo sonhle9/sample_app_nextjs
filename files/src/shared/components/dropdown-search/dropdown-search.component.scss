@@ -1,0 +1,21 @@
+@import '../../../styles/variables';
+
+.dropdown-search {
+  width: 100%;
+
+  ::ng-deep .dropdown-wrapper {
+    width: 25%;
+
+    .mat-select-arrow-wrapper {
+      padding-right: 32px;
+    }
+  }
+
+  .input-wrapper {
+    width: 75%;
+  }
+
+  mat-icon {
+    cursor: pointer;
+  }
+}

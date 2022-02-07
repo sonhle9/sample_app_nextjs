@@ -1,0 +1,39 @@
+<div class="order-dialog">
+  <h6 *ngIf="data.type === 'cancelAuthorize'" class="dialog-header" mat-dialog-title>
+    Cancel Authorize
+  </h6>
+  <h6 *ngIf="data.type === 'chargeByAmount'" class="dialog-header" mat-dialog-title>
+    Manual Charge
+  </h6>
+  <h6 *ngIf="data.type === 'chargeByInvoice'" class="dialog-header" mat-dialog-title>
+    Manual Charge Invoice
+  </h6>
+  <h6 *ngIf="data.type === 'issuePointByInvoice'" class="dialog-header" mat-dialog-title>
+    Manual Points Invoice
+  </h6>
+  <h6 *ngIf="data.type === 'issuePointByAmount'" class="dialog-header" mat-dialog-title>
+    Manual Points
+  </h6>
+  <div mat-dialog-content>
+    <p *ngIf="data.type === 'cancelAuthorize'">
+      Are you sure you want to proceed with Cancel Authorize?
+    </p>
+    <p *ngIf="data.type === 'chargeByAmount'">
+      Are you sure you want to proceed with Charge by amount of RM{{ data.amount }}
+    </p>
+    <p *ngIf="data.type === 'chargeByInvoice'">
+      Are you sure you want to proceed with Charge by invoice?
+    </p>
+    <p *ngIf="data.type === 'issuePointByInvoice'">
+      Are you sure you want to proceed with Issue point by invoice?
+    </p>
+    <p *ngIf="data.type === 'issuePointByAmount'">
+      Are you sure you want to proceed with Issue point by amount of {{ data.points }}
+    </p>
+  </div>
+
+  <div mat-dialog-actions>
+    <button class="cancel-btn" (click)="onCancel()" mat-stroked-button>Cancel</button>
+    <button class="proceed-btn" (click)="onSubmit()" mat-raised-button>Proceed</button>
+  </div>
+</div>

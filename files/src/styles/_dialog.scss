@@ -1,0 +1,39 @@
+@import './variables';
+
+::ng-deep {
+  .mat-dialog-container {
+    padding-top: 0;
+    .container {
+      padding-bottom: 1em;
+      .mat-progress-bar {
+        margin: 0px -1.5em;
+        width: auto;
+      }
+      header {
+        display: block;
+        margin: 0 -24px;
+        color: #ffffff;
+        padding: 1em 1.5em;
+        background: $link-color;
+      }
+      .mat-dialog-content {
+        padding: 24px 24px;
+      }
+      .mat-dialog-actions {
+        display: flex;
+        justify-content: center;
+        button {
+          margin-right: 1em;
+          min-width: 8em;
+        }
+        .primary-btn {
+          background: $link-color;
+          color: #fff;
+          &:disabled {
+            background: $gray-out;
+          }
+        }
+      }
+    }
+  }
+}

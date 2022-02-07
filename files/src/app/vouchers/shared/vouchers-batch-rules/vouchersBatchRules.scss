@@ -1,0 +1,38 @@
+@import '../../../../styles/variables';
+
+.rule-block {
+  display: flex;
+  justify-content: space-between;
+
+  ::ng-deep .datepicker {
+    height: 42px;
+  }
+
+  .expiry-date-picker {
+    display: flex;
+    justify-content: space-between;
+    max-height: 85px;
+    max-width: 225px;
+    min-width: 220px;
+  }
+
+  .expiry-type-toggle {
+    align-self: center;
+    transform: rotate(90deg);
+  }
+
+  .remove-rule-btn {
+    align-self: center;
+    width: 54px;
+    height: 40px;
+  }
+
+  .tags {
+    max-width: 400px;
+    padding-top: 10px;
+  }
+
+  .input-field {
+    margin-right: 20px;
+  }
+}

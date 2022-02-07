@@ -1,0 +1,77 @@
+<h6 class="headline">Weekly report</h6>
+
+<div class="card metric-card">
+  <div class="card-header">
+    <div></div>
+    <div>Calendar week</div>
+    <div>Calendar week minus 1</div>
+    <div>Month to Date</div>
+    <div>Last Month to Date</div>
+    <div>Year to Date</div>
+  </div>
+  <div class="card-content">
+    <div class="card-row">
+      <div class="card-column title">
+        <div>Date range</div>
+        <div>Total registers</div>
+        <div>Total top-ups</div>
+        <div>Total top-up value (RM)</div>
+        <div>Total orders</div>
+        <div>Total order value (RM)</div>
+        <div>Total customers</div>
+        <div>Total repeat customers</div>
+      </div>
+      <div class="card-column">
+        <div>{{ formatDateIntervals(metric?.dateIntervals?.cw) }}</div>
+        <div>{{ metric?.metrics?.totalUsersRegistered?.cw }}</div>
+        <div>{{ metric?.metrics?.totalUsersTopup?.cw }}</div>
+        <div>{{ metric?.metrics?.totalTopupValue?.cw }}</div>
+        <div>{{ metric?.metrics?.totalFuelOrderCount?.cw }}</div>
+        <div>{{ metric?.metrics?.totalFuelOrderValue?.cw }}</div>
+        <div>{{ metric?.metrics?.totalUsersPurchasedFuel?.cw }}</div>
+        <div>{{ metric?.metrics?.totalRepeatUsersPurchasedFuel?.cw }}</div>
+      </div>
+      <div class="card-column">
+        <div>{{ formatDateIntervals(metric?.dateIntervals?.cwMinusOne) }}</div>
+        <div>{{ metric?.metrics?.totalUsersRegistered?.cwMinusOne }}</div>
+        <div>{{ metric?.metrics?.totalUsersTopup?.cwMinusOne }}</div>
+        <div>{{ metric?.metrics?.totalTopupValue?.cwMinusOne }}</div>
+        <div>{{ metric?.metrics?.totalFuelOrderCount?.cwMinusOne }}</div>
+        <div>{{ metric?.metrics?.totalFuelOrderValue?.cwMinusOne }}</div>
+        <div>{{ metric?.metrics?.totalUsersPurchasedFuel?.cwMinusOne }}</div>
+        <div>{{ metric?.metrics?.totalRepeatUsersPurchasedFuel?.cwMinusOne }}</div>
+      </div>
+      <div class="card-column">
+        <div>{{ formatDateIntervals(metric?.dateIntervals?.mtd) }}</div>
+        <div>{{ metric?.metrics?.totalUsersRegistered?.mtd }}</div>
+        <div>{{ metric?.metrics?.totalUsersTopup?.mtd }}</div>
+        <div>{{ metric?.metrics?.totalTopupValue?.mtd }}</div>
+        <div>{{ metric?.metrics?.totalFuelOrderCount?.mtd }}</div>
+        <div>{{ metric?.metrics?.totalFuelOrderValue?.mtd }}</div>
+        <div>{{ metric?.metrics?.totalUsersPurchasedFuel?.mtd }}</div>
+        <div>{{ metric?.metrics?.totalRepeatUsersPurchasedFuel?.mtd }}</div>
+      </div>
+      <div class="card-column">
+        <div>{{ formatDateIntervals(metric?.dateIntervals?.lmtd) }}</div>
+        <div>{{ metric?.metrics?.totalUsersRegistered?.lmtd }}</div>
+        <div>{{ metric?.metrics?.totalUsersTopup?.lmtd }}</div>
+        <div>{{ metric?.metrics?.totalTopupValue?.lmtd }}</div>
+        <div>{{ metric?.metrics?.totalFuelOrderCount?.lmtd }}</div>
+        <div>{{ metric?.metrics?.totalFuelOrderValue?.lmtd }}</div>
+        <div>{{ metric?.metrics?.totalUsersPurchasedFuel?.lmtd }}</div>
+        <div>{{ metric?.metrics?.totalRepeatUsersPurchasedFuel?.lmtd }}</div>
+      </div>
+      <div class="card-column">
+        <div>{{ formatDateIntervals(metric?.dateIntervals?.ytd) }}</div>
+        <div>{{ metric?.metrics?.totalUsersRegistered?.ytd }}</div>
+        <div>{{ metric?.metrics?.totalUsersTopup?.ytd }}</div>
+        <div>{{ metric?.metrics?.totalTopupValue?.ytd }}</div>
+        <div>{{ metric?.metrics?.totalFuelOrderCount?.ytd }}</div>
+        <div>{{ metric?.metrics?.totalFuelOrderValue?.ytd }}</div>
+        <div>{{ metric?.metrics?.totalUsersPurchasedFuel?.ytd }}</div>
+        <div>{{ metric?.metrics?.totalRepeatUsersPurchasedFuel?.ytd }}</div>
+      </div>
+    </div>
+  </div>
+  <app-loader *ngIf="loading.page" type="progress"></app-loader>
+</div>

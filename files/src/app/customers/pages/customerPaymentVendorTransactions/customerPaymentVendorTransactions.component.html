@@ -1,0 +1,28 @@
+<app-collapse title="Payment transactions" [small]="true">
+  <div class="card topups-card">
+    <div class="card-header">
+      <div>Full name</div>
+      <div>Date</div>
+      <div>Reference ID</div>
+      <div>Type</div>
+      <div class="amount">Amount</div>
+    </div>
+    <div class="card-content">
+      <ng-container *ngIf="pagination?.items.length !== 0; else emptyState">
+        <div class="card-row" *ngFor="let transaction of pagination?.items">
+          <div class="card-column">{{ customerName }}</div>
+          <div class="card-column">
+            {{ transaction.createdAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}
+          </div>
+          <div class="card-column">{{ transaction.referenceId }}</div>
+          <div class="card-column" title="{{ transaction.type }}">{{ transaction.type }}</div>
+          <div class="card-column amount">{{ transaction.amount.toString() | myrCurrency }}</div>
+        </div>
+      </ng-container>
+      <app-loader *ngIf="loading.page" type="progress"></app-loader>
+    </div>
+  </div>
+  <ng-template #emptyState>
+    <p *ngIf="!loading.page" class="empty-text">Customer does not have any payment transactions.</p>
+  </ng-template>
+</app-collapse>

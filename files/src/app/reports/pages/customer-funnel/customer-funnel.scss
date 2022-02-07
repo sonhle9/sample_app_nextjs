@@ -1,0 +1,15 @@
+@import './../../../../styles/variables';
+
+h6 {
+  margin-bottom: 20px;
+}
+
+.filter-container {
+  display: flex;
+  align-items: center;
+
+  app-datepicker {
+    min-width: 130px;
+    margin-right: 10px;
+  }
+}

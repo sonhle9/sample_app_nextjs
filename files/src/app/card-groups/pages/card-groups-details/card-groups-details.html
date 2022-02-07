@@ -1,0 +1,20 @@
+<div class="container cardgroups-details" [appBreadcrumbs]="breadcrumbs">
+  <h4 class="headline">Card Groups Details</h4>
+  <h6 class="headline section-heading">
+    {{cardgroups&&cardgroups.name}} {{cardgroups&&cardgroups.description&& ' - ' +
+    cardgroups.description}}
+    <button class="toggle-btn" (click)="toggleDisplay()" mat-stroked-button>
+      <mat-icon aria-hidden>{{ showCode ? 'format_list_bulleted' : 'code' }}</mat-icon>
+      {{ showCode ? 'List' : 'Code' }}
+    </button>
+  </h6>
+  <div *ngIf="showCode; else tableView" class="card-panel">
+    <ngx-json-viewer [json]="cardgroups" [expanded]="false"></ngx-json-viewer>
+  </div>
+</div>
+
+<ng-template #tableView>
+  <div class="card-panel">
+    <app-json-viewer [json]="cardgroups"></app-json-viewer>
+  </div>
+</ng-template>

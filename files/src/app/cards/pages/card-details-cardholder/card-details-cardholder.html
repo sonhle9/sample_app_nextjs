@@ -1,0 +1,22 @@
+<div>
+  <h6 class="title-cardholder">Cardholder details</h6>
+</div>
+<div class="card-panel">
+  <span
+    class="inline"
+    *ngIf="this.card?.cardholder"
+    title="{{card?.cardholder?.displayName ? card?.cardholder?.displayName + ' ( ' +
+  card?.cardholder?.name + ') ' : card?.cardholder?.name}}"
+  >
+    <p>Name</p>
+    <b
+      >{{card?.cardholder?.displayName ? card?.cardholder?.displayName + ' ( ' +
+      card?.cardholder?.name + ') ' : card?.cardholder?.name}}</b
+    >
+  </span>
+  <div class="input-gap"></div>
+
+  <app-display-text label="Created" class="inline"
+    >{{card?.cardholder?.createdAt | amDateFormat: 'DD MMM YYYY, hh:mm A'}}</app-display-text
+  >
+</div>

@@ -1,0 +1,23 @@
+@import './../../../../styles/variables';
+
+.container {
+  padding: 20px 5%;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    .primary-btn {
+      min-width: 10em;
+      background: $primary-color;
+      color: #fff;
+    }
+  }
+  .content {
+    margin-top: 2em;
+  }
+  .top-margin {
+    margin-top: 2em;
+  }
+  .update-btn {
+    width: 180px;
+  }
+}

@@ -1,0 +1,18 @@
+<div class="paginator">
+  <span class="per-page-label">Items per page:</span>
+  <mat-form-field class="per-page">
+    <mat-select [value]="pageSize" (selectionChange)="pageSizeChange.next($event.value)">
+      <mat-option *ngFor="let pageSize of pageSizes" [value]="pageSize">
+        {{ pageSize }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="controls">
+    <button mat-icon-button [disabled]="!hasPrev" (click)="prev.next()">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+    <button mat-icon-button [disabled]="!hasNext" (click)="next.next()">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+  </div>
+</div>

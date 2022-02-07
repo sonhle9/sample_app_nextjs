@@ -1,0 +1,40 @@
+@import './../../../../styles/variables';
+
+.container.vouchers-batch-details {
+  padding: 20px 5%;
+
+  .headline {
+    margin-bottom: 20px;
+  }
+
+  .card.order-card {
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  h6 {
+    margin-bottom: 10px;
+  }
+
+  .divider,
+  app-display-text {
+    margin-bottom: 16px;
+  }
+
+  app-vouchers-batch-rules-list,
+  .batch-rules {
+    margin-bottom: 24px;
+  }
+
+  .header-buttons {
+    margin-left: auto;
+    margin-bottom: 20px;
+    display: flex;
+    flex-flow: row-reverse;
+    app-button {
+      display: block;
+      width: 200px;
+      margin-left: 10px;
+    }
+  }
+}

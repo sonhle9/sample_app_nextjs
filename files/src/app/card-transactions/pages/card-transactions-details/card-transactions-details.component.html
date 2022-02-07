@@ -1,0 +1,106 @@
+<div class="container card-transactions-details">
+  <h4 class="headline">
+    {{ fnChangeShowStatus(transactionsDetails?.status) }}: {{ transactionsDetails?.amount }}
+  </h4>
+
+  <div class="header-card-details">
+    <h6 class="title-card-transaction">Transaction Details</h6>
+    <div class="btn-download-csv">
+      <button mat-button [matMenuTriggerFor]="menu" class="download-btn" [disabled]="isCsvLoading">
+        Download CSV
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="directDownload()">Direct download</button>
+        <button mat-menu-item (click)="sendEmail()">Send email</button>
+      </mat-menu>
+    </div>
+  </div>
+
+  <div class="card-panel">
+    <app-display-text
+      label="Created On"
+      class="inline mgb-15"
+      *ngIf="transactionsDetails?.createdAt"
+    >
+      {{ transactionsDetails?.createdAt | amDateFormat: 'DD MMM YYYY, hh:mm A' }}
+    </app-display-text>
+
+    <app-display-text
+      label="Transaction Type"
+      class="inline mgb-15"
+      *ngIf="transactionsDetails?.type"
+    >
+      {{ fnChangeShowType(transactionsDetails?.type) }}
+    </app-display-text>
+
+    <app-display-text label="RRN" class="inline mgb-15" *ngIf="transactionsDetails?.rrn">
+      {{ transactionsDetails?.rrn }}
+    </app-display-text>
+
+    <app-display-text label="STAN" class="inline mgb-15" *ngIf="transactionsDetails?.stan">
+      {{ transactionsDetails?.stan }}
+    </app-display-text>
+
+    <app-display-text label="NLL" class="inline mgb-15" *ngIf="transactionsDetails?.nll">
+      {{ transactionsDetails?.nll }}
+    </app-display-text>
+
+    <app-display-text
+      label="Transaction Amount"
+      class="inline mgb-15"
+      *ngIf="transactionsDetails?.amount"
+    >
+      {{ transactionsDetails?.amount }}
+    </app-display-text>
+
+    <span class="inline mgb-15" *ngIf="transactionsDetails?.resCodeDescription">
+      <p>Response code Description</p>
+      <b [title]="transactionsDetails?.resCodeDescription">
+        {{ transactionsDetails?.resCodeDescription }}
+      </b>
+    </span>
+
+    <app-display-text label="PIN Block" class="inline mgb-15" *ngIf="transactionsDetails?.pinBlock">
+      {{ transactionsDetails?.pinBlock }}
+    </app-display-text>
+  </div>
+
+  <div class="input-gap"></div>
+  <app-card-transactions-details-timeline [card]="timeline">
+  </app-card-transactions-details-timeline>
+
+  <div class="input-gap"></div>
+
+  <app-card-transactions-details-card [cardDetails]="transactionsDetails">
+  </app-card-transactions-details-card>
+
+  <div class="input-gap"></div>
+  <app-card-transactions-details-merchant
+    [merchantDetails]="transactionsDetails"
+  ></app-card-transactions-details-merchant>
+
+  <!-- <div class="input-gap"></div>
+  <app-card-transactions-details-itemised
+    [itemisedDetails]="transactionsDetails"
+  ></app-card-transactions-details-itemised> -->
+
+  <div class="input-gap"></div>
+  <div class="show-code">
+    <h6>JSON</h6>
+    <button class="toggle-btn" (click)="toggleDisplay()" mat-stroked-button>
+      <mat-icon aria-hidden>{{ showCode ? 'format_list_bulleted' : 'code' }}</mat-icon>
+      {{ showCode ? 'List' : 'Code' }}
+    </button>
+  </div>
+  <div *ngIf="showCode; else tableView" class="card-panel">
+    <ngx-json-viewer [json]="transactionsDetails" [expanded]="false"></ngx-json-viewer>
+  </div>
+
+  <ng-template #tableView>
+    <div class="card-panel">
+      <app-json-viewer [json]="transactionsDetails"></app-json-viewer>
+    </div>
+  </ng-template>
+
+  <a class="download-hyperlink" #downloadEl></a>
+</div>

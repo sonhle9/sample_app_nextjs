@@ -1,0 +1,51 @@
+<div class="wrapper">
+  <div class="filter-container">
+    <ng-container>
+      <app-pagination
+        [pagination]="pagination"
+        (next)="next()"
+        (prev)="prev()"
+        [mode]="1"
+      ></app-pagination>
+    </ng-container>
+  </div>
+  <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+    <app-loader class="big-loader" type="transparent"></app-loader>
+  </ng-container>
+</div>
+
+<ng-template #anyResult>
+  <div class="card alert-card">
+    <div class="card-header">
+      <div>Balance Snapshot</div>
+      <div>Date</div>
+    </div>
+    <div class="card-content">
+      <ng-container *ngIf="pagination?.items.length !== 0; else emptyState">
+        <div class="card-row" *ngFor="let item of pagination?.items">
+          <div class="card-column main">{{ item?.balance }}</div>
+          <div class="card-column main">{{ item?.date }}</div>
+        </div>
+      </ng-container>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

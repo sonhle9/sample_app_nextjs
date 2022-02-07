@@ -1,0 +1,12 @@
+<div class="container" [appBreadcrumbs]="breadcrumbs">
+  <h6 class="headline">Device detail</h6>
+  <app-message
+    *ngIf="message"
+    [content]="message"
+    [type]="messageType"
+    (close)="message = ''"
+  ></app-message>
+  <div class="card-panel">
+    <ngx-json-viewer [json]="device"></ngx-json-viewer>
+  </div>
+</div>

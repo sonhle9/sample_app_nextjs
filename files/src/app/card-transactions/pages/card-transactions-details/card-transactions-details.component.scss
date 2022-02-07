@@ -1,0 +1,122 @@
+@import './../../../../styles/variables';
+
+.container {
+  padding: 20px 5%;
+
+  .headline {
+    margin-bottom: 20px;
+  }
+
+  .header-card-details {
+    height: 42px;
+    margin-bottom: 10px;
+    .title-card {
+      margin-top: 10px;
+      display: inline-block;
+    }
+    .btn-edit {
+      float: right;
+    }
+  }
+}
+
+.card-transactions-details {
+  .header-card-details {
+    .title-card-transaction {
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    .btn-download-csv {
+      float: right;
+      .download-btn {
+        background-color: $link-color;
+        color: #fff;
+      }
+    }
+  }
+
+  .on-tap {
+    ::ng-deep app-button {
+      margin-left: auto;
+      width: 100px;
+      display: block;
+      margin-bottom: 8px;
+      margin-top: -20px;
+      button {
+        height: 32px;
+        line-height: 32px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+    }
+    ::ng-deep app-button.btn-carddetails-left {
+      margin-left: 0px;
+      margin-top: 10px;
+      width: max-content;
+    }
+  }
+
+  .mgb-15 {
+    margin-bottom: 1.5rem;
+  }
+
+  .mgb-10 {
+    margin-bottom: 10px;
+  }
+
+  .inline {
+    display: flex;
+    p {
+      width: 195px;
+      font-size: 14px;
+    }
+
+    b {
+      flex: 1;
+    }
+
+    p,
+    b {
+      height: 22px;
+      line-height: 22px;
+    }
+  }
+  p,
+  b {
+    display: block;
+  }
+
+  p {
+    color: #a1a1a1;
+    line-height: 17px;
+    font-size: 12px;
+  }
+
+  b {
+    color: #434f5d;
+    line-height: 22px;
+    font-weight: normal;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .show-code {
+    justify-content: space-between;
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    .toggle-btn {
+      text-transform: uppercase;
+      font-size: 1rem;
+      background-color: white;
+      padding: 8px 16px;
+      min-width: 105px;
+    }
+  }
+}
+
+button:focus {
+  outline: unset;
+}

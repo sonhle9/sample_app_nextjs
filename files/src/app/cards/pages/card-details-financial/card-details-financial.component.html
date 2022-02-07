@@ -1,0 +1,8 @@
+<div>
+  <h6 class="title-card-financial">Financial details</h6>
+</div>
+<div class="card-panel">
+  <app-display-text label="Card balance" class="inline">
+    {{ cardBalance?.balance || 0 }} ( {{ cardBalance?.currency || 'MYR' }} )
+  </app-display-text>
+</div>

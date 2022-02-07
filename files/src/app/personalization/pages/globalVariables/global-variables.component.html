@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="header">
+    <h4 class="title">Interface Components</h4>
+  </div>
+
+  <div class="content">
+    <div class="update-btn" *ngIf="roles.hasManageGlobal">
+      <app-button (click)="onUpdateVariable()">Update variables</app-button>
+    </div>
+    <div class="top-margin">
+      <h6>Variables</h6>
+      <div *ngIf="appSettings; else noData">
+        <ngx-json-viewer [json]="appSettings"></ngx-json-viewer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noData>
+  <span>Variables are not set</span>
+</ng-template>

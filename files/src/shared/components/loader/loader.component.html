@@ -1,0 +1,22 @@
+<ng-container *ngIf="type === 'progress'; then progress; else normal"></ng-container>
+
+<ng-template #progress>
+  <div class="progress">
+    <div class="indeterminate"></div>
+  </div>
+</ng-template>
+
+<ng-template #normal>
+  <div class="loader-container" [ngClass]="type">
+    <div class="loader">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</ng-template>

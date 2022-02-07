@@ -1,0 +1,24 @@
+<div class="dropdown-search">
+  <mat-form-field class="dropdown-wrapper" floatLabel="never">
+    <mat-select
+      [(value)]="searchOption"
+      (selectionChange)="onOptionChanged($event)"
+      placeholder="{{ dropdownPlaceholder }}"
+    >
+      <mat-option *ngFor="let option of options" [value]="option.value">
+        {{ option.text }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="input-wrapper" floatLabel="never">
+    <mat-label>{{ inputPlaceholder }}</mat-label>
+    <input
+      (keydown.enter)="onSearch()"
+      disabled="{{ !searchOption }}"
+      [(ngModel)]="searchValue"
+      (keyup)="onSearchChanged($event)"
+      matInput
+    />
+    <mat-icon matSuffix (click)="onSearch()">search</mat-icon>
+  </mat-form-field>
+</div>

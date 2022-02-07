@@ -1,0 +1,22 @@
+<div class="container card-expiry-date-details" [appBreadcrumbs]="breadcrumbs">
+  <h4 class="headline">Card Expiry Date Details</h4>
+  <div class="header-card-expiry-date-details">
+    <h6 class="headline section-heading">
+      <div></div>
+      <button class="toggle-btn" (click)="toggleDisplay()" mat-stroked-button>
+        <mat-icon aria-hidden>{{ showCode ? 'format_list_bulleted' : 'code' }}</mat-icon>
+        {{ showCode ? 'List' : 'Code' }}
+      </button>
+    </h6>
+  </div>
+
+  <div *ngIf="showCode; else tableView" class="card-panel">
+    <ngx-json-viewer [json]="cardExpiryDate" [expanded]="false"></ngx-json-viewer>
+  </div>
+</div>
+
+<ng-template #tableView>
+  <div class="card-panel">
+    <app-json-viewer [json]="cardExpiryDate"></app-json-viewer>
+  </div>
+</ng-template>

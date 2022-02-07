@@ -1,0 +1,144 @@
+<div class="wrapper">
+  <ng-container *ngIf="showDialog">
+    <div class="modal-background"></div>
+    <div class="modal">
+      <div class="modal-content">
+        <h6>Are you sure you want to override maintenance?</h6>
+        <!-- <app-input
+          disableIcon="true"
+          class="fff"
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+        >
+        </app-input> -->
+      </div>
+      <div class="modal-action">
+        <app-button css="light" type="button" (click)="showDialog = false"> Cancel </app-button>
+        <app-button type="button" (click)="onSave()"> Override </app-button>
+      </div>
+    </div>
+  </ng-container>
+  <h5 class="sub-headline">Announcement</h5>
+  <app-message *ngIf="message" [hasClose]="false" [content]="message" [type]="messageType">
+  </app-message>
+  <form class="card-panel" *ngIf="hasEdit; else viewer" (ngSubmit)="submit()">
+    <app-loader *ngIf="loading"></app-loader>
+    <div class="detail-flex">
+      <label>Status</label>
+      <app-toggle [value]="true" [(ngModel)]="entireSystem" [ngModelOptions]="{standalone: true}">
+      </app-toggle>
+    </div>
+    <app-dropdown
+      *ngIf="entireSystem[0]"
+      #color
+      label="Announcement Color"
+      [(ngModel)]="selectedColour"
+      [items]="colors"
+      (ngModelChange)="updateColor(color)"
+      [ngModelOptions]="{standalone: true}"
+    >
+    </app-dropdown>
+    <div class="input-gap"></div>
+    <ng-container *ngIf="entireSystem[0]">
+      <app-input
+        class="fff"
+        label="Content-en *"
+        type="textarea"
+        maxlength="200"
+        helper="* Maximum 200 characters"
+        [(ngModel)]="announcementTextLocale.en"
+        [ngModelOptions]="{standalone: true}"
+      >
+      </app-input>
+      <app-input
+        class="fff"
+        label="Content-ms"
+        type="textarea"
+        maxlength="200"
+        helper="* Maximum 200 characters"
+        [(ngModel)]="announcementTextLocale.ms"
+        [ngModelOptions]="{standalone: true}"
+      >
+      </app-input>
+      <app-input
+        class="fff"
+        label="Content-zh-Hans"
+        type="textarea"
+        maxlength="200"
+        helper="* Maximum 200 characters"
+        [(ngModel)]="announcementTextLocale['zh-Hans']"
+        [ngModelOptions]="{standalone: true}"
+      >
+      </app-input>
+      <app-input
+        class="fff"
+        label="Content-zh-Hant"
+        type="textarea"
+        maxlength="200"
+        helper="* Maximum 200 characters"
+        [(ngModel)]="announcementTextLocale['zh-Hant']"
+        [ngModelOptions]="{standalone: true}"
+      >
+      </app-input>
+      <app-input
+        class="fff"
+        label="Content-ta"
+        type="textarea"
+        maxlength="200"
+        helper="* Maximum 200 characters"
+        [(ngModel)]="announcementTextLocale['ta']"
+        [ngModelOptions]="{standalone: true}"
+      >
+      </app-input>
+      <div class="input-gap"></div>
+    </ng-container>
+    <div class="divider"></div>
+    <div class="input-gap"></div>
+    <div class="button-group">
+      <app-button css="light" type="button" (click)="cancel()"> Cancel </app-button>
+      <app-button type="submit">Save changes</app-button>
+    </div>
+  </form>
+</div>
+
+<ng-template #viewer>
+  <div class="card-panel">
+    <div class="detail-flex">
+      <label>Status</label>
+      <div class="stt-status" [ngClass]="{active: !!getFutureAnnouncement()}">
+        {{ getFutureAnnouncement() | onoff }}
+      </div>
+    </div>
+    <div class="detail-flex">
+      <label>Color</label>
+      <div class="stt-status" [ngStyle]="{'background-color': announcementColour}"></div>
+    </div>
+    <div class="input-gap"></div>
+    <app-display-text label="Content-en">{{
+      announcementTextLocale ? announcementTextLocale.en : emptyDash
+    }}</app-display-text>
+    <div class="input-gap"></div>
+    <app-display-text label="Content-ms">{{
+      announcementTextLocale ? announcementTextLocale.ms : emptyDash
+    }}</app-display-text>
+    <div class="input-gap"></div>
+    <app-display-text label="Content-zh-Hans">{{
+      announcementTextLocale ? announcementTextLocale['zh-Hans'] : emptyDash
+    }}</app-display-text>
+    <div class="input-gap"></div>
+    <app-display-text label="Content-zh-Hant">{{
+      announcementTextLocale ? announcementTextLocale['zh-Hant'] : emptyDash
+    }}</app-display-text>
+    <div class="input-gap"></div>
+    <app-display-text label="Content-ta">{{
+      announcementTextLocale ? announcementTextLocale.ta : emptyDash
+    }}</app-display-text>
+    <div class="input-gap"></div>
+    <div class="divider"></div>
+    <div class="input-gap"></div>
+    <div class="button-group" *ngIf="roles?.hasMaintenanceOutageUpdate">
+      <app-button type="button" (click)="edit()">Edit</app-button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,28 @@
+<div class="alert alert-danger" *ngIf="fraudProfile && fraudProfile.status === 'BLACKLISTED'">
+  <span class="icon icon-danger"
+    ><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" role="presentation">
+      <path
+        d="M13.485 11.929l2.122-2.121a1 1 0 0 0-1.415-1.415l-2.12 2.122L9.95 8.393a1 1 0 0 0-1.414 1.415l2.12 2.12-2.12 2.122a1 1 0 0 0 1.414 1.414l2.121-2.12 2.121 2.12a1 1 0 1 0 1.415-1.414l-2.122-2.121zM12 20a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
+        fill="currentColor"
+        fill-rule="evenodd"
+      ></path></svg
+  ></span>
+  Blacklisted. Restrictions: {{ fraudProfile.restrictions | fraudProfilesRestrictionType }}.
+</div>
+
+<div class="alert alert-warning" *ngIf="fraudProfile && fraudProfile.status === 'WATCHLISTED'">
+  <span class="icon icon-warning"
+    ><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" role="presentation">
+      <g fill-rule="evenodd">
+        <path
+          d="M12.938 4.967c-.518-.978-1.36-.974-1.876 0L3.938 18.425c-.518.978-.045 1.771 1.057 1.771h14.01c1.102 0 1.573-.797 1.057-1.771L12.938 4.967z"
+          fill="currentColor"
+        ></path>
+        <path
+          d="M12 15a1 1 0 0 1-1-1V9a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1m0 3a1 1 0 0 1 0-2 1 1 0 0 1 0 2"
+          fill="inherit"
+        ></path>
+      </g></svg
+  ></span>
+  Watchlisted. Restrictions: {{ fraudProfile.restrictions | fraudProfilesRestrictionType }}.
+</div>

@@ -1,0 +1,28 @@
+.input-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.value {
+  text-align: right;
+}
+
+.table {
+  width: 100%;
+
+  td {
+    padding: 5px 0;
+  }
+}
+
+.output-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.text-lg {
+  font-size: 1.5em;
+}

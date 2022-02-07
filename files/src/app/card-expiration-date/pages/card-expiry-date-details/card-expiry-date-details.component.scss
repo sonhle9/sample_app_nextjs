@@ -1,0 +1,52 @@
+@import '../../../../styles/variables';
+
+.container {
+  padding: 20px 5%;
+
+  .headline {
+    margin-bottom: 20px;
+  }
+
+  .header-card-expiry-date-details {
+    margin-bottom: 10px;
+    .title-card {
+      margin-top: 10px;
+      display: inline-block;
+    }
+  }
+}
+.card-expiry-date-details {
+  ::ng-deep app-button {
+    margin-left: auto;
+    display: block;
+    margin-bottom: 8px;
+    margin-top: -20px;
+
+    button {
+      height: 32px;
+      line-height: 32px;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  }
+  ::ng-deep app-button.btn-card-expiry-date-details-left {
+    margin-left: 0px;
+    margin-top: 10px;
+    width: max-content;
+  }
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggle-btn {
+  text-transform: uppercase;
+  font-size: 1rem;
+  background-color: white;
+  padding: 8px 16px;
+  min-width: 105px;
+  float: right;
+}

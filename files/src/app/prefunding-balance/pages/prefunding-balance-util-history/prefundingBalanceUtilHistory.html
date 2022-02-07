@@ -1,0 +1,94 @@
+<ng-container *ngIf="hasPermissions()">
+  <div class="wrapper">
+    <div class="block-title">
+      <b>Prefunding balance Utilisation History</b>
+    </div>
+    <app-dropdown-search
+      class="search"
+      dropdownPlaceholder="Search by"
+      inputPlaceholder="Search"
+      [options]="searchTypes"
+      (handleSearch)="onSearch($event)"
+      (searchChanged)="onSearchChanged($event)"
+      (optionChanged)="onOptionChanged($event)"
+    ></app-dropdown-search>
+    <div class="filter-container">
+      <app-simple-pagination
+        class="pagination"
+        [pagination]="pagination"
+        (next)="nextPage()"
+        (prev)="prevPage()"
+      ></app-simple-pagination>
+      <app-dropdown
+        label="Page size"
+        type="small"
+        [items]="pageSizes"
+        [(ngModel)]="pageSize"
+        (ngModelChange)="onPerPageChange()"
+      ></app-dropdown>
+      <app-dropdown
+        label="Created date"
+        [(ngModel)]="selectedDate"
+        [items]="dateTypes"
+        (ngModelChange)="updateDate()"
+      >
+      </app-dropdown>
+      <app-datepicker
+        [enabled]="selectedDate?.value === 's'"
+        label="Start date"
+        [(ngModel)]="startDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-datepicker
+        [enabled]="selectedDate?.value === 's'"
+        label="End date"
+        [(ngModel)]="endDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-button-download [download]="downloadCsv()"> Download CSV</app-button-download>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+
+  <ng-template #anyResult>
+    <ngx-datatable
+      class="material"
+      [rows]="getData()"
+      [columns]="getColumns()"
+      [columnMode]="'flex'"
+      [headerHeight]="50"
+      [footerHeight]="0"
+      [rowHeight]="'auto'"
+      [loadingIndicator]="loading.page"
+      [limit]="getPerPage()"
+    >
+    </ngx-datatable>
+    <p class="table-limit-warning" *ngIf="isWarningVisible()">
+      Only 200 records could be visualized on page
+    </p>
+  </ng-template>
+
+  <ng-template #anyOrEmptyResult>
+    <ng-container
+      *ngIf="loading.page || getData()?.length !== 0; then anyResult; else noResult"
+    ></ng-container>
+  </ng-template>
+
+  <ng-template #noResult>
+    <div class="empty-state">
+      <img src="assets/images/icons/empty_result.svg" />
+      <h6>No results matching your search were found.</h6>
+      <ul>
+        <li>Check your spelling. Are the words in your query spelled correctly?</li>
+        <li>Make your search more general,. try more general terms in place of specific ones.</li>
+        <li>Try your search in a different scope. Different scopes can have different results</li>
+      </ul>
+    </div>
+  </ng-template>
+</ng-container>

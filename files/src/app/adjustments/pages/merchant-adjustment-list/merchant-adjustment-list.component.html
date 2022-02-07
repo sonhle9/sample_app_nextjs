@@ -1,0 +1,98 @@
+<div class="container">
+  <h6 class="headline">Merchant Adjustments</h6>
+  <div class="wrapper">
+    <div class="filter-container" *ngIf="roles?.hasView">
+      <app-pagination
+        [pagination]="pagination"
+        (next)="next()"
+        (prev)="prev()"
+        [mode]="1"
+      ></app-pagination>
+      <app-dropdown
+        label="Created date"
+        [(ngModel)]="selectedDateFilter"
+        [items]="dateFilters"
+        (ngModelChange)="updateDateFilter()"
+      >
+      </app-dropdown>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="Start date"
+        [(ngModel)]="startDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="End date"
+        [(ngModel)]="endDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyResult>
+  <div class="card transaction-card">
+    <div class="card-header">
+      <div></div>
+      <div>Transaction ID</div>
+      <div>Merchant</div>
+      <div>Created on</div>
+      <div>Amount</div>
+    </div>
+    <div class="card-content">
+      <div class="card-row" *ngFor="let item of pagination?.items">
+        <div class="card-column middle">
+          <div
+            class="txn-status {{ item.status | lowercase }}"
+            [title]="statusText[item.status]"
+          ></div>
+        </div>
+        <a
+          class="card-column main clickable"
+          [routerLink]="['/payments/adjustments/merchant', item.transactionUid]"
+          target="_blank"
+        >
+          {{ item.transactionUid }}
+        </a>
+        <a
+          class="card-column main clickable"
+          href="{{ webDashboardUrl }}/settings?merchantId={{ item.merchantId }}&redirect-from=admin"
+          target="_blank"
+        >
+          {{ item.attributes?.merchantName | titlecase }}
+        </a>
+        <div class="card-column">
+          {{ item.transactionDate | amDateFormat: 'DD MMM YYYY - hh:mm A' }}
+        </div>
+        <div class="card-column">{{ item.amount | myrCurrency | emptyDash }}</div>
+      </div>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

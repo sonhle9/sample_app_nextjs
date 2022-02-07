@@ -1,0 +1,78 @@
+@import '../../../styles/variables';
+
+:host {
+  &.inline {
+    display: flex;
+
+    p {
+      padding-right: 55px;
+      width: 195px;
+      font-size: 14px;
+    }
+
+    b {
+      flex: 1;
+    }
+
+    p,
+    b {
+      height: 22px;
+      line-height: 22px;
+    }
+  }
+
+  &.multiline {
+    b {
+      height: auto;
+    }
+  }
+
+  &.main {
+    b {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+
+  &.sub {
+    b {
+      font-size: 14px;
+      font-weight: 600;
+      color: $label-color;
+    }
+
+    p {
+      color: $dropdown-text-color;
+    }
+  }
+
+  &.clickable {
+    b {
+      color: $link-color;
+      font-weight: 600;
+    }
+  }
+  &.line-break {
+    b {
+      height: auto;
+    }
+  }
+}
+
+p,
+b {
+  display: block;
+}
+
+p {
+  color: $display-label-color;
+  line-height: 17px;
+  font-size: 12px;
+}
+
+b {
+  color: $display-text-color;
+  line-height: 22px;
+  font-weight: normal;
+  font-size: 16px;
+}

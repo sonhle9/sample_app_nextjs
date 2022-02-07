@@ -1,0 +1,15 @@
+@import './../../../../styles/variables';
+
+.title {
+  color: $input-text-color;
+  margin-bottom: 10px;
+}
+
+.tag {
+  height: inherit;
+}
+
+mat-chip-list {
+  display: block;
+  margin-top: 15px;
+}

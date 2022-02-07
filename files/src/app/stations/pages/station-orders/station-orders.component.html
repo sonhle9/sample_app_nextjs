@@ -1,0 +1,70 @@
+<ng-container *ngIf="hasPermission; then result; else noResult"></ng-container>
+<ng-template #result>
+  <div class="station-orders mat-elevation-z8">
+    <section class="station-orders-section">
+      <div class="mat-elevation-z8">
+        <mat-progress-bar *ngIf="isLoadingResults" mode="query"></mat-progress-bar>
+        <table mat-table [dataSource]="data" style="width: 100%">
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef class="custom-header">Status</th>
+            <td mat-cell *matCellDef="let element" class="custom-table-data">
+              <a
+                target="_blank"
+                class="status"
+                [routerLink]="['/retail/fuel-orders', element.orderId]"
+                [ngClass]="{
+                  confirmed: element.orderStatus === 'confirmed',
+                  error: element.orderStatus === 'error',
+                  canceled: element.orderStatus === 'canceled'
+                }"
+                >{{ element.orderStatus }}</a
+              >
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="custom-header">Name</th>
+            <td mat-cell *matCellDef="let element" class="custom-table-data">
+              <a class="name" target="_blank" [routerLink]="['/customers', element.userId]">{{
+                element.name
+              }}</a>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="createOn">
+            <th mat-header-cell *matHeaderCellDef class="custom-header">Create on</th>
+            <td mat-cell *matCellDef="let element" class="custom-table-data">
+              {{ element.createdAt | date: 'd MMM, y, h:mm:ss a' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="pump">
+            <th mat-header-cell *matHeaderCellDef class="custom-header">Pump</th>
+            <td mat-cell *matCellDef="let element" class="custom-table-data">
+              {{ element.pumpId }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef class="custom-header amount">Amount (RM)</th>
+            <td mat-cell *matCellDef="let element" class="custom-table-data amount">
+              {{ element.amount | currency: 'MYR':'' }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+
+        <mat-paginator [length]="resultsLength" [pageSize]="20"></mat-paginator>
+      </div>
+    </section>
+  </div>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>You do not have permission to view this page</h6>
+  </div>
+</ng-template>

@@ -1,0 +1,92 @@
+<div class="container">
+  <header>
+    <h6>{{ fnChangeShowMode(mode) }} Card Groups</h6>
+  </header>
+  <app-loader *ngIf="loading"></app-loader>
+  <app-message
+    *ngIf="message"
+    [content]="message"
+    [type]="messageType"
+    (close)="message = ''"
+  ></app-message>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <mat-dialog-content>
+      <div class="merchant-info">
+        <h6>Card Groups Information</h6>
+        <!--
+        <mat-form-field>
+          <mat-label>Card Groups Level</mat-label>
+          <mat-select
+            required
+            formControlName="level"
+            [disabled]="mode == 'edit'"
+            (selectionChange)="onLevelChange($event.value)"
+          >
+            <mat-option *ngFor="let item of levels" [value]="item.name">{{ item.id }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="errorMessages.level">{{ errorMessages.level }}</mat-error>
+        </mat-form-field> -->
+
+        <mat-form-field>
+          <mat-label>Card Groups Type</mat-label>
+          <mat-select required formControlName="cardType" [disabled]="this.mode === 'edit'">
+            <mat-option *ngFor="let item of types" [value]="item.name">{{ item.id }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="errorMessages.cardType">{{ errorMessages.cardType }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Merchant Id</mat-label>
+          <mat-select formControlName="merchantId" [disabled]="this.mode === 'edit'">
+            <mat-option>
+              <ngx-mat-select-search
+                formControlName="mccFilterCtrl"
+                [(ngModel)]="mccFilterModel"
+                [placeholderLabel]="'Search...'"
+                [noEntriesFoundLabel]="'Not found'"
+                (ngModelChange)="onSearchMerchant()"
+                [clearSearchInput]="false"
+              ></ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let merchant of merchants" [value]="merchant.id">
+              {{ merchant.id }} - {{ merchant.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Card Groups Name"
+            type="text"
+            required
+            formControlName="name"
+            maxlength="20"
+          />
+          <mat-error *ngIf="form.controls.name.errors">
+            {{ form.controls.name.errors.pattern ? 'Requires alphanumeric type. ' : '' }}
+            {{ form.controls.name.errors.required ? 'Required name value. ' : '' }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Card Groups Description"
+            type="text"
+            formControlName="description"
+            maxlength="50"
+          />
+          <mat-error *ngIf="form.controls.description.errors">
+            {{ form.controls.description.errors.pattern ? 'Requires alphanumeric type. ' : '' }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-stroked-button type="button" (click)="onClose()">Cancel</button>
+      <button mat-raised-button type="submit" class="primary-btn">Save</button>
+    </mat-dialog-actions>
+  </form>
+</div>

@@ -1,0 +1,23 @@
+@import './../../../styles/variables';
+
+form {
+  display: flex;
+
+  button {
+    margin-left: -32px;
+    margin-top: 6px;
+  }
+
+  mat-form-field.example-full-width {
+    width: 100%;
+  }
+
+  .tag {
+    height: inherit;
+  }
+
+  mat-chip-list {
+    display: block;
+    margin-top: 15px;
+  }
+}

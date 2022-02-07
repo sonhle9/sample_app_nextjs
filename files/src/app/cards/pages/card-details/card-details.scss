@@ -1,0 +1,89 @@
+.container {
+  padding: 20px 5%;
+
+  .headline {
+    margin-bottom: 20px;
+  }
+
+  .header-card-details {
+    height: 42px;
+    margin-bottom: 10px;
+    .title-card {
+      margin-top: 10px;
+      display: inline-block;
+    }
+
+    .btn-edit {
+      float: right;
+      .btn-css {
+        padding-right: 20px;
+      }
+    }
+  }
+}
+
+.card-details {
+  .on-tap {
+    ::ng-deep app-button {
+      margin-left: auto;
+      width: 100px;
+      display: block;
+      margin-bottom: 8px;
+      margin-top: -20px;
+
+      button {
+        height: 32px;
+        line-height: 32px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+    }
+    ::ng-deep app-button.btn-carddetails-left {
+      margin-left: 0px;
+      margin-top: 10px;
+      width: max-content;
+    }
+  }
+  .inline {
+    display: flex;
+
+    p {
+      padding-right: 55px;
+      width: 195px;
+      font-size: 14px;
+    }
+
+    b {
+      flex: 1;
+    }
+
+    p,
+    b {
+      height: 22px;
+      line-height: 22px;
+    }
+  }
+  p,
+  b {
+    display: block;
+  }
+
+  p {
+    color: #a1a1a1;
+    line-height: 17px;
+    font-size: 12px;
+  }
+
+  b {
+    color: #434f5d;
+    line-height: 22px;
+    font-weight: normal;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  // .txt-remark:hover{
+  //   // border: 1px solid black;
+  // }
+}

@@ -1,0 +1,124 @@
+<div class="container" [appBreadcrumbs]="breadcrumbs">
+  <app-message
+    *ngIf="message"
+    [content]="message"
+    [type]="messageType"
+    (close)="message = ''"
+  ></app-message>
+  <div class="search-container" *ngIf="roles?.hasView">
+    <app-searchbar
+      *ngIf="roles?.hasView"
+      placeholder="Search devices"
+      [(ngModel)]="searchValue"
+      (search$)="search()"
+    ></app-searchbar>
+  </div>
+  <div class="add-container" *ngIf="roles?.hasModifier">
+    <app-button css="add" (click)="openAddDialog()">Add Device</app-button>
+  </div>
+  <div class="wrapper">
+    <div class="filter-container">
+      <app-dropdown
+        label="Status"
+        [(ngModel)]="selectedStatus"
+        [items]="statuses"
+        (ngModelChange)="filter()"
+      >
+      </app-dropdown>
+      <app-dropdown
+        label="Created date"
+        [(ngModel)]="selectedDateFilter"
+        [items]="dateFilters"
+        (ngModelChange)="updateDateFilter()"
+      >
+      </app-dropdown>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="Start date"
+        [(ngModel)]="startDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+      <app-datepicker
+        [enabled]="selectedDateFilter.value === 's'"
+        label="End date"
+        [(ngModel)]="endDate"
+        (ngModelChange)="filter()"
+        [errorMessage]="errorMessage.endDate"
+        [pickerType]="'both'"
+      ></app-datepicker>
+    </div>
+    <ng-container *ngIf="loading.full; else anyOrEmptyResult">
+      <app-loader class="big-loader" type="transparent"></app-loader>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #anyOrEmptyResult>
+  <ng-container
+    *ngIf="loading.page || pagination.items?.length !== 0; then anyResult; else noResult"
+  ></ng-container>
+</ng-template>
+
+<ng-template #anyResult>
+  <app-pagination
+    [pagination]="pagination"
+    (next)="next()"
+    (prev)="prev()"
+    [mode]="1"
+  ></app-pagination>
+  <div class="card device-card">
+    <div class="card-header">
+      <div>Device Id</div>
+      <div>Status</div>
+      <div>Model</div>
+      <div>Serial No</div>
+      <div>Merchants</div>
+      <div>Created</div>
+      <div>Last Seen</div>
+      <div class="action">Action</div>
+    </div>
+    <div class="card-content">
+      <div class="card-row" *ngFor="let item of pagination?.items">
+        <a class="card-column main clickable" [routerLink]="['/devices', item.id]" target="_blank">
+          {{ item.id }}
+        </a>
+        <div class="card-column">
+          <div>{{ item.status }}</div>
+        </div>
+        <div class="card-column">
+          <div>{{ item.modelDevice }}</div>
+        </div>
+        <div class="card-column">
+          <div>{{ item.serialNo }}</div>
+        </div>
+        <div class="card-column">
+          <div>{{ item.merchantMerchantIds }}</div>
+        </div>
+        <div class="card-column">
+          <div>{{ item.createdAt | amDateFormat: 'DD MMM YYYY - hh:mmA' }}</div>
+        </div>
+        <div class="card-column">
+          <div>{{ item.lastActivated | amDateFormat: 'DD MMM YYYY - hh:mmA' }}</div>
+        </div>
+        <div class="card-column action">
+          <mat-icon (click)="openEditDialog(item)">settings</mat-icon>
+        </div>
+      </div>
+    </div>
+    <app-loader *ngIf="loading.page" type="progress"></app-loader>
+  </div>
+</ng-template>
+
+<ng-template #noResult>
+  <div class="empty-state">
+    <img src="assets/images/icons/empty_result.svg" />
+    <h6>No results matching your search were found.</h6>
+    <ul>
+      <li>Check your spelling. Are the words in your query spelled correctly?</li>
+      <li>Make your search more general,. try more general terms in place of specific ones.</li>
+      <li>Try your search in a different scope. Different scopes can have different results</li>
+    </ul>
+  </div>
+</ng-template>

@@ -1,0 +1,13 @@
+<label [ngClass]="cssClass">
+  <input
+    type="checkbox"
+    [checked]="checked"
+    [value]="value"
+    [name]="name"
+    (change)="change($event)"
+    [disabled]="disabled"
+  />
+  <span>
+    <ng-content></ng-content>
+  </span>
+</label>
