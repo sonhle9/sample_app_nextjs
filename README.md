@@ -42,3 +42,8 @@ https://github.com/saleor/saleor-dashboard/blob/main/src/categories/components/C
 
 npm i formik yup
 npm i @types/yup
+npm i @mui/lab
+npm i --save date-fns@next @date-io/date-fns
+npm i @date-io/date-fns date-fns@next
+npm i @types/date-fns
+npm install --save date-fns
