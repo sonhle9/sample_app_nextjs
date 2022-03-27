@@ -9,6 +9,7 @@ import errorMessage from '../components/shared/errorMessages'
 import flashMessage from '../components/shared/flashMessages'
 import { useAppSelector } from '../redux/hooks'
 import { selectUser } from '../redux/session/sessionSlice'
+import { Button, Typography } from '@mui/material'
 // Alt + Shift + O
 
 // interface Props {
@@ -261,11 +262,15 @@ const Home: NextPage = () => {
   ) : (
     <>
     <div className="center jumbotron">
-        <h1>Welcome to the Sample App</h1>
-        <h2>
+        <Typography variant='h1'>Welcome to the MANHPC App</Typography>
+        <Typography variant='h2'>
         This is the home page for the <Link href="https://nextjs.org/"><a target="_blank">NextJS Tutorial</a></Link> sample application.
-        </h2>
-        <Link href="/signup"><a  className="btn btn-lg btn-primary">Sign up now!</a></Link>
+        </Typography>
+        <Link href="/signup" passHref>
+          <Button variant='contained' color='primary'>
+            Sign up now!
+          </Button>
+        </Link>
     </div>
     <Link href="https://nextjs.org/"><a target="_blank"><Image alt="Rails logo" width="70" height="49.48" src="/next-js.svg" /></a></Link>
     </>

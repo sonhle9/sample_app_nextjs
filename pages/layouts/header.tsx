@@ -5,13 +5,35 @@ import { fetchUser, selectUser } from '../../redux/session/sessionSlice'
 import { useRouter } from 'next/router'
 import { useAppSelector } from '../../redux/hooks'
 import sessionApi from '../../components/shared/api/sessionApi'
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Button,
+  Stack,
+  Menu,
+  MenuItem
+} from '@mui/material'
+import CatchingPokemonIcon from '@mui/icons-material/CatchingPokemon'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import { useState } from 'react'
 
 const Header: NextPage = () => {
   const router = useRouter()
   const userData = useAppSelector(selectUser);
   const dispatch = useDispatch()
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
 
   const onClick = () => {
+    handleClose()
     sessionApi.destroy(
     ).then(() => {
       dispatch(fetchUser())
@@ -27,6 +49,71 @@ const Header: NextPage = () => {
   }
 
   return (
+    <AppBar position='static' color='transparent'>
+      <Toolbar>
+        <Link href="/" passHref>
+        <IconButton size='large' edge='start' color='inherit' aria-label='logo'>
+          <CatchingPokemonIcon />
+        </IconButton>
+        </Link>
+        <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+          {/* sample app */}
+        </Typography>
+        <Stack direction='row' spacing={2}>
+          <Link href="/" passHref><Button color='inherit'>Home</Button></Link>
+          <Link href="/help" passHref><Button color='inherit'>Help</Button></Link>
+          {
+            userData.status === 'loading' ? (
+              <Button color='inherit'>Loading</Button>
+            ) : userData.error ? (
+              <Button color='inherit'>{userData.error}</Button>
+            ) : userData.loggedIn ? (
+              <>
+              <Link href="/users" passHref><Button color='inherit'>Users</Button></Link>
+              <Button
+                color='inherit'
+                id='resources-button'
+                aria-controls={open ? 'resources-menu' : undefined}
+                aria-haspopup='true'
+                aria-expanded={open ? 'true' : undefined}
+                endIcon={<KeyboardArrowDownIcon />}
+                onClick={handleClick}>
+                Account
+              </Button>
+              </>
+            ) : (
+              <Link href="/login" passHref>
+              <Button color='inherit'>Log in</Button>
+              </Link>
+            )
+          }
+        </Stack>
+        <Menu
+          id='resources-menu'
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+          MenuListProps={{
+            'aria-labelledby': 'resources-button'
+          }}>
+          <Link href={"/users/"+userData.value.id} passHref>
+          <MenuItem onClick={handleClose}>Profile</MenuItem>
+          </Link>
+          <Link href={"/users/"+userData.value.id+"/edit"} passHref>
+          <MenuItem onClick={handleClose}>Settings</MenuItem>
+          </Link>
+          <MenuItem onClick={onClick}>Log out</MenuItem>
+        </Menu>
+      </Toolbar>
+    </AppBar>
     // <header className="navbar navbar-fixed-top navbar-inverse">
     //   <div className="container">
     //   <Link href="/"><a id="logo">sample app</a></Link>
@@ -70,7 +157,7 @@ const Header: NextPage = () => {
     //     </nav>
     //   </div>
     // </header>
-    <></>
+    // <></>
     // <header className="navbar navbar-fixed-top navbar-inverse">
     //   <div className="container">
     //     <Link href="/"><a id="logo">sample app</a></Link>
