@@ -20,15 +20,15 @@ export interface User {
   size: number
 }
 
-export interface CreateParams {
-  user: SignUpField
-}
+// export interface CreateParams {
+//   user: SignUpField
+// }
 
 export interface SignUpField {
   name: string
   email: string
   password: string
-  password_confirmation: string
+  // password_confirmation: string
 }
 
 export interface CreateResponse<UserCreate> {
@@ -91,8 +91,8 @@ const userApi = {
     return API.get(url, { params });
   },
 
-  create(params: CreateParams): Promise<CreateResponse<UserCreate>> {
-    const url = '/users';
+  create(params: SignUpField): Promise<CreateResponse<UserCreate>> {
+    const url = '/auth/register';
     return API.post(url, params);
   },
 

@@ -31,12 +31,12 @@ const New: NextPage = () => {
 
     userApi.create(
       {
-        user: {
+        // user: {
           name: name,
           email: email,
           password: password,
-          password_confirmation: password_confirmation
-        }
+          // password_confirmation: password_confirmation
+        // }
       }
     ).then(response => {
       if (response.user) {

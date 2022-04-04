@@ -2,27 +2,31 @@
 import API from '.';
 import { User } from '../../../redux/session/sessionSlice';
 
-export interface SessionParams {
-  session: LoginField
-}
+// export interface SessionParams {
+//   session: LoginField
+// }
 
 export interface LoginField {
   email: string
   password: string
-  remember_me: string
+  // remember_me: string
 }
 
 export interface Response<User> {
   user?: User
-  jwt: string
-  token: string
+  // jwt: string
+  tokens: { 
+    access : {expires: string, token: string},
+    refresh : {expires: string, token: string}
+  }
   flash?: [message_type: string, message: string]
+  // message?: string
   error?: string[]
 }
 
 const sessionApi = {
-  create(params: SessionParams): Promise<Response<User>> {
-    const url = '/login';
+  create(params: LoginField): Promise<Response<User>> {
+    const url = '/auth/login';
     return API.post(url, params);
   },
 

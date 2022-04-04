@@ -44,22 +44,19 @@ const New: NextPage = () => {
   const onSubmit = (values: MyFormValues) => {
     sessionApi.create(
       {
-        session: {
-          email: values.email,
-          password: values.password,
-          remember_me: values.rememberMe ? "1" : "1"
-        }
+        email: values.email,
+        password: values.password,
       }
     )
     .then(response => {
       if (response.user) {
         inputEl.current.blur()
         if (rememberMe) {
-          localStorage.setItem("token", response.jwt)
-          localStorage.setItem("remember_token", response.token)
+          // localStorage.setItem("token", response.jwt)
+          localStorage.setItem("token", response.tokens.access.token)
         } else {
-          sessionStorage.setItem("token", response.jwt)
-          sessionStorage.setItem("remember_token", response.token)
+          // sessionStorage.setItem("token", response.jwt)
+          sessionStorage.setItem("token", response.tokens.access.token)
         }
         dispatch(fetchUser())
         router.push("/users/"+response.user.id)

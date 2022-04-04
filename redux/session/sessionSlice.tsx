@@ -3,9 +3,10 @@ import API from '../../components/shared/api'
 import { RootState } from '../store';
 
 export interface User {
-  readonly id: number
+  readonly id: string
+  isEmailVerified: boolean
   name: string
-  admin: boolean
+  role: string
   email: string
 }
 
