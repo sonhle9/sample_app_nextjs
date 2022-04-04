@@ -54,9 +54,11 @@ const New: NextPage = () => {
         if (rememberMe) {
           // localStorage.setItem("token", response.jwt)
           localStorage.setItem("token", response.tokens.access.token)
+          localStorage.setItem("userID", response.user.id)
         } else {
           // sessionStorage.setItem("token", response.jwt)
           sessionStorage.setItem("token", response.tokens.access.token)
+          localStorage.setItem("userID", response.user.id)
         }
         dispatch(fetchUser())
         router.push("/users/"+response.user.id)

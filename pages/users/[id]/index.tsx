@@ -23,8 +23,8 @@ const Show: NextPage = () => {
   const setWall= useCallback(async () => { 
     userApi.show(id as string, {page: page}
     ).then(response => {
-      if (response.user) {
-        setUser(response.user)
+      if (response) {
+        setUser(response)
         setMicroposts(response.microposts)
         setTotalCount(response.total_count)
         setIdRelationships(response.id_relationships)
@@ -89,124 +89,79 @@ const Show: NextPage = () => {
   }
 
   return (
-    <div className="row">
-      <aside className="col-md-4">
-        <section>
-          <h1>
-            <img alt="Example User" className="gravatar" src={"https://secure.gravatar.com/avatar/"+user.gravatar_id+"?s="+user.size} />
-            {user.name}
-          </h1>
-        </section>
-        <section className="stats">
-          <div className="stats">
-            <a href={'/users/'+user.id+'/following'}>
-              <strong id="following" className="stat">
-                {user.following}
-              </strong>
-              following
-            </a>
-            <a href={'/users/'+user.id+'/followers'}>
-              <strong id="followers" className="stat">
-                {user.followers}
-              </strong>
-              followers
-            </a>
-          </div>
-        </section>
-      </aside>
+    <>{JSON.stringify(user)}</>
+    // <div className="row">
+    //   <aside className="col-md-4">
+    //     <section>
+    //       <h1>
+    //         <img alt="Example User" className="gravatar" src={"https://secure.gravatar.com/avatar/"+user.gravatar_id+"?s="+user.size} />
+    //         {user.name}
+    //       </h1>
+    //     </section>
+    //     <section className="stats">
+    //       <div className="stats">
+    //         <a href={'/users/'+user.id+'/following'}>
+    //           <strong id="following" className="stat">
+    //             {user.following}
+    //           </strong>
+    //           following
+    //         </a>
+    //         <a href={'/users/'+user.id+'/followers'}>
+    //           <strong id="followers" className="stat">
+    //             {user.followers}
+    //           </strong>
+    //           followers
+    //         </a>
+    //       </div>
+    //     </section>
+    //   </aside>
 
-      <div className="col-md-8">
-        {current_user && current_user.value.id !== parseInt(id as string) &&
-        <FollowForm
-          id={id as string}
-          user={user}
-          handleUnfollow={handleUnfollow}
-          // image={maybe(() => category.backgroundImage)}
-          handleFollow={handleFollow}
-        />
-        // <div id="follow_form">
-        //   {
-        //     user.current_user_following_user ? (
-        //       <form
-        //       action={"/relationships/"+id}
-        //       acceptCharset="UTF-8"
-        //       data-remote="true"
-        //       method="post"
-        //       onSubmit={handleUnfollow}
-        //       >
-        //         <input
-        //         type="submit"
-        //         name="commit"
-        //         value="Unfollow"
-        //         className="btn"
-        //         data-disable-with="Unfollow"
-        //         />
-        //       </form>
-        //     ) : (
-        //       <form
-        //       action="/relationships"
-        //       acceptCharset="UTF-8"
-        //       data-remote="true"
-        //       method="post"
-        //       onSubmit={handleFollow}
-        //       >
-        //         <div>
-        //         <input
-        //         type="hidden"
-        //         name="followed_id"
-        //         id="followed_id"
-        //         value={id}
-        //         />
-        //         </div>
-        //         <input
-        //         type="submit"
-        //         name="commit"
-        //         value="Follow"
-        //         className="btn btn-primary"
-        //         data-disable-with="Follow"
-        //         />
-        //       </form>
-        //     )
-        //   }
-        // </div>
-        }
-        {microposts.length > 0 &&
-        <>
-        <h3>{'Microposts ('+total_count+')'}</h3>
-        <ol className="microposts">
-          { microposts.map((i, t) => (
-              <li key={t} id= {'micropost-'+i.id} >
-                <a href={'/users/'+user.id}>
-                  <img alt={i.user_name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+user.gravatar_id+"?s=50"} />
-                </a>
-                <span className="user"><a href={'/users/'+i.user_id}>{user.name}</a></span>
-                <span className="content">
-                  {i.content}
-                  { i.image &&
-                    <img alt="Example User" src={''+i.image+''} />
-                  }
-                </span>
-                <span className="timestamp">
-                {'Posted '+i.timestamp+' ago. '}
-                {current_user.value.id === i.user_id &&
-                  <a href={'#/microposts/'+i.id} onClick={() => removeMicropost(i.id)}>delete</a>
-                }
-                </span>
-              </li>
-          ))}
-        </ol>
+    //   <div className="col-md-8">
+    //     {current_user && current_user.value.id !== parseInt(id as string) &&
+    //     <FollowForm
+    //       id={id as string}
+    //       user={user}
+    //       handleUnfollow={handleUnfollow}
+    //       handleFollow={handleFollow}
+    //     />
+    //     }
+    //     {microposts.length > 0 &&
+    //     <>
+    //     <h3>{'Microposts ('+total_count+')'}</h3>
+    //     <ol className="microposts">
+    //       { microposts.map((i, t) => (
+    //           <li key={t} id= {'micropost-'+i.id} >
+    //             <a href={'/users/'+user.id}>
+    //               <img alt={i.user_name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+user.gravatar_id+"?s=50"} />
+    //             </a>
+    //             <span className="user"><a href={'/users/'+i.user_id}>{user.name}</a></span>
+    //             <span className="content">
+    //               {i.content}
+    //               { i.image &&
+    //                 <img alt="Example User" src={''+i.image+''} />
+    //               }
+    //             </span>
+    //             <span className="timestamp">
+    //             {'Posted '+i.timestamp+' ago. '}
+    //             {current_user.value.id === i.user_id &&
+    //               <a href={'#/microposts/'+i.id} onClick={() => removeMicropost(i.id)}>delete</a>
+    //             }
+    //             </span>
+    //           </li>
+    //       ))}
+    //     </ol>
 
-        <Pagination
-          activePage={page}
-          itemsCountPerPage={5}
-          totalItemsCount={total_count}
-          pageRangeDisplayed={5}
-          onChange={handlePageChange}
-        />
-        </>
-        }
-      </div>
-    </div>
+    //     <Pagination
+    //       activePage={page}
+    //       itemsCountPerPage={5}
+    //       totalItemsCount={total_count}
+    //       pageRangeDisplayed={5}
+    //       onChange={handlePageChange}
+    //     />
+    //     </>
+    //     }
+    //   </div>
+    // </div>
   )
 }
 
