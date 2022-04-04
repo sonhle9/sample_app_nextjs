@@ -96,7 +96,7 @@ const Index: NextPage = () => {
             <TableCell>userId</TableCell>
             <TableCell align='center'>avatar</TableCell>
             <TableCell>name</TableCell>
-            <TableCell>can delete if current_user is Admin</TableCell>
+            <TableCell>deactive</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -113,7 +113,7 @@ const Index: NextPage = () => {
               </TableCell>
               <TableCell>
               {
-                current_user.value.admin && current_user.value.id !== u.id ? (
+                current_user.value.role==="Admin" && current_user.value.id !== u.id.toString() ? (
                   <>
                   | <a href={'#/users/'+u.id} onClick={() => removeUser(u.id)}>delete</a>
                   </>

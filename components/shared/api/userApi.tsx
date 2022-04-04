@@ -65,15 +65,15 @@ export interface EditResponse {
   flash?: [message_type: string, message: string]
 }
 
-export interface UpdateParams {
-  user: UpdateField
-}
+// export interface UpdateParams {
+//   user: UpdateField
+// }
 
 export interface UpdateField {
   name: string
   email: string
   password: string
-  password_confirmation: string
+  // password_confirmation: string
 }
 
 export interface UpdateResponse {
@@ -101,15 +101,19 @@ const userApi = {
     return API.get(url, { params });
   },
 
+  // User Show
+
   edit(id: string): Promise<EditResponse> {
-    const url = `/users/${id}/edit`;
+    const url = `/users/${id}`;
     return API.get(url);
   },
 
-  update(id: string, params: UpdateParams): Promise<UpdateResponse> {
+  update(id: string, params: UpdateField): Promise<UpdateResponse> {
     const url = `/users/${id}`;
     return API.patch(url, params);
   },
+
+  //---------------
 
   destroy(id: number): Promise<Response> {
     const url = `/users/${id}`;

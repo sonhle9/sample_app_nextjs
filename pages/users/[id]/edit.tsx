@@ -81,12 +81,12 @@ const Edit: NextPage = () => {
     console.log('Form data', values)
     userApi.update(id as string,
       { 
-        user: {
+        // user: {
           name: values.name,
           email: values.email,
           password: values.password,
-          password_confirmation: values.password_confirmation
-        },
+          // password_confirmation: values.password_confirmation
+        // },
       }
     ).then(response => {
       // setTimeout(function(){
@@ -160,14 +160,14 @@ const Edit: NextPage = () => {
           />
           <ErrorMessage name='password' component={TextError} />
 
-          <label htmlFor="user_password_confirmation">Confirmation</label>
+          {/* <label htmlFor="user_password_confirmation">Confirmation</label>
           <Field
           className="form-control"
           type="password"
           name="password_confirmation"
           id="user_password_confirmation"
           />
-          <ErrorMessage name='password_confirmation' component={TextError} />
+          <ErrorMessage name='password_confirmation' component={TextError} /> */}
 
           <label htmlFor="user_phones">List of phone numbers</label>
           <FieldArray name='phNumbers'>
