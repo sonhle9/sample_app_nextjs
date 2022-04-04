@@ -35,6 +35,9 @@ const Header: NextPage = () => {
   const onClick = () => {
     handleClose()
     sessionApi.destroy(
+      {
+        refreshToken: `${localStorage.getItem('refreshToken')}`,
+      }
     ).then(() => {
       dispatch(fetchUser())
       localStorage.removeItem("token")

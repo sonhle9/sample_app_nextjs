@@ -12,6 +12,10 @@ export interface LoginField {
   // remember_me: string
 }
 
+export interface LogoutField {
+  refreshToken: string
+}
+
 export interface Response<User> {
   user?: User
   // jwt: string
@@ -30,9 +34,9 @@ const sessionApi = {
     return API.post(url, params);
   },
 
-  destroy(): Promise<any> {
-    const url = '/logout';
-    return API.delete(url);
+  destroy(params: LogoutField): Promise<any> {
+    const url = '/auth/logout';
+    return API.post(url, params);
   },
 };
 
