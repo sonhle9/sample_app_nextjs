@@ -24,9 +24,9 @@ const Index: NextPage = () => {
   const setUsersList= useCallback(async () => { 
     userApi.index({page: page}
     ).then(response => {
-      if (response.users) {
-        setUsers(response.users)
-        setTotalCount(response.total_count)
+      if (response.results) {
+        setUsers(response.results)
+        setTotalCount(response.totalResults)
       } else {
         setUsers([])
       }
@@ -44,7 +44,7 @@ const Index: NextPage = () => {
     setPage(pageNumber)
   }
 
-  const removeUser = (userId: number) => {
+  const removeUser = (userId: string) => {
     let sure = window.confirm("You sure?")
     if (sure === true) {
       userApi.destroy(userId
@@ -93,9 +93,15 @@ const Index: NextPage = () => {
       <Table stickyHeader aria-label='simple table'>
         <TableHead>
           <TableRow>
-            <TableCell>userId</TableCell>
-            <TableCell align='center'>avatar</TableCell>
+            <TableCell>id</TableCell>
+            <TableCell>avatar</TableCell>
+            <TableCell>role</TableCell>
+            <TableCell>isEmailVerified</TableCell>
             <TableCell>name</TableCell>
+            <TableCell>email</TableCell>
+            {/* <TableCell>password</TableCell>
+            <TableCell>createdAt</TableCell>
+            <TableCell>updatedAt</TableCell> */}
             <TableCell>deactive</TableCell>
           </TableRow>
         </TableHead>
@@ -104,16 +110,32 @@ const Index: NextPage = () => {
             <TableRow
               key={u.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                
               <TableCell>{u.id}</TableCell>
+
               <TableCell align='center'>
-                <img alt={u.name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+u.gravatar_id+"?s="+u.size} />
+                <img alt={u.name} className="gravatar" src={"https://secure.gravatar.com/avatar/"+u.id+"?s=50"} />
               </TableCell>
+
+              <TableCell>{u.role}</TableCell>
+
+              <TableCell>{u.isEmailVerified}</TableCell>
+
               <TableCell>
                 <a href={'/users/'+u.id}>{u.name}</a>
               </TableCell>
+
+              <TableCell>{u.email}</TableCell>
+
+              {/* <TableCell>{u.password}</TableCell>
+
+              <TableCell>{u.createdAt}</TableCell>
+
+              <TableCell>{u.updatedAt}</TableCell> */}
+
               <TableCell>
               {
-                current_user.value.role==="Admin" && current_user.value.id !== u.id.toString() ? (
+                current_user.value.role==="admin" && current_user.value.id !== u.id ? (
                   <>
                   | <a href={'#/users/'+u.id} onClick={() => removeUser(u.id)}>delete</a>
                   </>

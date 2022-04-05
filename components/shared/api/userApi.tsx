@@ -9,15 +9,23 @@ export interface ListParams {
 }
 
 export interface ListResponse<User> {
-  users: User[]
-  total_count: number
+  results: User[]
+  page: number
+  limit: number
+  totalPages: number
+  totalResults: number
 }
 
 export interface User {
-  readonly id: number
+  // readonly id: number
+  // name: string
+  // gravatar_id: string
+  // size: number
+  readonly id: string
+  isEmailVerified: boolean
   name: string
-  gravatar_id: string
-  size: number
+  role: string
+  email: string
 }
 
 // export interface CreateParams {
@@ -115,7 +123,7 @@ const userApi = {
 
   //---------------
 
-  destroy(id: number): Promise<Response> {
+  destroy(id: string): Promise<Response> {
     const url = `/users/${id}`;
     return API.delete(url);
   },
