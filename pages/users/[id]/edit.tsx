@@ -101,13 +101,14 @@ const Edit: NextPage = () => {
         setPasswordConfirmation('')
         getUserInfo()
       }
-      if (response.error) {
-        setErrors(response.error)
-      }
+      // if (response.error) {
+      //   setErrors(response.error)
+      // }
       // }, 5000)
     })
     .catch(error => {
-      console.log(error)
+      // console.log(error)
+      setErrors([error.response.data.message])
     })
     // e.preventDefault()
   }

@@ -86,7 +86,8 @@ export interface UpdateField {
 
 export interface UpdateResponse {
   flash_success?: [message_type: string, message: string]
-  error?: string[]
+  // error?: string[]
+  message?: string
 }
 
 export interface Response {
