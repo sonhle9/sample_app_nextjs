@@ -262,7 +262,7 @@ const Home: NextPage = () => {
   ) : (
     <>
     <div className="center jumbotron">
-        <Typography variant='h1'>Welcome to the MANHPC App</Typography>
+        <Typography variant='h1'>Welcome to the Sample App</Typography>
         <Typography variant='h2'>
         This is the home page for the <Link href="https://nextjs.org/"><a target="_blank">NextJS Tutorial</a></Link> sample application.
         </Typography>
