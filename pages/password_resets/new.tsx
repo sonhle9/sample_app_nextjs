@@ -30,17 +30,16 @@ const New: NextPage = () => {
 
     passwordResetApi.create(
       {
-        password_reset: {
-          email: email,
-        }
+        email: email,
       }
     ).then(response => {
       myRef.current.blur()
-      flashMessage(...response.flash as [message_type: string, message: string])
-      if (response.flash[0] === "info") {
+      flashMessage('info', 'Email sent with password reset instructions')
+      router.push("/")
+      // if (response.flash[0] === "info") {
 
-        router.push("/")
-      }
+      //   router.push("/")
+      // }
       // if (response.flash[0] === "danger") {
         
       // }

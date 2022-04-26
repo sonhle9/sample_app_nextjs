@@ -1,8 +1,8 @@
 import API from '.';
 
-export interface CreateParams {
-  password_reset: PasswordResetCreateField
-}
+// export interface CreateParams {
+//   password_reset: PasswordResetCreateField
+// }
 
 export interface PasswordResetCreateField {
   email: string
@@ -29,8 +29,8 @@ export interface PasswordResetUpdateField {
 }
 
 const passwordResetApi = {
-  create(params: CreateParams): Promise<CreateResponse> {
-    const url = '/password_resets';
+  create(params: PasswordResetCreateField): Promise<CreateResponse> {
+    const url = '/auth/forgot-password';
     return API.post(url, params);
   },
   update(reset_token: string, params: UpdateParams): Promise<UpdateResponse> {
