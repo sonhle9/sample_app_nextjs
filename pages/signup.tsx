@@ -45,7 +45,7 @@ const New: NextPage = () => {
           ...state,
           errorMessage: [],
         });
-        flashMessage(...response.flash as [message_type: string, message: string])
+        flashMessage('info', 'Please check your email to activate your account.')
         router.push("/")
         // window.location.assign('https://mail.google.com/mail/u/0')  
       }
@@ -113,6 +113,7 @@ const New: NextPage = () => {
 
           <label htmlFor="user_password_confirmation">Confirmation</label>
           <input
+          disabled
           className="form-control"
           type="password"
           name="password_confirmation"
