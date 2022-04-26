@@ -43,20 +43,20 @@ const Edit: NextPage = () => {
         }
       }
     ).then(response => {
-      if (response.flash?.[0] === "danger") { // Case (1)
-        flashMessage(...response.flash as [message_type: string, message: string])
-      }
-      if (response.error) { // Case (2+3)
-        myRef.current.blur()
-        setState({
-          ...state,
-          errorMessage: response.error,
-        });
-      }
-      if (response.flash?.[0] === "success") { // Case (4)
-        flashMessage(...response.flash as [message_type: string, message: string])
-        router.push("/users/"+response.user_id)
-      }
+      // if (response.flash?.[0] === "danger") { // Case (1)
+      //   flashMessage(...response.flash as [message_type: string, message: string])
+      // }
+      // if (response.error) { // Case (2+3)
+      //   myRef.current.blur()
+      //   setState({
+      //     ...state,
+      //     errorMessage: response.error,
+      //   });
+      // }
+      // if (response) { // Case (4)
+        flashMessage('success', 'Password has been reset.')
+        router.push("/login")
+      // }
     })
     .catch(error => {
       console.log(error)
@@ -100,6 +100,7 @@ const Edit: NextPage = () => {
               id="user_password_confirmation"
               value={state.password_confirmation}
               onChange={handleChange}
+              disabled
               />
             {/* </div> */}
             <input ref={myRef} type="submit" name="commit" value="Update password" className="btn btn-primary" data-disable-with="Update password"/>

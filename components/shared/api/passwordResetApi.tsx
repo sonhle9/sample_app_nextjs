@@ -34,8 +34,8 @@ const passwordResetApi = {
     return API.post(url, params);
   },
   update(reset_token: string, params: UpdateParams): Promise<UpdateResponse> {
-    const url = `/password_resets/${reset_token}`;
-    return API.patch(url, params);
+    const url = `/auth/reset-password?token=${reset_token}`;
+    return API.post(url, { password: params.user.password });
   }
 };
 
