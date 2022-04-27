@@ -31,6 +31,7 @@
 //     }
 // }
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import router from 'next/router';
 
 let BASE_URL = ''
 if (process.env.NODE_ENV === 'development') {
@@ -56,17 +57,21 @@ const API = axios.create({
 
 API.interceptors.request.use(
   function (config: AxiosRequestConfig) {
-    if (
-      localStorage.getItem('token') && localStorage.getItem('token') !== 'undefined'
-    ) 
-    {
-      config.headers.Authorization = `Bearer ${localStorage.getItem('token')} ${localStorage.getItem('remember_token')}`
-    }
-    else if (
-      sessionStorage.getItem('token') && sessionStorage.getItem('token') !== 'undefined'
-    ) 
-    {
-      config.headers.Authorization = `Bearer ${sessionStorage.getItem('token')} ${sessionStorage.getItem('remember_token')}`
+    // if (
+    //   localStorage.getItem('token') && localStorage.getItem('token') !== 'undefined'
+    // ) 
+    // {
+    //   config.headers.Authorization = `Bearer ${localStorage.getItem('token')} ${localStorage.getItem('remember_token')}`
+    // }
+    // else if (
+    //   sessionStorage.getItem('token') && sessionStorage.getItem('token') !== 'undefined'
+    // ) 
+    // {
+    //   config.headers.Authorization = `Bearer ${sessionStorage.getItem('token')} ${sessionStorage.getItem('remember_token')}`
+    // }
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
     }
     return config;
   },
@@ -74,6 +79,33 @@ API.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+axios.interceptors.response.use((response) => {
+  return response
+}, async function (error) {
+  const originalRequest = error.config;
+
+  if (error.response.status === 401 && originalRequest.url === `${BASE_URL}/v1/auth/refresh-tokens`) {
+      router.push('/login');
+      return Promise.reject(error);
+  }
+
+  if (error.response.status === 401 && !originalRequest._retry) {
+
+      originalRequest._retry = true;
+      const refreshToken = localStorage.getItem('refreshToken')
+      const res = await axios.post(`${BASE_URL}/v1/auth/refresh-tokens`,
+      {
+        "refresh_token": refreshToken
+      });
+    if (res.status === 201) {
+      localStorage.setItem("token", res.data.refresh.token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+      return axios(originalRequest);
+    }
+  }
+  return Promise.reject(error);
+});
 
 API.interceptors.response.use(
   function (response: AxiosResponse) {

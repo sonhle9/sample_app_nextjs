@@ -39,12 +39,16 @@ const Header: NextPage = () => {
         refreshToken: `${localStorage.getItem('refreshToken')}`,
       }
     ).then(() => {
-      dispatch(fetchUser())
       localStorage.removeItem("token")
-      localStorage.removeItem("remember_token")
+      localStorage.removeItem("refreshToken")
+      localStorage.removeItem("userID")
+      // localStorage.removeItem("remember_token")
       sessionStorage.removeItem("token")
-      sessionStorage.removeItem("remember_token")
+      sessionStorage.removeItem("refreshToken")
+      sessionStorage.removeItem("userID")
+      // sessionStorage.removeItem("remember_token")
       router.push('/')
+      dispatch(fetchUser()) 
     })
     .catch((error) => {
       console.log("logout error", error)
