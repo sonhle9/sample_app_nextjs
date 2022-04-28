@@ -80,7 +80,7 @@ API.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use((response) => {
+API.interceptors.response.use((response) => {
   return response
 }, async function (error) {
   const originalRequest = error.config;
