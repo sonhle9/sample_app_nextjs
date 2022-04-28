@@ -48,9 +48,9 @@ const Index: NextPage = () => {
     let sure = window.confirm("You sure?")
     if (sure === true) {
       userApi.destroy(userId
-      ).then(response => {
-          if (response.flash) {
-            flashMessage(...response.flash)
+      ).then(res => {
+          if (typeof res === 'string') {
+            flashMessage('success', 'User deleted')
             setUsersList()
           }
         })
@@ -119,7 +119,7 @@ const Index: NextPage = () => {
 
               <TableCell>{u.role}</TableCell>
 
-              <TableCell>{u.isEmailVerified}</TableCell>
+              <TableCell>{u.isEmailVerified ? "true" : "false"}</TableCell>
 
               <TableCell>
                 <a href={'/users/'+u.id}>{u.name}</a>
