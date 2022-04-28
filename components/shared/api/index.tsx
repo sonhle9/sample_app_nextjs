@@ -98,7 +98,7 @@ axios.interceptors.response.use((response) => {
       {
         "refresh_token": refreshToken
       });
-    if (res.status === 201) {
+    if (res.status === 200) {
       localStorage.setItem("token", res.data.refresh.token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
       return axios(originalRequest);
