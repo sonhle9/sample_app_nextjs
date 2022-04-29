@@ -85,7 +85,7 @@ API.interceptors.response.use((response) => {
 }, async function (error) {
   const originalRequest = error.config;
 
-  if (error.response.status === 401 && originalRequest.url === `${BASE_URL}/v1/auth/refresh-tokens`) {
+  if (error.response.status === 401 && originalRequest.url === `${BASE_URL}/auth/refresh-tokens`) {
       router.push('/login');
       return Promise.reject(error);
   }
@@ -94,12 +94,12 @@ API.interceptors.response.use((response) => {
 
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem('refreshToken')
-      const res = await axios.post(`${BASE_URL}/v1/auth/refresh-tokens`,
+      const res = await axios.post(`${BASE_URL}/auth/refresh-tokens`,
       {
-        "refresh_token": refreshToken
+        'refreshToken': refreshToken
       });
     if (res.status === 200) {
-      localStorage.setItem("token", res.data.refresh.token);
+      localStorage.setItem('token', res.data.refresh.token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
       return axios(originalRequest);
     }
