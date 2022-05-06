@@ -40,10 +40,16 @@ export interface SignUpField {
   // password_confirmation: string
 }
 
-export interface CreateResponse<UserCreate> {
-  user?: UserCreate
-  flash?: [message_type: string, message: string]
-  error?: string[]
+export interface CreateResponse {
+  status: number
+  errors: any[]
+  accessToken: string
+  email: string
+  id: string
+  refreshToken: string
+  roles: string[]
+  tokenType: string
+  username: string
 }
 
 export interface UserShow {
@@ -101,7 +107,7 @@ const userApi = {
     return API.get(url, { params });
   },
 
-  create(params: SignUpField): Promise<CreateResponse<UserCreate>> {
+  create(params: SignUpField): Promise<CreateResponse> {
     const url = '/auth/login';
     return API.post(url, params);
   },

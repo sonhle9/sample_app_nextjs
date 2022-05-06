@@ -41,23 +41,23 @@ const New: NextPage = () => {
         // }
       }
     ).then(response => {
-      if (response.user) {
-        myRef.current.blur()
-        setState({
-          ...state,
-          errorMessage: [],
-        });
-        flashMessage('info', 'Please check your email to activate your account.')
-        router.push("/")
-        // window.location.assign('https://mail.google.com/mail/u/0')  
-      }
-      if (response.error) {
-        myRef.current.blur()
-        setState({
-          ...state,
-          errorMessage: response.error,
-        });
-      }
+      // if (response.user) {
+      //   myRef.current.blur()
+      //   setState({
+      //     ...state,
+      //     errorMessage: [],
+      //   });
+      //   flashMessage('info', 'Please check your email to activate your account.')
+      //   router.push("/")
+      //   // window.location.assign('https://mail.google.com/mail/u/0')  
+      // }
+      // if (response.error) {
+      //   myRef.current.blur()
+      //   setState({
+      //     ...state,
+      //     errorMessage: response.error,
+      //   });
+      // }
     })
     .catch(error => {
       console.log(error)

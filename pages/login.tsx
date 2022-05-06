@@ -3,7 +3,8 @@ import { useRouter } from 'next/router'
 import React, { MutableRefObject, useRef, useState } from 'react'
 import userApi from '../components/shared/api/userApi'
 import errorMessage from '../components/shared/errorMessages'
-import flashMessage from '../components/shared/flashMessages'
+import { useDispatch } from 'react-redux'
+import { fetchUser } from '../redux/session/sessionSlice'
 
 // For more details read the end of https://github.com/sonhle9/sample_app_nextjs/tree/for_java_spring
 const initialState = {
@@ -19,6 +20,7 @@ const New: NextPage = () => {
   const router = useRouter()
   const [state, setState] = useState(initialState)
   const myRef = useRef() as MutableRefObject<HTMLInputElement>
+  const dispatch = useDispatch()
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
@@ -42,26 +44,39 @@ const New: NextPage = () => {
         // }
       }
     ).then(response => {
-      if (response.user) {
+      if (response.accessToken) {
         myRef.current.blur()
-        setState({
-          ...state,
-          errorMessage: [],
-        });
-        flashMessage('info', 'Please check your email to activate your account.')
-        router.push("/")
-        // window.location.assign('https://mail.google.com/mail/u/0')  
+        if (1 === 1) {
+          // localStorage.setItem('token', response.jwt)
+          localStorage.setItem('token', response.accessToken)
+          localStorage.setItem('refreshToken', response.refreshToken)
+          localStorage.setItem('userID', response.id)
+        } else {
+          // sessionStorage.setItem('token', response.jwt)
+          sessionStorage.setItem('token', response.accessToken)
+          sessionStorage.setItem('refreshToken', response.refreshToken)
+          sessionStorage.setItem('userID', response.id)
+        }
+        dispatch(fetchUser())
+        // router.push('/users/'+response.id)
       }
-      if (response.error) {
-        myRef.current.blur()
-        setState({
-          ...state,
-          errorMessage: response.error,
-        });
-      }
+      // if (typeof response === 'string') {
+      // if (response.status === 400) {
+      //   myRef.current.blur()
+      //   setState({
+      //     ...state,
+      //     errorMessage: [response.errors[0].codes[1]],
+      //   });
+      // }
     })
-    .catch(error => {
-      console.log(error)
+    .catch(error => { // status code = 400 auto run into this
+      console.log('My error', typeof error)
+      console.log('My error', JSON.stringify(error))
+      myRef.current.blur()
+      setState({
+        ...state,
+        errorMessage: [error.message],
+      });
     })
     e.preventDefault()
   }
