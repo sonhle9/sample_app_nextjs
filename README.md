@@ -47,3 +47,19 @@ npm i --save date-fns@next @date-io/date-fns
 npm i @date-io/date-fns date-fns@next
 npm i @types/date-fns
 npm install --save date-fns
+
+```
+điều kì lạ
+POST http://localhost:8080/v1/auth/signin với payload
+{
+  "username": "sminzhz@gmail.com",
+  "email": "sminzhz@gmail.com",
+  "role": "ROLE_ADMIN",
+  "password": "Abc@12345678"
+}
+sẽ nhận được response của http://localhost:8080/v1/auth/signin mà đáng ra là phải với payload
+{
+  "email": "sminzhz@gmail.com",
+  "password": "Abc@12345678"
+}
+```

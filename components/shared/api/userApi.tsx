@@ -102,7 +102,7 @@ const userApi = {
   },
 
   create(params: SignUpField): Promise<CreateResponse<UserCreate>> {
-    const url = '/auth/register';
+    const url = '/auth/login';
     return API.post(url, params);
   },
 
