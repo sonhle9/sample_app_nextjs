@@ -6,9 +6,10 @@ import errorMessage from '../components/shared/errorMessages'
 import flashMessage from '../components/shared/flashMessages'
 
 const initialState = {
-  name: '',
+  username: '',
   email: '',
   password: '',
+  role: '',
   password_confirmation: '',
   errorMessage: [] as string[],
 };
@@ -27,14 +28,15 @@ const New: NextPage = () => {
   };
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
-    const { name, email, password, password_confirmation } = state
+    const { username, email, role, password, password_confirmation } = state
 
     userApi.create(
       {
         // user: {
-          name: name,
-          email: email,
-          password: password,
+          username,
+          email,
+          role,
+          password,
           // password_confirmation: password_confirmation
         // }
       }
@@ -80,14 +82,14 @@ const New: NextPage = () => {
             errorMessage(state.errorMessage)
           }
 
-          <label htmlFor="user_name">Name</label>
+          <label htmlFor="user_name">Username</label>
           <input
           className="form-control"
           type="text"
-          name="name"
+          name="username"
           id="user_name"
           autoComplete="off"
-          value={state.name}
+          value={state.username}
           onChange={handleChange}
           />
 
@@ -98,6 +100,16 @@ const New: NextPage = () => {
           name="email"
           id="user_email"
           value={state.email}
+          onChange={handleChange}
+          />
+
+          <label htmlFor="user_role">Role</label>
+          <input
+          className="form-control"
+          type="text"
+          name="role"
+          id="user_role"
+          value={state.role}
           onChange={handleChange}
           />
 

@@ -33,8 +33,9 @@ export interface User {
 // }
 
 export interface SignUpField {
-  name: string
+  username: string,
   email: string
+  role: string
   password: string
   // password_confirmation: string
 }

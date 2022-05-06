@@ -35,7 +35,7 @@ import router from 'next/router';
 
 let BASE_URL = ''
 if (process.env.NODE_ENV === 'development') {
-  BASE_URL = 'http://localhost:3001/v1'
+  BASE_URL = 'http://localhost:8080/v1'
 } else {
   BASE_URL = 'https://railstutorialapi.herokuapp.com/v1'
 }
@@ -96,10 +96,10 @@ API.interceptors.response.use((response) => {
       const refreshToken = localStorage.getItem('refreshToken')
       const res = await axios.post(`${BASE_URL}/v1/auth/refresh-tokens`,
       {
-        "refresh_token": refreshToken
+        'refreshToken': refreshToken
       });
     if (res.status === 200) {
-      localStorage.setItem("token", res.data.refresh.token);
+      localStorage.setItem('token', res.data.refresh.token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
       return axios(originalRequest);
     }

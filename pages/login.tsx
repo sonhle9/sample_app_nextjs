@@ -52,18 +52,18 @@ const New: NextPage = () => {
       if (response.user) {
         inputEl.current.blur()
         if (rememberMe) {
-          // localStorage.setItem("token", response.jwt)
-          localStorage.setItem("token", response.tokens.access.token)
-          localStorage.setItem("refreshToken", response.tokens.refresh.token)
-          localStorage.setItem("userID", response.user.id)
+          // localStorage.setItem('token', response.jwt)
+          localStorage.setItem('token', response.tokens.access.token)
+          localStorage.setItem('refreshToken', response.tokens.refresh.token)
+          localStorage.setItem('userID', response.user.id)
         } else {
-          // sessionStorage.setItem("token", response.jwt)
-          sessionStorage.setItem("token", response.tokens.access.token)
-          localStorage.setItem("refreshToken", response.tokens.refresh.token)
-          localStorage.setItem("userID", response.user.id)
+          // sessionStorage.setItem('token', response.jwt)
+          sessionStorage.setItem('token', response.tokens.access.token)
+          localStorage.setItem('refreshToken', response.tokens.refresh.token)
+          localStorage.setItem('userID', response.user.id)
         }
         dispatch(fetchUser())
-        router.push("/users/"+response.user.id)
+        router.push('/users/'+response.user.id)
       }
       // if (response.error) {
       //   console.log(Object.assign({}, response.error))
@@ -87,8 +87,8 @@ const New: NextPage = () => {
   return (
     <React.Fragment>
     <h1>Log in</h1>
-    <div className="row">
-      <div className="col-md-6 col-md-offset-3">
+    <div className='row'>
+      <div className='col-md-6 col-md-offset-3'>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -102,23 +102,23 @@ const New: NextPage = () => {
             errorMessage(Object.keys(formik.errors).map((key) => (formik.errors as any)[key]))
           } */}
 
-          <label htmlFor="session_email">Email</label>
+          <label htmlFor='session_email'>Email</label>
           <Field
-          className="form-control"
-          type="email"
-          name="email"
-          id="session_email"
+          className='form-control'
+          type='email'
+          name='email'
+          id='session_email'
           placeholder='Login user email'
           />
           <ErrorMessage name='email' component={TextError} />
 
-          <label htmlFor="session_password">Password</label>
-          <Link href="/password_resets/new">(forgot password)</Link>
+          <label htmlFor='session_password'>Password</label>
+          <Link href='/password_resets/new'>(forgot password)</Link>
           <Field
-          className="form-control"
-          type="password"
-          name="password"
-          id="session_password"
+          className='form-control'
+          type='password'
+          name='password'
+          id='session_password'
           placeholder='Login user password'
           />
           <ErrorMessage name='password'>
@@ -169,23 +169,23 @@ const New: NextPage = () => {
             }}
           </FastField> */}
 
-          <label className="checkbox inline" htmlFor="session_remember_me">
+          <label className='checkbox inline' htmlFor='session_remember_me'>
             <input
-            name="remember_me"
-            type="hidden"
-            value="0" />
+            name='remember_me'
+            type='hidden'
+            value='0' />
             <Field
             checked
-            type="checkbox"
-            name="remember_me"
-            id="session_remember_me"
+            type='checkbox'
+            name='remember_me'
+            id='session_remember_me'
             />
             <span>Remember me on this computer</span>
           </label>
-          <input ref={inputEl} type="submit" name="commit" value="Log in" className="btn btn-primary" data-disable-with="Log in" />
+          <input ref={inputEl} type='submit' name='commit' value='Log in' className='btn btn-primary' data-disable-with='Log in' />
         </Form>
         </Formik>
-        <p>New user? <Link href="/signup">Sign up now!</Link></p>
+        <p>New user? <Link href='/signup'>Sign up now!</Link></p>
       </div>
     </div>
     </React.Fragment>
