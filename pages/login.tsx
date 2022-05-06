@@ -1,194 +1,144 @@
 import { NextPage } from 'next'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { MutableRefObject, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { fetchUser, User } from '../redux/session/sessionSlice'
-import sessionApi, { Response } from '../components/shared/api/sessionApi'
-import flashMessage from '../components/shared/flashMessages'
+import userApi from '../components/shared/api/userApi'
 import errorMessage from '../components/shared/errorMessages'
-import { ErrorMessage, Field, Form, Formik, FormikProps, useFormik, withFormik } from 'formik'
-import * as Yup from 'yup'
-import TextError from '../components/shared/TextError'
+import flashMessage from '../components/shared/flashMessages'
 
-const initialValues = {
-  email: '',
-  password: '',
-  rememberMe: '1',
-  errors: [] as string[],
-}
-
-interface MyFormValues {
-  email: string
-  password: string
-  rememberMe: string
-  errors: string[]
-}
+// For more details read the end of https://github.com/sonhle9/sample_app_nextjs/tree/for_java_spring
+const initialState = {
+  username: 'sminzhz@gmail.com',
+  email: '', // sminzhz@gmail.com pleáe typing like https://github.com/sonhle9/sample_app_spring and entẻ thí texxt
+  password: '', // Abc@12345678
+  role: 'ROLE_ADMIN',
+  password_confirmation: 'Abc@12345678',
+  errorMessage: [] as string[],
+};
 
 const New: NextPage = () => {
   const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [rememberMe, setRememberme] = useState(true)
-  const inputEl = useRef() as MutableRefObject<HTMLInputElement>
-  // const [errors, setErrors] = useState([] as any)
-  const dispatch = useDispatch()
+  const [state, setState] = useState(initialState)
+  const myRef = useRef() as MutableRefObject<HTMLInputElement>
 
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email('Invalid email format')
-      .required('Required'),
-    password: Yup.string().required('Required')
-  })
+  const handleChange = (e: { target: { name: any; value: any } }) => {
+    const { name, value } = e.target;
+    setState({
+      ...state,
+      [name]: value,
+    });
+  };
 
-  const onSubmit = (values: MyFormValues) => {
-    sessionApi.create(
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    const { username, email, role, password, password_confirmation } = state
+
+    userApi.create(
       {
-        email: values.email,
-        password: values.password,
+        // user: {
+          username,
+          email,
+          role,
+          password,
+          // password_confirmation: password_confirmation
+        // }
       }
-    )
-    .then(response => {
+    ).then(response => {
       if (response.user) {
-        inputEl.current.blur()
-        if (rememberMe) {
-          // localStorage.setItem('token', response.jwt)
-          localStorage.setItem('token', response.tokens.access.token)
-          localStorage.setItem('refreshToken', response.tokens.refresh.token)
-          localStorage.setItem('userID', response.user.id)
-        } else {
-          // sessionStorage.setItem('token', response.jwt)
-          sessionStorage.setItem('token', response.tokens.access.token)
-          localStorage.setItem('refreshToken', response.tokens.refresh.token)
-          localStorage.setItem('userID', response.user.id)
-        }
-        dispatch(fetchUser())
-        router.push('/users/'+response.user.id)
+        myRef.current.blur()
+        setState({
+          ...state,
+          errorMessage: [],
+        });
+        flashMessage('info', 'Please check your email to activate your account.')
+        router.push("/")
+        // window.location.assign('https://mail.google.com/mail/u/0')  
       }
-      // if (response.error) {
-      //   console.log(Object.assign({}, response.error))
-      // }
-      if (response.flash) {
-        flashMessage(...response.flash)
+      if (response.error) {
+        myRef.current.blur()
+        setState({
+          ...state,
+          errorMessage: response.error,
+        });
       }
     })
     .catch(error => {
       console.log(error)
     })
-    // e.preventDefault()
+    e.preventDefault()
   }
 
-  // const formik: FormikProps<MyFormValues> = useFormik<MyFormValues>({
-  //   initialValues,
-  //   onSubmit,
-  //   validationSchema
-  // })
-
   return (
-    <React.Fragment>
+    <>
     <h1>Log in</h1>
-    <div className='row'>
-      <div className='col-md-6 col-md-offset-3'>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
-          // validateOnChange={false}
-          // validateOnBlur={false}
-          // validateOnMount
+
+    <div className="row">
+      <div className="col-md-6 col-md-offset-3">
+        <form
+        className="new_user"
+        id="new_user" action="/users"
+        acceptCharset="UTF-8"
+        method="post"
+        onSubmit={handleSubmit}
         >
-        <Form>
-          {/* { Object.keys(formik.errors).length !== 0 && formik.touched &&
-            errorMessage(Object.keys(formik.errors).map((key) => (formik.errors as any)[key]))
-          } */}
+          { state.errorMessage.length !== 0 &&
+            errorMessage(state.errorMessage)
+          }
 
-          <label htmlFor='session_email'>Email</label>
-          <Field
-          className='form-control'
-          type='email'
-          name='email'
-          id='session_email'
-          placeholder='Login user email'
+          {/* <label htmlFor="user_name">Username</label> */}
+          <input
+          className="form-control"
+          type="hidden"
+          name="username"
+          id="user_name"
+          autoComplete="off"
+          value={state.username}
+          onChange={handleChange}
           />
-          <ErrorMessage name='email' component={TextError} />
 
-          <label htmlFor='session_password'>Password</label>
-          <Link href='/password_resets/new'>(forgot password)</Link>
-          <Field
-          className='form-control'
-          type='password'
-          name='password'
-          id='session_password'
-          placeholder='Login user password'
+          <label htmlFor="user_email">Email</label>
+          <input
+          className="form-control"
+          type="email"
+          name="email"
+          id="user_email"
+          value={state.email}
+          onChange={handleChange}
           />
-          <ErrorMessage name='password'>
-            {error => <div className='error' style={{color : 'red'}}>{error}</div>}
-          </ErrorMessage>
 
-          {/* <label htmlFor='address'>Address</label>
-          <Field name='address'>
-            {(props: { field: any; form: any; meta: any }) => {
-              const { field, form, meta } = props
-              console.log('Field render')
-              return (
-                <div>
-                  <input type='text' {...field} />
-                  {meta.touched && meta.error ? (
-                    <div>{meta.error}</div>
-                  ) : null}
-                </div>
-              )
-            }}
-          </Field>
-          <label htmlFor='address'>Address</label>
-          <FastField name='address'>
-            {({ field, form, meta }) => {
-              // console.log('Field render')
-              return (
-                <div>
-                  <input type='text' {...field} />
-                  {meta.touched && meta.error ? (
-                    <div>{meta.error}</div>
-                  ) : null}
-                </div>
-              )
-            }}
-          </FastField>
-          <label htmlFor='address'>Address</label>
-          <FastField name='address'>
-            {({ field, form, meta }) => {
-              // console.log('Field render')
-              return (
-                <div>
-                  <input type='text' {...field} />
-                  {meta.touched && meta.error ? (
-                    <div>{meta.error}</div>
-                  ) : null}
-                </div>
-              )
-            }}
-          </FastField> */}
+          {/* <label htmlFor="user_role">Role</label> */}
+          <input
+          className="form-control"
+          type="hidden"
+          name="role"
+          id="user_role"
+          value={state.role}
+          onChange={handleChange}
+          />
 
-          <label className='checkbox inline' htmlFor='session_remember_me'>
-            <input
-            name='remember_me'
-            type='hidden'
-            value='0' />
-            <Field
-            checked
-            type='checkbox'
-            name='remember_me'
-            id='session_remember_me'
-            />
-            <span>Remember me on this computer</span>
-          </label>
-          <input ref={inputEl} type='submit' name='commit' value='Log in' className='btn btn-primary' data-disable-with='Log in' />
-        </Form>
-        </Formik>
-        <p>New user? <Link href='/signup'>Sign up now!</Link></p>
-      </div>
+          <label htmlFor="user_password">Password</label>
+          <input
+          className="form-control"
+          type="password"
+          name="password"
+          id="user_password"
+          value={state.password}
+          onChange={handleChange}
+          />
+
+          {/* <label htmlFor="user_password_confirmation">Confirmation</label> */}
+          <input
+          disabled
+          className="form-control"
+          type="hidden"
+          name="password_confirmation"
+          id="user_password_confirmation"
+          value={state.password_confirmation}
+          onChange={handleChange}
+          />
+
+          <input ref={myRef} type="submit" name="commit" value="Log in" className="btn btn-primary" data-disable-with="Create my account" />
+    </form>  </div>
     </div>
-    </React.Fragment>
+    </>
   )
 }
 
