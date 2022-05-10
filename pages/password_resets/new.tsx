@@ -34,7 +34,8 @@ const New: NextPage = () => {
       }
     ).then(response => {
       myRef.current.blur()
-      flashMessage('info', 'Email sent with password reset instructions')
+      // flashMessage('info', 'Email sent with password reset instructions')
+      flashMessage('info', 'If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.')
       router.push("/")
       // if (response.flash[0] === "info") {
 
