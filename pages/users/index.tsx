@@ -5,6 +5,8 @@ import { useAppSelector } from '../../redux/hooks'
 import { selectUser } from '../../redux/session/sessionSlice'
 import userApi, { User } from '../../components/shared/api/userApi'
 import flashMessage from '../../components/shared/flashMessages'
+import { request, gql } from 'graphql-request'
+import useUserApi from '../../graphql/userApi'
 
 const Index: NextPage = () => {
   const [users, setUsers] = useState([] as User[])
@@ -13,18 +15,21 @@ const Index: NextPage = () => {
   const current_user = useAppSelector(selectUser);
 
   const setUsersList= useCallback(async () => { 
-    userApi.index({page: page}
-    ).then(response => {
-      if (response.users) {
-        setUsers(response.users)
-        setTotalCount(response.total_count)
-      } else {
-        setUsers([])
-      }
-    })
-    .catch(error => {
-      console.log(error)
-    })
+    // userApi.index({page: page}
+    // ).then(response => {
+    //   if (response.users) {
+    //     setUsers(response.users)
+    //     setTotalCount(response.total_count)
+    //   } else {
+    //     setUsers([])
+    //   }
+    // })
+    // .catch(error => {
+    //   console.log(error)
+    // })
+
+    const data = useUserApi.index()
+    console.log(data)
   }, [page])
 
   useEffect(() => {
